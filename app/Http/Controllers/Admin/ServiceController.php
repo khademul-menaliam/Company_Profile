@@ -12,7 +12,9 @@ class ServiceController extends Controller
 
     public function index()
     {
-        $services = Service::where('status', true)->with('children')->whereNull('parent_id')->orderBy('sort_order')->paginate(1);
+        $services = Service::where('status', true)->with(['children' => function($q) {
+        $q->orderBy('sort_order', 'asc'); // or desc
+    }])->whereNull('parent_id')->orderBy('sort_order','asc')->paginate(3);
         return view('admin.services.index', compact('services'));
     }
 

@@ -171,6 +171,37 @@
                 </div>
             </div>
 
+<!-- Career Section -->
+<div>
+    <button @click="openMenu = (openMenu === 'career' ? '' : 'career')"
+            class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
+            hover:bg-indigo-600 {{ $openMenu === 'career' ? 'bg-indigo-600' : '' }}">
+        <span class="flex items-center gap-2"><i class="fas fa-briefcase"></i> Career</span>
+        <svg :class="openMenu === 'career' ? 'rotate-90' : ''"
+            class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+
+    <div x-show="openMenu === 'career'" x-transition class="ml-6 mt-1 space-y-1">
+        <a href="{{ route('admin.career.edit', ['type'=>'page', 'id'=>1]) }}"
+            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.career.edit') ? 'bg-indigo-500' : '' }}">
+            Why Join Us
+        </a>
+        <a href="{{ route('admin.career.index') }}#jobs"
+            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
+            Job Vacancies
+        </a>
+        <a href="{{ route('admin.career.index') }}#internships"
+            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
+            Internships
+        </a>
+    </div>
+</div>
+
+
             <!-- Messages -->
             <a href="{{ route('admin.messages.index') }}"
             class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-600 transition

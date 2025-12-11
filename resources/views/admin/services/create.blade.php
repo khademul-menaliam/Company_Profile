@@ -68,12 +68,22 @@
         </div>
 
         {{-- Full Content / Description --}}
-        <div>
+        {{-- <div>
             <label class="block mb-1 font-semibold text-gray-700">Full Description</label>
             <textarea name="content" rows="5"
                       class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                       placeholder="Enter full details about the service">{{ old('content') }}</textarea>
-        </div>
+        </div> --}}
+
+
+
+        {{-- Full Content / Description --}}
+<div>
+    <label class="block mb-1 font-semibold text-gray-700">Full Description</label>
+    <textarea name="content" id="content" rows="5"
+              class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+              placeholder="Enter full details about the service">{{ old('content') }}</textarea>
+</div>
 
         {{-- Image --}}
         <div>
@@ -118,6 +128,16 @@
                 }
             }
         </script>
+
+
+<!-- Initialize CKEditor 5 -->
+<script>
+    ClassicEditor
+        .create(document.querySelector('#content'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 
     </form>
 </div>

@@ -134,6 +134,11 @@
       <a href="{{ route('contact.index')  }}"
          class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
                 {{ request()->routeIs('contact.index') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+         Gallery
+      </a>
+        <a href="{{ route('contact.index')  }}"
+         class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
+                {{ request()->routeIs('contact.index') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
          Contact
       </a>
 
@@ -240,7 +245,12 @@
         </div>
     </div>
 
-    <!-- Contact -->
+    <!-- Gallery -->
+    <a href="{{ route('contact.index') }}"
+        class="block px-4 py-3 font-semibold {{ request()->is('contact') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+        Gallery
+    </a>
+        <!-- Contact -->
     <a href="{{ route('contact.index') }}"
         class="block px-4 py-3 font-semibold {{ request()->is('contact') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
         Contact

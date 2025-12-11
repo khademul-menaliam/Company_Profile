@@ -48,12 +48,23 @@
         </div>
 
         {{-- Full Content / Description --}}
-        <div>
+        {{-- <div>
             <label class="block mb-1 font-semibold text-gray-700">Full Description</label>
-            <textarea name="content" rows="5"
+            <textarea name="content" id="editor" rows="5"
                       class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                       placeholder="Enter full details about the service">{{ old('content',$service->content) }}</textarea>
-        </div>
+        </div> --}}
+
+        {{-- Full Content / Description --}}
+<div>
+    <label class="block mb-1 font-semibold text-gray-700">Full Description</label>
+
+    <!-- Quill editor will initialize here -->
+    <div id="editor" class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 ql-container ql-snow"></div>
+
+    <!-- Hidden textarea for form submission -->
+    <textarea name="content" id="content" style="display: none;">{{ old('content', $service->content) }}</textarea>
+</div>
 
         {{-- Image --}}
         <div class="mb-4">
@@ -68,6 +79,43 @@
 
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Update Service</button>
         <a href="{{ route('admin.services.index') }}" class="ml-2 text-gray-600 hover:underline">Cancel</a>
+
+        <!-- Initialize CKEditor 5 -->
+
+
+<!-- Initialize Quill -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Quill editor
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Enter full details about the service...',
+            modules: {
+                toolbar: [
+                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'image'],
+                    [{ 'align': [] }],
+                    ['blockquote', 'code-block']
+                ]
+            }
+        });
+
+        // Check if old content exists and set it in Quill
+        var oldContent = @json(old('content', $service->content));
+
+        if (oldContent) {
+            quill.root.innerHTML = oldContent;  // Set old content directly in the Quill editor
+        }
+
+        // On form submission, set the hidden textarea to the Quill content
+        document.querySelector('form').onsubmit = function() {
+            var content = quill.root.innerHTML;
+            document.querySelector('textarea[name="content"]').value = content;
+        };
+    });
+</script>
     </form>
 </div>
 @endsection

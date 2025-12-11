@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\ProjectController;
 // use App\Http\Controllers\ContactController; //admin controller get access
@@ -13,6 +15,9 @@ use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\PartnersController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProjectImageController;
+use App\Http\Controllers\Admin\CareerController;
+
+
 
 Route::delete('/admin/project-gallery/{image}', [ProjectImageController::class, 'destroy'])
     ->name('admin.project-gallery.destroy');
@@ -24,7 +29,6 @@ Route::delete('/admin/project-gallery/{image}', [ProjectImageController::class, 
 // Route::get('/admin/roles/edit/{id}', [AdminRoleController::class, 'edit'])->name('admin.roles.edit');
 // Route::put('/admin/roles/update/{id}', [AdminRoleController::class, 'update'])->name('admin.roles.update');
 // Route::delete('/admin/roles/delete/{id}', [AdminRoleController::class, 'destroy'])->name('admin.roles.destroy');
-
 
 
 
@@ -91,6 +95,34 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
     Route::resource('clients', \App\Http\Controllers\Admin\ClientController::class);
 });
+
+// carear route
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('career', [CareerController::class, 'index'])->name('career.index');
+    Route::get('career/create', [CareerController::class, 'create'])->name('career.create');
+    Route::post('career', [CareerController::class, 'store'])->name('career.store');
+    Route::get('career/{type}/{id}/edit', [CareerController::class, 'edit'])->name('career.edit');
+    Route::put('career/{type}/{id}', [CareerController::class, 'update'])->name('career.update');
+    Route::delete('career/{type}/{id}', [CareerController::class, 'destroy'])->name('career.destroy');
+});
+
+// giving access only the role id
+
+// Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+
+//     Route::get('career/create', function () {
+//         $user = auth()->user();
+
+//         // Only allow developer (role_id = 1)
+//         if (!$user || $user->role_id !== 11) {
+//             abort(403, 'Only developers can access this page');
+//         }
+
+//         // Call controller method
+//         return app(CareerController::class)->create();
+//     })->name('career.create');
+
+// });
 
 
 // Admin-specific auth routes should not be re-required inside the admin prefix.

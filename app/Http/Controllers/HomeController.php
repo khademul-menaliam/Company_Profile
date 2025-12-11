@@ -18,7 +18,19 @@ class HomeController extends Controller
     }
     public function index()
     {
-        $services = Service::with(['children' => function ($query) {$query->where('status', 1);}])->where('status', true)->orderBy('sort_order')->whereNull('parent_id')->take(3)->get();
+        $services = Service::where('status', true)
+            ->whereNull('parent_id')
+            ->orderBy('sort_order', 'asc')   // Parent sorting
+            ->with([
+                'children' => function ($q) {
+                    $q->where('status', true)
+                    ->orderBy('sort_order', 'asc'); // Child sorting
+                }
+            ])
+            ->take(3)      // limit parents
+            ->get();
+
+
         $projects = Project::where('status', true)->get();
         $clients = Client::take(5)->get();
         $partners = [
@@ -33,7 +45,16 @@ class HomeController extends Controller
     }
     public function services()
     {
-        $services = Service::with(['children' => function ($query) {$query->where('status', 1);}])->where('status', true)->orderBy('sort_order')->whereNull('parent_id')->get();
+        $services = Service::where('status', true)
+            ->whereNull('parent_id')
+            ->orderBy('sort_order', 'asc')   // Parent sorting
+            ->with([
+                'children' => function ($q) {
+                    $q->where('status', true)
+                    ->orderBy('sort_order', 'asc'); // Child sorting
+                }
+            ])
+            ->get();
         return view('services.index', compact('services'));
     }
 

@@ -4,7 +4,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="relative bg-cover bg-center h-[80vh]" style="background-image: url('{{ asset('images/hero1.jpg') }}');">
+<section class="relative bg-cover bg-top h-[60vh]" style="background-image: url('{{ asset('images/hero1.jpg') }}');">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="container mx-auto relative z-10 flex items-center justify-center h-full">
         <h1 class="text-4xl md:text-5xl font-extrabold text-white text-center drop-shadow-lg">About AR Engineering</h1>
