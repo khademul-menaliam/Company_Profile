@@ -216,6 +216,13 @@
                 <i class="fas fa-lock"></i> Roles & Permissions
             </a>
 
+            <!-- Roles & Permissions -->
+            <a href="{{ route('admin.settings.index') }}"
+            class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-600 transition
+            {{ request()->routeIs('admin.settings.*') ? 'bg-indigo-600' : '' }}">
+                <i class="fas fa-lock"></i> Site Settings
+            </a>
+
             <!-- Profile -->
             <a href="{{ route('admin.profile') }}"
             class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-600 transition">

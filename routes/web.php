@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PartnersController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProjectImageController;
 use App\Http\Controllers\Admin\CareerController;
+use App\Http\Controllers\Admin\SiteSettingsController;
 
 
 
@@ -104,6 +105,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('career/{type}/{id}/edit', [CareerController::class, 'edit'])->name('career.edit');
     Route::put('career/{type}/{id}', [CareerController::class, 'update'])->name('career.update');
     Route::delete('career/{type}/{id}', [CareerController::class, 'destroy'])->name('career.destroy');
+    
+    Route::resource('settings', SiteSettingsController::class);
 });
 
 // giving access only the role id

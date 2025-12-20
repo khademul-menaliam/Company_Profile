@@ -15,7 +15,6 @@ class ClientController extends Controller
         return view('admin.clients.index', compact('clients'));
     }
 
-
     public function create()
     {
         return view('admin.clients.create');
