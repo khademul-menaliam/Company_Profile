@@ -11,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
 
+    use HasRoles;
     use HasFactory, Notifiable;
 
     protected $fillable = [
@@ -32,9 +33,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-
-    use HasRoles;
 
     // Optional: ensure roles is always a collection
     public function getRolesAttribute($value)
