@@ -102,10 +102,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 |--------------------------------------------------------------------------
 | Admin Panel (ROLE BASED)
 |--------------------------------------------------------------------------
+
+
+
+
+
+
+
 */
 Route::prefix('admin')
-    ->name('admin.')
     ->middleware(['auth', 'role:Owner|Admin|Developer'])
+
+    ->name('admin.')
+
     ->group(function () {
 
     Route::get('/', function () {
