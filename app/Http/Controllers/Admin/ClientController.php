@@ -5,116 +5,95 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
-
+    // List all clients
     public function index()
     {
         $clients = Client::latest()->paginate(10);
         return view('admin.clients.index', compact('clients'));
     }
 
+    // Show create form
     public function create()
     {
         return view('admin.clients.create');
     }
 
+    // Store new client
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'website' => 'nullable|url',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'company' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
 
-        $data = $request->only(['name', 'website']);
+        $data = $request->only(['name', 'email', 'phone', 'company']);
 
-        // upload logo
+        // Store logo on public disk
         if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/clients'), $filename);
-            $data['logo'] = $filename;
+            $data['logo'] = $request->file('logo')->store('clients', 'public');
         }
-    //     if ($request->hasFile('logo')) {
-    //     $image = $request->file('logo');
-
-    //     // Destination folder
-    //     $destinationPath = public_path('images'); // public/services
-
-    //     // Create folder if it doesn't exist
-    //     if (!file_exists($destinationPath)) {
-    //         mkdir($destinationPath, 0755, true);
-    //     }
-
-    //     // Generate unique filename
-    //     $fileName = time() . '_' . $image->getClientOriginalName();
-    //     // OR: $fileName = uniqid() . '_' . $image->getClientOriginalName();
-
-    //     // Move file to public/services
-    //     $image->move($destinationPath, $fileName);
-
-    //     // Save relative path in DB
-    //     $data['image'] = 'images/' . $fileName;
-    // }
 
         Client::create($data);
 
         return redirect()->route('admin.clients.index')->with('success', 'Client added successfully!');
-
     }
 
-
-    public function show($id)
+    // Show a single client
+    public function show(Client $client)
     {
-        $client = Client::findOrFail($id);
         return view('admin.clients.view', compact('client'));
     }
 
-    public function edit( $id)
+    // Show edit form
+    public function edit(Client $client)
     {
-        $client = Client::findOrFail($id);
         return view('admin.clients.edit', compact('client'));
     }
 
-    public function update(Request $request,  $id)
+    // Update a client
+    public function update(Request $request, Client $client)
     {
-        $client = Client::findOrFail($id);
-
         $request->validate([
             'name' => 'required|string|max:255',
-            'website' => 'nullable|url',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'company' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
 
-        $data = $request->only(['name', 'website']);
+        $data = $request->only(['name', 'email', 'phone', 'company']);
 
+        // Replace logo if uploaded
         if ($request->hasFile('logo')) {
-            if ($client->logo && file_exists(public_path('uploads/clients/' . $client->logo))) {
-                unlink(public_path('uploads/clients/' . $client->logo));
+            // Delete old logo
+            if ($client->logo && Storage::disk('public')->exists($client->logo)) {
+                Storage::disk('public')->delete($client->logo);
             }
-            $file = $request->file('logo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/clients'), $filename);
-            $data['logo'] = $filename;
+            $data['logo'] = $request->file('logo')->store('clients', 'public');
         }
 
         $client->update($data);
 
         return redirect()->route('admin.clients.index')->with('success', 'Client updated successfully!');
-
     }
 
-    public function destroy($id)
+    // Delete a client
+    public function destroy(Client $client)
     {
-         $client = Client::findOrFail($id);
-        if ($client->logo && file_exists(public_path('uploads/clients/' . $client->logo))) {
-            unlink(public_path('uploads/clients/' . $client->logo));
+        // Delete logo if exists
+        if ($client->logo && Storage::disk('public')->exists($client->logo)) {
+            Storage::disk('public')->delete($client->logo);
         }
+
         $client->delete();
 
         return redirect()->route('admin.clients.index')->with('success', 'Client deleted successfully!');
-
     }
 }

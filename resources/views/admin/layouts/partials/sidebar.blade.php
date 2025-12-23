@@ -11,7 +11,7 @@
         elseif (request()->routeIs('admin.services.*')) $openMenu = 'services';
         elseif (request()->routeIs('admin.clients.*')) $openMenu = 'clients';
         elseif (request()->routeIs('admin.partners.*')) $openMenu = 'partners';
-        elseif (request()->routeIs('admin.team.*')) $openMenu = 'team';
+        elseif (request()->routeIs('admin.team_members.*') || request()->routeIs('admin.advisors.*')) $openMenu = 'team';
         elseif (request()->routeIs('admin.users.*')) $openMenu = 'users';
     @endphp
     @php $user = auth()->user(); @endphp
@@ -132,7 +132,7 @@
                 <button @click="openMenu = (openMenu === 'team' ? '' : 'team')"
                         class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
                         hover:bg-indigo-600 {{ $openMenu === 'team' ? 'bg-indigo-600' : '' }}">
-                    <span class="flex items-center gap-2"><i class="fas fa-user-friends"></i> Team Members</span>
+                    <span class="flex items-center gap-2"><i class="fas fa-user-friends"></i> Advisor & Teams</span>
                     <svg :class="openMenu === 'team' ? 'rotate-90' : ''"
                         class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
@@ -142,10 +142,18 @@
                 </button>
 
                 <div x-show="openMenu === 'team'" x-transition class="ml-6 mt-1 space-y-1">
-                    <a href="{{ route('admin.team.index') }}"
-                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.team.index') ? 'bg-indigo-500' : '' }}">All Members</a>
-                    <a href="{{ route('admin.team.create') }}"
-                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.team.create') ? 'bg-indigo-500' : '' }}">Add Member</a>
+                    <a href="{{ route('admin.team_members.index') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.team_members.index') ? 'bg-indigo-500' : '' }}">All Team Members</a>
+                {{-- Advisor --}}
+                    <a href="{{ route('admin.advisors.index') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.advisors.index') ? 'bg-indigo-500' : '' }}">All Advisor</a>
+
+                    <a href="{{ route('admin.team_members.create') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.team_members.create') ? 'bg-indigo-500' : '' }}">Add Team Member</a>
+                {{-- Advisor --}}
+                    
+                    <a href="{{ route('admin.advisors.create') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.advisors.create') ? 'bg-indigo-500' : '' }}">Add Advisors</a>
                 </div>
             </div>
 

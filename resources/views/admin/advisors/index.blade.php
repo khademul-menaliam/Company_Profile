@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
-@section('title', 'Team Members Dashboard | Admin')
+@section('title', 'Advisors | Admin')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Team Members</h1>
-        <a href="{{ route('admin.team_members.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Team Member</a>
+        <h1 class="text-2xl font-bold">Advisors</h1>
+        <a href="{{ route('admin.advisors.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Advisor</a>
     </div>
 
     @if(session('success'))
@@ -18,32 +18,29 @@
                 <tr>
                     <th class="py-3 px-4 border-b border-gray-200">Sl No</th>
                     <th class="py-3 px-4 border-b border-gray-200">Name</th>
-                    <th class="py-3 px-4 border-b border-gray-200">Position</th>
                     <th class="py-3 px-4 border-b border-gray-200">Image</th>
                     <th class="py-3 px-4 border-b border-gray-200">Message</th>
                     <th class="py-3 px-4 border-b border-gray-200 text-center">Actions</th>
                 </tr>
             </thead>
-
             <tbody>
-                @forelse($teamMembers as $member)
+                @forelse($advisors as $advisor)
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-4 border-b border-gray-200">{{ $loop->iteration }}</td>
-                        <td class="py-3 px-4 border-b border-gray-200">{{ $member->name }}</td>
-                        <td class="py-3 px-4 border-b border-gray-200">{{ $member->position ?? '-' }}</td>
+                        <td class="py-3 px-4 border-b border-gray-200">{{ $advisor->name }}</td>
                         <td class="py-3 px-4 border-b border-gray-200">
-                            @if($member->image)
-                                <img src="{{ asset('storage/'.$member->image) }}" alt="{{ $member->name }}" class="w-16 h-16 object-cover rounded">
+                            @if($advisor->image)
+                                <img src="{{ asset('storage/'.$advisor->image) }}" class="w-16 h-16 object-cover rounded" alt="{{ $advisor->name }}">
                             @else
                                 <span class="text-gray-400 italic">No Image</span>
                             @endif
                         </td>
-                        <td class="py-3 px-4 border-b border-gray-200">{{ Str::limit($member->message, 50, '...') }}</td>
+                        <td class="py-3 px-4 border-b border-gray-200">{{ $advisor->message }}</td>
                         <td class="py-3 px-4 border-b border-gray-200 text-center">
                             <div class="inline-flex gap-2">
-                                <a href="{{ route('admin.team_members.edit', $member->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">Edit</a>
-                                <a href="{{ route('admin.team_members.show', $member->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">View</a>
-                                <form action="{{ route('admin.team_members.destroy', $member->id) }}" method="POST" onsubmit="return confirm('Delete this team member?');" class="inline">
+                                <a href="{{ route('admin.advisors.edit', $advisor->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">Edit</a>
+                                <a href="{{ route('admin.advisors.show', $advisor->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">View</a>
+                                <form action="{{ route('admin.advisors.destroy', $advisor->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this advisor?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Delete</button>
@@ -53,16 +50,15 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center py-6 text-gray-500 italic">No team members found.</td>
+                        <td colspan="5" class="text-center py-6 text-gray-500 italic">No advisors found.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    {{-- Pagination --}}
     <div class="mt-4">
-        {{ $teamMembers->links() }}
+        {{ $advisors->links() }}
     </div>
 </div>
 @endsection

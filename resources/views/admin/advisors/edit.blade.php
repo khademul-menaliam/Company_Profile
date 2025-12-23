@@ -1,9 +1,9 @@
 @extends('admin.layouts.app')
-@section('title', 'Edit Team Member | Admin')
+@section('title', 'Edit Advisor | Admin')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Edit Team Member</h1>
+    <h1 class="text-2xl font-bold mb-6">Edit Advisor</h1>
 
     @if ($errors->any())
         <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -15,18 +15,13 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.team_members.update', $person->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
+    <form action="{{ route('admin.advisors.update', $person->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
         @csrf
         @method('PUT')
 
         <div class="mb-4">
             <label class="block font-semibold mb-2">Name</label>
             <input type="text" name="name" value="{{ old('name', $person->name) }}" class="w-full border px-3 py-2 rounded" required>
-        </div>
-
-        <div class="mb-4">
-            <label class="block font-semibold mb-2">Position</label>
-            <input type="text" name="position" value="{{ old('position', $person->position) }}" class="w-full border px-3 py-2 rounded">
         </div>
 
         <div class="mb-4">
@@ -44,8 +39,8 @@
             @endif
         </div>
 
-        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Update Team Member</button>
-        <a href="{{ route('admin.team_members.index') }}" class="ml-4 text-gray-600 hover:underline">Cancel</a>
+        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Update Advisor</button>
+        <a href="{{ route('admin.advisors.index') }}" class="ml-4 text-gray-600 hover:underline">Cancel</a>
     </form>
 </div>
 @endsection

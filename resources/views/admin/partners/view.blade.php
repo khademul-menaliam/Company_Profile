@@ -1,41 +1,51 @@
 @extends('admin.layouts.app')
-
-@section('title', 'Client Details')
+@section('title', 'View Partner | Admin')
 
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow max-w-2xl mx-auto">
-    <h2 class="text-2xl font-bold mb-4">Client Details</h2>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Partner Details</h1>
 
-    <div class="space-y-4">
+    <div class="bg-white shadow p-6 rounded-lg space-y-4">
         <div>
-            <span class="font-semibold text-gray-700">Client Name:</span>
-            <p class="text-lg">{{ $client->name }}</p>
+            <strong>Name:</strong> {{ $partner->name }}
         </div>
-
         <div>
-            <span class="font-semibold text-gray-700">Website:</span>
-            <p>{{ $client->website ?? 'N/A' }}</p>
+            <strong>Description:</strong> {{ $partner->description ?? '-' }}
         </div>
-
-        @if($client->logo)
-            <div>
-                <span class="font-semibold text-gray-700">Logo:</span>
-                <div class="mt-2">
-                    <img src="{{ asset('images/'.$client->logo) }}" alt="{{ $client->name }}" class="h-24 rounded border">
-                </div>
-            </div>
-        @endif
-
-        {{-- <div>
-            <span class="font-semibold text-gray-700">Created At:</span>
-            <p>{{ $client->created_at->format('d M, Y h:i A') }}</p>
-        </div> --}}
+        <div>
+            <strong>Website:</strong> 
+            @if($partner->website_url)
+                <a href="{{ $partner->website_url }}" class="text-blue-600 hover:underline" target="_blank">{{ $partner->website_url }}</a>
+            @else
+                -
+            @endif
+        </div>
+        <div>
+            <strong>Email:</strong> {{ $partner->email ?? '-' }}
+        </div>
+        <div>
+            <strong>Phone:</strong> {{ $partner->phone ?? '-' }}
+        </div>
+        <div>
+            <strong>Status:</strong> 
+            @if($partner->status == 'active')
+                <span class="text-green-600 font-semibold">Active</span>
+            @else
+                <span class="text-red-600 font-semibold">Inactive</span>
+            @endif
+        </div>
+        <div>
+            <strong>Logo:</strong>
+            @if($partner->logo)
+                <img src="{{ asset('storage/'.$partner->logo) }}" class="w-32 h-32 object-cover rounded mt-2">
+            @else
+                <span class="text-gray-400 italic">No Logo</span>
+            @endif
+        </div>
     </div>
 
-    <div class="mt-6 flex justify-end">
-        <a href="{{ route('admin.clients.index') }}" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
-            Back to List
-        </a>
+    <div class="mt-4">
+        <a href="{{ route('admin.partners.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Back to Partners</a>
     </div>
 </div>
 @endsection

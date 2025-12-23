@@ -15,24 +15,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProjectImageController;
 use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\SiteSettingsController;
+use App\Http\Controllers\Admin\PeopleController;
 
-/*
-|--------------------------------------------------------------------------
-| Admin Project Gallery (ROLE PROTECTED)
-|--------------------------------------------------------------------------
-*/
-Route::delete('/admin/project-gallery/{image}', [ProjectImageController::class, 'destroy'])
-    ->middleware(['auth', 'role:Owner|Admin'])
-    ->name('admin.project-gallery.destroy');
 
-/*
-|--------------------------------------------------------------------------
-| Admin Home
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/home/', [HomeController::class, 'admin'])
-    ->middleware(['auth', 'role:Owner|Admin'])
-    ->name('adminH');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +58,24 @@ Route::get('/check-role', function () {
 Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Admin Project Gallery (ROLE PROTECTED)
+|--------------------------------------------------------------------------
+*/
+Route::delete('/admin/project-gallery/{image}', [ProjectImageController::class, 'destroy'])
+    ->middleware(['auth', 'role:Owner|Admin'])
+    ->name('admin.project-gallery.destroy');
+
+/*
+|--------------------------------------------------------------------------
+| Admin Home
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/home/', [HomeController::class, 'admin'])
+    ->middleware(['auth', 'role:Owner|Admin'])
+    ->name('adminH');
 
 /*
 |--------------------------------------------------------------------------
@@ -129,7 +133,8 @@ Route::prefix('admin')
     });
 
     // OWNER + ADMIN
-    Route::resource('team', App\Http\Controllers\Admin\TeamController::class);
+    // Route::resource('team', App\Http\Controllers\Admin\TeamController::class);
+
     Route::resource('partners', PartnersController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('projects', ProjectController::class);
@@ -154,4 +159,27 @@ Route::prefix('admin')
     Route::get('career/{type}/{id}/edit', [CareerController::class, 'edit'])->name('career.edit');
     Route::put('career/{type}/{id}', [CareerController::class, 'update'])->name('career.update');
     Route::delete('career/{type}/{id}', [CareerController::class, 'destroy'])->name('career.destroy');
+});
+
+
+// Advisors
+Route::prefix('admin/advisors')->name('admin.advisors.')->group(function() {
+    Route::get('/', [PeopleController::class, 'advisorsIndex'])->name('index');
+    Route::get('/create', [PeopleController::class, 'createAdvisor'])->name('create');
+    Route::post('/store', [PeopleController::class, 'storeAdvisor'])->name('store');
+    Route::get('/{person}/edit', [PeopleController::class, 'editAdvisor'])->name('edit');
+    Route::put('/{person}', [PeopleController::class, 'updateAdvisor'])->name('update');
+    Route::get('/{person}', [PeopleController::class, 'showAdvisor'])->name('show');
+    Route::delete('/{person}', [PeopleController::class, 'destroyAdvisor'])->name('destroy');
+});
+
+// Team Members
+Route::prefix('admin/team-members')->name('admin.team_members.')->group(function() {
+    Route::get('/', [PeopleController::class, 'teamIndex'])->name('index');
+    Route::get('/create', [PeopleController::class, 'createTeam'])->name('create');
+    Route::post('/store', [PeopleController::class, 'storeTeam'])->name('store');
+    Route::get('/{person}/edit', [PeopleController::class, 'editTeam'])->name('edit');
+    Route::put('/{person}', [PeopleController::class, 'updateTeam'])->name('update');
+    Route::get('/{person}', [PeopleController::class, 'showTeam'])->name('show');
+    Route::delete('/{person}', [PeopleController::class, 'destroyTeam'])->name('destroy');
 });
