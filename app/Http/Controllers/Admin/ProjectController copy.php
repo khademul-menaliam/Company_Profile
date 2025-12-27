@@ -14,43 +14,34 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('client')->orderByDesc('published_at')->get();
+        $projects = Project::with('client')->where('status', true)->orderByDesc('published_at')->get();
         return view('admin.projects.index', compact('projects'));
+        // admin.services.index
     }
 
-    public function show( $slug)
+    public function show($slug)
     {
         $project = Project::with(['gallery','client'])->where('slug',$slug)->firstOrFail();
-
         return view('admin.projects.view', compact('project'));
     }
-
     public function create()
     {
-        $clients = Client::all();
-        return view('admin.projects.create', compact('clients'));
+         $clients = Client::all();
+        return view('admin.projects.create', compact('clients'));;
     }
 
     public function store(Request $request)
     {
+        // ✅ Validate inputs
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:projects,slug',
-            'location' => 'nullable|string|max:255',
-            'type' => 'nullable|string|max:255',
-            'timeline' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'objectives' => 'nullable|string',
-            'solution' => 'nullable|string',
-            'technical_details' => 'nullable|string',
-            'results' => 'nullable|string',
-            'testimonial' => 'nullable|string',
-            'client_id' => 'nullable|exists:clients,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048',
+            'slug'  => 'nullable|string|max:255|unique:projects,slug',
+            'short_description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // main image
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048', // gallery
         ]);
 
-        // Generate slug
+        // ✅ Generate slug if empty
         $slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->title);
         $originalSlug = $slug;
         $count = 1;
@@ -58,42 +49,36 @@ class ProjectController extends Controller
             $slug = $originalSlug . '-' . $count++;
         }
 
-        // Upload main image
-        $imagePath = null;
+        // ✅ Upload main image
+        $mainImagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('project_image', 'public');
+            $mainImagePath = $request->file('image')->store('project_image', 'public');
         }
 
-        // Create project
+        // ✅ Create project
         $project = Project::create([
             'title' => $request->title,
             'slug' => $slug,
-            'location' => $request->location,
-            'type' => $request->type,
-            'timeline' => $request->timeline,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-            'solution' => $request->solution,
-            'technical_details' => $request->technical_details,
-            'results' => $request->results,
-            'testimonial' => $request->testimonial,
-            'client_id' => $request->client_id,
-            'image' => $imagePath,
-            'status' => true,
-            'published_at' => now(),
+            'description' => $request->short_description,
+            'image' => $mainImagePath, // main image
         ]);
 
-        // Upload gallery images
+        // ✅ Upload gallery images
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $galleryImage) {
                 $path = $galleryImage->store('projects_gallery', 'public');
-                $project->gallery()->create(['image' => $path]);
+
+                // Insert into project_images table
+                $project->gallery()->create([
+                    'image' => $path
+                ]);
             }
         }
 
         return redirect()->route('admin.projects.index')
-            ->with('success', 'Project created successfully!');
+                        ->with('success', 'Project created successfully!');
     }
+
 
     public function edit(Project $project)
     {
@@ -101,23 +86,17 @@ class ProjectController extends Controller
         return view('admin.projects.edit', compact('project','clients'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Project $project)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:projects,slug,' . $project->id,
-            'location' => 'nullable|string|max:255',
-            'type' => 'nullable|string|max:255',
-            'timeline' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'objectives' => 'nullable|string',
-            'solution' => 'nullable|string',
-            'technical_details' => 'nullable|string',
-            'results' => 'nullable|string',
-            'testimonial' => 'nullable|string',
-            'client_id' => 'nullable|exists:clients,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048',
+            'slug'  => 'nullable|string|max:255|unique:projects,slug,' . $project->id,
+            'short_description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // main image
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048', // new gallery images
             'delete_gallery' => 'nullable|array',
             'delete_gallery.*' => 'integer|exists:project_images,id',
         ]);
@@ -130,7 +109,7 @@ class ProjectController extends Controller
             $slug = $originalSlug . '-' . $count++;
         }
 
-        // Upload main image
+        // Main image upload
         if ($request->hasFile('image')) {
             if ($project->image && Storage::disk('public')->exists($project->image)) {
                 Storage::disk('public')->delete($project->image);
@@ -144,16 +123,7 @@ class ProjectController extends Controller
         $project->update([
             'title' => $request->title,
             'slug' => $slug,
-            'location' => $request->location,
-            'type' => $request->type,
-            'timeline' => $request->timeline,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-            'solution' => $request->solution,
-            'technical_details' => $request->technical_details,
-            'results' => $request->results,
-            'testimonial' => $request->testimonial,
-            'client_id' => $request->client_id,
+            'description' => $request->short_description,
             'image' => $imagePath,
         ]);
 
@@ -168,37 +138,45 @@ class ProjectController extends Controller
             }
         }
 
-        // Add new gallery images
+
+        // ✅ Add new gallery images (keep old ones)
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $galleryImage) {
                 $path = $galleryImage->store('projects_gallery', 'public');
-                $project->gallery()->create(['image' => $path]);
+                $project->gallery()->create([
+                    'image' => $path
+                ]);
             }
         }
 
         return redirect()->route('admin.projects.index')
-            ->with('success', 'Project updated successfully!');
+                        ->with('success', 'Project updated successfully!');
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Project $project)
     {
-        // Delete main image
+        // ✅ Delete main image if exists
         if ($project->image && Storage::disk('public')->exists($project->image)) {
             Storage::disk('public')->delete($project->image);
         }
 
-        // Delete gallery images
+        // ✅ Delete gallery images if exist
         foreach ($project->gallery as $img) {
             if (Storage::disk('public')->exists($img->image)) {
                 Storage::disk('public')->delete($img->image);
             }
-            $img->delete();
+            $img->delete(); // delete record from project_images table
         }
 
-        // Delete project
+        // ✅ Delete project record
         $project->delete();
 
         return redirect()->route('admin.projects.index')
-            ->with('success', 'Project and all associated images deleted successfully!');
+                        ->with('success', 'Project and all associated images deleted successfully!');
     }
+
 }

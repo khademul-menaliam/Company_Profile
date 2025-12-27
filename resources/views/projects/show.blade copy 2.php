@@ -28,7 +28,7 @@
             <!-- Client Info -->
             @if($project->client && $project->client->logo)
             <div class="flex items-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-                <img src="{{ asset('storage/' . $project->client->logo) }}" alt="{{ $project->client->name }}"
+                <img src="{{ asset('images/' . $project->client->logo) }}" alt="{{ $project->client->name }}"
                      class="w-16 h-16 object-contain rounded-full border border-gray-200">
                 <span class="font-semibold text-lg">{{ $project->client->name }}</span>
             </div>
@@ -84,13 +84,11 @@
             <!-- Technical Details -->
             <div class="mb-12 border rounded-xl p-8 shadow-sm hover:shadow-md transition">
                 <h2 class="text-3xl font-semibold text-indigo-700 mb-4">Technical Details</h2>
-                <ul class="list-disc text-gray-700 space-y-2">
+                <ul class="list-disc pl-5 text-gray-700 space-y-2">
                     @if($project->technical_details)
                         {!! $project->technical_details !!}
                     @else
-                        <p class="text-gray-500 italic">
-                           Tools and technologies will be updated soon.
-                        </p>
+                        <li>Tools and technologies will be updated soon.</li>
                     @endif
                 </ul>
             </div>
@@ -182,10 +180,6 @@
                     @if($project->client)
                         <p class="mt-4 font-semibold text-gray-900">— {{ $project->client->name }}</p>
                     @endif
-                        @else
-                        <p class="text-gray-500 italic">
-                            No testimonial available for this project yet.
-                        </p>
                 @endif
 
             </div>

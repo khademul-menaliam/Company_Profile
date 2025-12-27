@@ -14,6 +14,7 @@
 
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
 
 
 </head>
