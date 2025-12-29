@@ -16,10 +16,19 @@ use App\Http\Controllers\Admin\ProjectImageController;
 use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\SiteSettingsController;
 use App\Http\Controllers\Admin\PeopleController;
+use App\Http\Controllers\Admin\GalleryItem;
 
 
+Route::get('/how-it-works', function () {
+    return view('workflow');
+})->name('howItWorks');
 
-
+// Gallery Page
+Route::get('/gallery', function () {
+    return view('gallery', [
+        'galleryItems' => GalleryItem::all()
+    ]);
+})->name('gallery');
 /*
 |--------------------------------------------------------------------------
 | Public Routes
