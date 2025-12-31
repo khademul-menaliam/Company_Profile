@@ -216,7 +216,7 @@
                 <div class="group bg-white border border-gray-200 rounded-2xl p-8
                             hover:shadow-2xl hover:-translate-y-2
                             transition-all duration-300 ease-in-out flex flex-col items-center justify-center w-40 h-36">
-                    <img src="{{ asset('images/' . $client->logo) }}"
+                    <img src="{{ asset('storage/' . $client->logo) }}"
                          alt="{{ $client->name }}"
                          class="w-32 h-16 object-contain opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mb-3">
                     <p class="text-gray-700 font-bold text-sm text-center group-hover:text-indigo-600 transition-colors duration-300">
@@ -282,7 +282,7 @@
             <div class="group bg-white border border-gray-200 rounded-2xl p-8
                         hover:shadow-2xl hover:-translate-y-2
                         transition-all duration-300 ease-in-out flex flex-col items-center justify-center w-52 h-44">
-              <img src="{{ asset('images/' . $partner['logo']) }}"
+              <img src="{{ asset('storage/' . $partner['logo']) }}"
                    alt="{{ $partner['name'] }}"
                    class="w-32 h-16 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mb-3">
               <p class="text-gray-700 font-semibold text-sm text-center group-hover:text-indigo-600 transition-colors duration-300">

@@ -31,7 +31,7 @@ class PartnersController extends Controller
             'email' => 'nullable|email|max:255',
             'website_url' => 'nullable|url|max:255',
             'phone' => 'nullable|string|max:50',
-            'logo' => 'nullable|image|max:2048', // optional, max 2MB
+            'logo' => 'nullable|image|max:20048', // optional, max 2MB
         ]);
 
         // Store partner logo on public disk
@@ -74,7 +74,7 @@ class PartnersController extends Controller
             'email' => 'nullable|email|max:255',
             'website_url' => 'nullable|url|max:255',
             'phone' => 'nullable|string|max:50',
-            'logo' => 'nullable|image|max:2048',
+            'logo' => 'nullable|image|max:20048',
         ]);
 
         // Update logo if a new one is uploaded

@@ -30,7 +30,7 @@ class ClientController extends Controller
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
             'company' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:20048',
         ]);
 
         $data = $request->only(['name', 'email', 'phone', 'company']);
@@ -65,7 +65,7 @@ class ClientController extends Controller
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
             'company' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:20048',
         ]);
 
         $data = $request->only(['name', 'email', 'phone', 'company']);

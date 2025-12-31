@@ -38,16 +38,15 @@ class ServiceController extends Controller
             'slug' => 'nullable|unique:services,slug',
             'short_description' => 'nullable|string|max:255',
             'content' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:20048',
             'parent_id' => 'nullable|integer|exists:services,id',
         ]);
-        // dd($data);
 
     if ($request->hasFile('image')) {
         $image = $request->file('image');
 
         // Destination folder
-        $destinationPath = public_path('images'); // public/services
+        $destinationPath = public_path('images');
 
         // Create folder if it doesn't exist
         if (!file_exists($destinationPath)) {
@@ -56,7 +55,6 @@ class ServiceController extends Controller
 
         // Generate unique filename
         $fileName = time() . '_' . $image->getClientOriginalName();
-        // OR: $fileName = uniqid() . '_' . $image->getClientOriginalName();
 
         // Move file to public/services
         $image->move($destinationPath, $fileName);
@@ -90,7 +88,7 @@ class ServiceController extends Controller
             'slug' => 'nullable|unique:services,slug,' . $service->id,
             'short_description' => 'nullable|string|max:255',
             'content' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:20048',
             'parent_id' => 'nullable|integer|exists:services,id',
         ]);
 

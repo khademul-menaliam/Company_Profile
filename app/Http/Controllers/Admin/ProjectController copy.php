@@ -37,8 +37,8 @@ class ProjectController extends Controller
             'title' => 'required|string|max:255',
             'slug'  => 'nullable|string|max:255|unique:projects,slug',
             'short_description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // main image
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048', // gallery
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:20048', // main image
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp', // gallery
         ]);
 
         // ✅ Generate slug if empty
@@ -95,8 +95,8 @@ class ProjectController extends Controller
             'title' => 'required|string|max:255',
             'slug'  => 'nullable|string|max:255|unique:projects,slug,' . $project->id,
             'short_description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // main image
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048', // new gallery images
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:20048', // main image
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp', // new gallery images
             'delete_gallery' => 'nullable|array',
             'delete_gallery.*' => 'integer|exists:project_images,id',
         ]);

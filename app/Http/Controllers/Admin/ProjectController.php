@@ -46,8 +46,8 @@ class ProjectController extends Controller
             'results' => 'nullable|string',
             'testimonial' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:20048',
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
         // Generate slug
@@ -116,8 +116,8 @@ class ProjectController extends Controller
             'results' => 'nullable|string',
             'testimonial' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:20048',
+            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'delete_gallery' => 'nullable|array',
             'delete_gallery.*' => 'integer|exists:project_images,id',
         ]);

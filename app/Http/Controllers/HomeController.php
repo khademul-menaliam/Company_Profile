@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Project;
 use App\Models\Client;
+use App\Models\Partner;
+
 
 
 class HomeController extends Controller
@@ -32,14 +34,10 @@ class HomeController extends Controller
 
 
             $projects = Project::where('status', true)->get();
-            $clients = Client::take(5)->get();
-            $partners = [
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-            ['name' => 'Partner 3', 'logo' => 'partners/partner3.png'],
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-        ];
+            // $clients = Client::get();
+            $clients = Client::all();
+
+            $partners = Partner::take(5)->get();
 
             return view('home', compact('services', 'projects','clients','partners'));
         }
@@ -89,21 +87,7 @@ class HomeController extends Controller
         }
     public function clients() {
         $clients = Client::all();
-
-        $partners = [
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-            ['name' => 'Partner 3', 'logo' => 'partners/partner3.png'],
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-            ['name' => 'Partner 3', 'logo' => 'partners/partner3.png'],
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-            ['name' => 'Partner 3', 'logo' => 'partners/partner3.png'],
-            ['name' => 'Partner 1', 'logo' => 'partners/partner1.png'],
-            ['name' => 'Partner 2', 'logo' => 'partners/partner2.png'],
-            ['name' => 'Partner 3', 'logo' => 'partners/partner3.png'],
-        ];
+        $partners = Partner::take(5)->get();
 
         return view('client', compact('clients', 'partners'));
         }
