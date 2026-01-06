@@ -31,14 +31,16 @@
 
             <!-- Gallery Cards Container -->
             <div class="flex overflow-x-hidden scroll-smooth gap-4 py-4 px-4 justify-center" id="galleryContainer">
-                @foreach ($galleryItems as $item)
-                <div class="group bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center w-64">
-                    <img src="{{ asset('storage/' . $item->image) }}" 
-                         alt="{{ $item->title }}" 
-                         class="w-full h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-300">
-                    <p class="text-gray-700 font-semibold text-center">{{ $item->title }}</p>
-                </div>
-                @endforeach
+                @foreach($galleryItems as $item)
+                @if($item->isVideo())
+                    <video controls class="rounded">
+                        <source src="{{ asset('storage/'.$item->image) }}">
+                    </video>
+                @else
+                    <img src="{{ asset('storage/'.$item->image) }}" class="rounded">
+                @endif
+            @endforeach
+            
             </div>
         </div>
         @else

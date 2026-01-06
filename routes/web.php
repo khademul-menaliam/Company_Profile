@@ -16,19 +16,15 @@ use App\Http\Controllers\Admin\ProjectImageController;
 use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\SiteSettingsController;
 use App\Http\Controllers\Admin\PeopleController;
-use App\Http\Controllers\Admin\GalleryItem;
+use App\Http\Controllers\Admin\GalleryController;
+
 
 
 Route::get('/how-it-works', function () {
     return view('workflow');
 })->name('howItWorks');
 
-// Gallery Page
-Route::get('/gallery', function () {
-    return view('gallery', [
-        'galleryItems' => GalleryItem::all()
-    ]);
-})->name('gallery');
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -51,6 +47,9 @@ Route::get('/services/{slug}', [HomeController::class, 'servicesShow'])->name('s
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/about', 'about')->name('about');
+
+// Gallery Page
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
 
 Route::get('/check-role', function () {
     $user = Auth::user();
@@ -192,3 +191,8 @@ Route::prefix('admin/team-members')->name('admin.team_members.')->group(function
     Route::get('/{person}', [PeopleController::class, 'showTeam'])->name('show');
     Route::delete('/{person}', [PeopleController::class, 'destroyTeam'])->name('destroy');
 });
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::resource('gallery', GalleryController::class);
+});
+

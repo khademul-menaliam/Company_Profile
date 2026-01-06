@@ -216,6 +216,12 @@
             {{ request()->routeIs('admin.messages.*') ? 'bg-indigo-600' : '' }}">
                 <i class="fas fa-envelope"></i> Messages
             </a>
+            <!-- `gallery -->
+            <a href="{{ route('admin.gallery.index') }}"
+            class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-600 transition
+            {{ request()->routeIs('admin.gallery.*') ? 'bg-indigo-600' : '' }}">
+                <i class="fas fa-envelope"></i> Gallery
+            </a>
 
             <!-- Roles & Permissions -->
             <a href="{{ route('admin.roles.index') }}"

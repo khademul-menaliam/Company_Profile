@@ -6,13 +6,12 @@ use App\Models\Service;
 use App\Models\Project;
 use App\Models\Client;
 use App\Models\Partner;
+use App\Models\GalleryItem;
 
 
 
 class HomeController extends Controller
 {
-
-
     public function admin()
         {
             // $service = Service::where('slug', $slug)->where('status', true)->firstOrFail();
@@ -95,5 +94,11 @@ class HomeController extends Controller
     // public function show($slug) {
     //     return view('careers.show', compact('slug'));
     // }
+
+    public function gallery()
+    {
+        $galleryItems = GalleryItem::where('status', true)->latest()->get();
+        return view('gallery', compact('galleryItems'));
+    }
 
 }
