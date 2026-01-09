@@ -19,111 +19,77 @@
 
     <!-- Our Clients -->
     <div class="mb-20">
-      {{-- <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
-        Our Valued Clients
-      </h2> --}}
-
-      @if($clients->count() > 0)
-
-        {{-- <div class="flex flex-wrap justify-center gap-10">
-          @foreach ($clients as $client)
-            <div class="group bg-white border border-gray-200 rounded-2xl p-8
-                        hover:shadow-2xl hover:-translate-y-2
-                        transition-all duration-300 ease-in-out flex flex-col items-center justify-center w-40 h-36">
-              <img src="{{ asset('images/' . $client->logo) }}"
-                   alt="{{ $client->name }}"
-                   class="w-32 h-16 object-contain opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mb-3">
-              <p class="text-gray-700 font-bold text-sm text-center group-hover:text-indigo-600 transition-colors duration-300">
-                {{ $client->name }}
-              </p>
-            </div>
-          @endforeach
-        </div> --}}
-
-        <div class="relative">
-  <!-- Left Arrow -->
-  <button class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2 z-10" id="scrollLeft">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-  </button>
-
-  <!-- Right Arrow -->
-  <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2 z-10" id="scrollRight">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-  </button>
-
-  <!-- Client Cards Container -->
-  <div class="flex  overflow-x-hidden scroll-smooth gap-4 py-4 px-4 justify-center" id="clientContainer">
-         {{-- <div class="flex flex-wrap justify-center gap-10"> --}}
-
-    @foreach ($clients as $client)
-            <div class="group bg-white border border-gray-200 rounded-2xl p-8
-                        hover:shadow-2xl hover:-translate-y-2
-                        transition-all duration-300 ease-in-out flex flex-col items-center justify-center w-40 h-36">
-              <img src="{{ asset('storage/' . $client->logo) }}"
-                   alt="{{ $client->name }}"
-                   class="w-32 h-16 object-contain opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mb-3">
-              <p class="text-gray-700 font-bold text-sm text-center group-hover:text-indigo-600 transition-colors duration-300">
-                {{ $client->name }}
-              </p>
-            </div>
-    @endforeach
-  </div>
-</div>
-
-
-      @else
-        <div class="flex justify-center">
-          <div class="bg-white border border-gray-300 rounded-lg p-12 text-center shadow flex flex-col items-center justify-center max-w-md">
-            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M12 20.5A8.5 8.5 0 103.5 12 8.5 8.5 0 0012 20.5z" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 text-gray-700">No Clients Found</h3>
-            <p class="text-gray-500 text-sm">Please check back later for updates.</p>
-          </div>
-        </div>
-      @endif
-    </div>
-
-    <!-- Our Partners -->
-    <div>
       <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">
-        Our Solution Partners
+          Our Valued Clients
       </h2>
 
-      @if(!empty($partners) && count($partners) > 0)
-        <div class="flex flex-wrap justify-center gap-4">
-          @foreach ($partners as $partner)
-            <div class="group bg-white border border-gray-200 rounded-2xl p-8
-                        hover:shadow-2xl hover:-translate-y-2
-                        transition-all duration-300 ease-in-out flex flex-col items-center justify-center w-40 h-3.6">
-              <img src="{{ asset('images/' . $partner['logo']) }}"
-                   alt="{{ $partner['name'] }}"
-                   class="w-32 h-16 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 mb-3">
-              <p class="text-gray-700 font-semibold text-sm text-center group-hover:text-indigo-600 transition-colors duration-300">
-                {{ $partner['name'] }}
-              </p>
-            </div>
-          @endforeach
-        </div>
-      @else
-        <div class="flex justify-center">
-          <div class="bg-white border border-gray-300 rounded-lg p-12 text-center shadow flex flex-col items-center justify-center max-w-md">
-            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M12 20.5A8.5 8.5 0 103.5 12 8.5 8.5 0 0012 20.5z" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 text-gray-700">No Partners Found</h3>
-            <p class="text-gray-500 text-sm">Please check back later for updates.</p>
+      @if($clients->count() > 0)
+          <div class="relative">
+              <!-- VIEWPORT -->
+              <div
+                  id="clientContainer"
+                  class="overflow-hidden select-none cursor-grab">
+                  <!-- TRACK (duplicated in JS for infinite loop) -->
+                  <div
+                      id="clientTrack"
+                      class="flex gap-10 py-4 px-4 items-center scrollbar-hide">
+                      @foreach ($clients as $client)
+                          <div
+                              class="client-item group bg-white border border-gray-200 rounded-2xl p-8
+                                    hover:shadow-2xl hover:-translate-y-2
+                                    transition-all duration-300 ease-in-out
+                                    flex flex-col items-center justify-center
+                                    w-40 h-36 flex-shrink-0">
+                              <img
+                                  src="{{ asset('storage/' . $client->logo) }}"
+                                  alt="{{ $client->name }}"
+                                  class="w-32 h-16 object-contain opacity-75
+                                        group-hover:opacity-100
+                                        group-hover:scale-105
+                                        transition-all duration-300 mb-3">
+                              <p
+                                  class="text-gray-700 font-bold text-sm text-center
+                                        group-hover:text-indigo-600
+                                        transition-colors duration-300">
+                                  {{ $client->name }}
+                              </p>
+                          </div>
+                      @endforeach
+
+                  </div>
+              </div>
           </div>
-        </div>
+      @else
+          <div class="flex justify-center">
+              <div
+                  class="bg-white border border-gray-300 rounded-lg p-12
+                        text-center shadow flex flex-col items-center
+                        justify-center max-w-md">
+                  <div
+                      class="w-24 h-24 bg-gray-100 rounded-full
+                            flex items-center justify-center mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                          class="h-12 w-12 text-gray-400"
+                          fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M12
+                                  20.5A8.5 8.5 0 103.5 12
+                                  8.5 8.5 0 0012 20.5z"/>
+                      </svg>
+                  </div>
+                  <h3 class="text-xl font-semibold mb-2 text-gray-700">
+                      No Clients Found
+                  </h3>
+                  <p class="text-gray-500 text-sm">
+                      Please check back later for updates.
+                  </p>
+              </div>
+          </div>
       @endif
     </div>
-
   </div>
 </section>
 
@@ -136,38 +102,62 @@
   </div>
 </section>
 
+{{-- client --}}
 <script>
-    document.getElementById('scrollLeft').addEventListener('click', function() {
   const container = document.getElementById('clientContainer');
-  const clientWidth = container.scrollWidth / container.children.length;
-  const currentScroll = container.scrollLeft;
-
-  // If we are at the first client, scroll to the last client (loop)
-  if (currentScroll === 0) {
-    container.scrollLeft = container.scrollWidth - clientWidth;
-  } else {
-    container.scrollBy({
-      left: -clientWidth, // Scroll left by the width of one client card
-      behavior: 'smooth'
-    });
+  const track = document.getElementById('clientTrack');
+  
+  // ---------- DUPLICATE ITEMS FOR INFINITE LOOP ----------
+  track.innerHTML += track.innerHTML;
+  
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  let autoScroll;
+  
+  // ---------- DRAG ----------
+  container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX;
+      scrollLeft = container.scrollLeft;
+      container.classList.add('cursor-grabbing');
+  });
+  
+  container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('cursor-grabbing');
+  });
+  
+  container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('cursor-grabbing');
+  });
+  
+  container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const walk = (e.pageX - startX) * 1.5;
+      container.scrollLeft = scrollLeft - walk;
+  });
+  
+  // ---------- AUTO SCROLL ----------
+  function startAutoScroll() {
+      autoScroll = setInterval(() => {
+          container.scrollLeft += 0.5;
+  
+          if (container.scrollLeft >= track.scrollWidth / 2) {
+              container.scrollLeft = 0;
+          }
+      }, 16);
   }
-});
-
-document.getElementById('scrollRight').addEventListener('click', function() {
-  const container = document.getElementById('clientContainer');
-  const clientWidth = container.scrollWidth / container.children.length;
-  const currentScroll = container.scrollLeft;
-
-  // If we are at the last client, scroll to the first client (loop)
-  if (currentScroll + container.offsetWidth >= container.scrollWidth) {
-    container.scrollLeft = 0;
-  } else {
-    container.scrollBy({
-      left: clientWidth, // Scroll right by the width of one client card
-      behavior: 'smooth'
-    });
+  
+  function stopAutoScroll() {
+      clearInterval(autoScroll);
   }
-});
-
+  
+  container.addEventListener('mouseenter', stopAutoScroll);
+  container.addEventListener('mouseleave', startAutoScroll);
+  
+  startAutoScroll();
 </script>
 @endsection

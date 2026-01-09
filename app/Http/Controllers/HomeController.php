@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Client;
 use App\Models\Partner;
 use App\Models\GalleryItem;
+use App\Models\CompanySection;
 
 
 
@@ -33,12 +34,18 @@ class HomeController extends Controller
 
 
             $projects = Project::where('status', true)->get();
-            // $clients = Client::get();
             $clients = Client::all();
 
             $partners = Partner::take(5)->get();
 
-            return view('home', compact('services', 'projects','clients','partners'));
+
+            $messages = CompanySection::where('section', 'messages')
+                ->whereIn('type', ['advisor', 'ceo'])
+                ->where('status', true)
+                ->orderBy('sort_order')
+                ->get();
+
+            return view('home', compact('services', 'projects','clients','partners','messages'));
         }
     public function services()
         {
@@ -99,6 +106,23 @@ class HomeController extends Controller
     {
         $galleryItems = GalleryItem::where('status', true)->latest()->get();
         return view('gallery', compact('galleryItems'));
+    }
+
+    public function showMessages()
+    {
+        // Fetch all active CEO + Advisor messages
+        $messages = CompanySection::where('section', 'messages')
+                    ->whereIn('type', ['ceo', 'advisor'])
+                    ->where('status', true)
+                    ->orderBy('sort_order')
+                    ->get();
+
+        // Get CEO (first found) and Advisor (first found)
+        $ceo = $messages->firstWhere('type', 'ceo');
+        $advisor = $messages->firstWhere('type', 'advisor');
+
+        // Pass to view
+        return view('about', compact('ceo', 'advisor'));
     }
 
 }
