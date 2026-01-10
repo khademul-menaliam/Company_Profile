@@ -13,6 +13,7 @@
         elseif (request()->routeIs('admin.partners.*')) $openMenu = 'partners';
         elseif (request()->routeIs('admin.team_members.*') || request()->routeIs('admin.advisors.*')) $openMenu = 'team';
         elseif (request()->routeIs('admin.users.*')) $openMenu = 'users';
+        elseif (request()->routeIs('admin.company-messages.*')) $openMenu = 'company_message';
     @endphp
     @php $user = auth()->user(); @endphp
     <nav x-data="{ openMenu: '{{ $openMenu }}' }" class="space-y-1">
@@ -179,35 +180,66 @@
                 </div>
             </div>
 
-<!-- Career Section -->
-<div>
-    <button @click="openMenu = (openMenu === 'career' ? '' : 'career')"
-            class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
-            hover:bg-indigo-600 {{ $openMenu === 'career' ? 'bg-indigo-600' : '' }}">
-        <span class="flex items-center gap-2"><i class="fas fa-briefcase"></i> Career</span>
-        <svg :class="openMenu === 'career' ? 'rotate-90' : ''"
-            class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 5l7 7-7 7" />
-        </svg>
-    </button>
+            <!-- Career Section -->
+            <div>
+                <button @click="openMenu = (openMenu === 'career' ? '' : 'career')"
+                        class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
+                        hover:bg-indigo-600 {{ $openMenu === 'career' ? 'bg-indigo-600' : '' }}">
+                    <span class="flex items-center gap-2"><i class="fas fa-briefcase"></i> Career</span>
+                    <svg :class="openMenu === 'career' ? 'rotate-90' : ''"
+                        class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
 
-    <div x-show="openMenu === 'career'" x-transition class="ml-6 mt-1 space-y-1">
-        <a href="{{ route('admin.career.edit', ['type'=>'page', 'id'=>1]) }}"
-            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.career.edit') ? 'bg-indigo-500' : '' }}">
-            Why Join Us
-        </a>
-        <a href="{{ route('admin.career.index') }}#jobs"
-            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
-            Job Vacancies
-        </a>
-        <a href="{{ route('admin.career.index') }}#internships"
-            class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
-            Internships
-        </a>
-    </div>
-</div>
+                <div x-show="openMenu === 'career'" x-transition class="ml-6 mt-1 space-y-1">
+                    <a href="{{ route('admin.career.edit', ['type'=>'page', 'id'=>1]) }}"
+                        class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.career.edit') ? 'bg-indigo-500' : '' }}">
+                        Why Join Us
+                    </a>
+                    <a href="{{ route('admin.career.index') }}#jobs"
+                        class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
+                        Job Vacancies
+                    </a>
+                    <a href="{{ route('admin.career.index') }}#internships"
+                        class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->is('admin/career') ? 'bg-indigo-500' : '' }}">
+                        Internships
+                    </a>
+                </div>
+            </div>
+
+            <!-- Company Message -->
+            <div>
+                <button @click="openMenu = (openMenu === 'company_message' ? '' : 'company_message')"
+                        class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
+                        hover:bg-indigo-600 {{ $openMenu === 'company_message' ? 'bg-indigo-600' : '' }}">
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-building"></i> Company Message
+                    </span>
+                    <svg :class="openMenu === 'company_message' ? 'rotate-90' : ''"
+                        class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div x-show="openMenu === 'company_message'" x-transition class="ml-6 mt-1 space-y-1">
+                    <a href="{{ route('admin.company-sections.index') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500
+                    {{ request()->routeIs('admin.company-sections.index') ? 'bg-indigo-500' : '' }}">
+                        All Messages
+                    </a>
+
+                    <a href="{{ route('admin.company-sections.create') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500
+                    {{ request()->routeIs('admin.company-sections.create') ? 'bg-indigo-500' : '' }}">
+                        Add Message
+                    </a>
+                </div>
+            </div>
 
 
             <!-- Messages -->

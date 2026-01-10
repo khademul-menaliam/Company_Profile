@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\SiteSettingsController;
 use App\Http\Controllers\Admin\PeopleController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\CompanySectionController;
+
 
 
 
@@ -197,3 +199,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('gallery', GalleryController::class);
 });
 
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Owner|Admin|Developer'])->group(function () {
+    Route::resource('company-sections', CompanySectionController::class);
+});
