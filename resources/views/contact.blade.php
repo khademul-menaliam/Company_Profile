@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="py-0 pb-2 bg-gray-50">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-6 my-3">
     <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
       Get in Touch with <span class="text-indigo-600">AR Engineering</span>
     </h1>
@@ -18,7 +18,6 @@
         @endif
 
         <h2 class="text-2xl font-semibold mb-6 text-gray-800">Send Us a Message</h2>
-
         <form method="POST" action="{{ route('contact.store') }}" class="space-y-5">
           @csrf
 
@@ -65,7 +64,7 @@
           <ul class="space-y-4 text-gray-700">
             <li class="flex items-start">
               <span class="text-indigo-600 mr-3 text-xl">📍</span>
-              <span><strong>Office Address:</strong><br> House #12, Road #4, Dhanmondi, Dhaka, Bangladesh</span>
+              <span><strong>Office Address:</strong><br> House No: 15, Road No: 01, Block: A, Dhaka 1212</span>
             </li>
             <li class="flex items-start">
               <span class="text-indigo-600 mr-3 text-xl">📞</span>

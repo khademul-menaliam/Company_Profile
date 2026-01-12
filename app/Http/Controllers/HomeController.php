@@ -22,21 +22,21 @@ class HomeController extends Controller
         {
             $services = Service::where('status', true)
                 ->whereNull('parent_id')
-                ->orderBy('sort_order', 'asc')   // Parent sorting
+                ->orderBy('sort_order', 'asc') 
                 ->with([
                     'children' => function ($q) {
                         $q->where('status', true)
-                        ->orderBy('sort_order', 'asc'); // Child sorting
+                        ->orderBy('sort_order', 'asc'); 
                     }
                 ])
-                ->take(3)      // limit parents
+                ->take(3)
                 ->get();
 
 
             $projects = Project::where('status', true)->get();
-            $clients = Client::all();
+            $clients = Client::get();
 
-            $partners = Partner::take(5)->get();
+            $partners = Partner::where('status', 'active')->take(5)->get();
 
 
             $messages = CompanySection::where('section', 'messages')
@@ -92,8 +92,8 @@ class HomeController extends Controller
             return view('careers.internship');
         }
     public function clients() {
-        $clients = Client::all();
-        $partners = Partner::take(5)->get();
+        $clients = Client::get();
+        $partners = Partner::where('status', 'active')->take(5)->get();
 
         return view('client', compact('clients', 'partners'));
         }

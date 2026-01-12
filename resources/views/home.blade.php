@@ -61,7 +61,7 @@
 </section>
 
 <!-- Message from Advisor and CEO -->
-<section class="bg-gray-50 py-16">
+<section class="bg-gray-50 py-16 px-5">
   <div class="container mx-auto px-4 md:px-0 max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
 
       @php

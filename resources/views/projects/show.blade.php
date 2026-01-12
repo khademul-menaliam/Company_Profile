@@ -113,31 +113,30 @@
 
         <div class="relative group">
             <!-- Gallery Flex -->
-<div class="gallery-container flex overflow-x-auto snap-x snap-mandatory space-x-4 py-4 scroll-smooth">
-    @foreach($project->gallery as $img)
-        <div class="gallery-item flex-shrink-0
-            w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4
-            snap-center">
+            <div class="gallery-container flex overflow-x-auto snap-x snap-mandatory space-x-4 py-4 scroll-smooth">
+                @foreach($project->gallery as $img)
+                    <div class="gallery-item flex-shrink-0
+                        w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 xl:w-1/4
+                        snap-center">
 
-            <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group"
-                onclick="openModal('{{ asset('storage/' . $img->image) }}')">
+                        <div class="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group"
+                            onclick="openModal('{{ asset('storage/' . $img->image) }}')">
 
-                <img src="{{ asset('storage/' . $img->image) }}"
-                    alt="Project Image"
-                    class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                            <img src="{{ asset('storage/' . $img->image) }}"
+                                alt="Project Image"
+                                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
 
-                <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M15 10l4.553-4.553a1 1 0 011.414 1.414L16.414 12l4.553 4.553a1 1 0 01-1.414 1.414L15 14m-6 0l-4.553 4.553a1 1 0 01-1.414-1.414L7.586 12 3.033 7.447a1 1 0 011.414-1.414L9 10m0 0l6 6"></path>
-                    </svg>
-                </div>
+                            <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 10l4.553-4.553a1 1 0 011.414 1.414L16.414 12l4.553 4.553a1 1 0 01-1.414 1.414L15 14m-6 0l-4.553 4.553a1 1 0 01-1.414-1.414L7.586 12 3.033 7.447a1 1 0 011.414-1.414L9 10m0 0l6 6"></path>
+                                </svg>
+                            </div>
 
+                        </div>
+                    </div>
+                @endforeach
             </div>
-        </div>
-    @endforeach
-</div>
-
 
             <!-- Navigation Buttons -->
             <button id="prevBtn" class="absolute top-1/2 left-0 transform -translate-y-1/2 z-20 p-3 rounded-full bg-indigo-600 hover:bg-indigo-800 text-white shadow-lg">
@@ -168,8 +167,9 @@
     <!-- Testimonial -->
     {{-- <h2 class="text-3xl font-semibold text-indigo-700 mb-4">Client Testimonial</h2> --}}
 
+  </div>
 
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-white mt-3">
         <div class="container mx-auto px-4 md:px-0 max-w-4xl">
             <div class="border rounded-xl p-8 shadow-md bg-white">
                 <h2 class="text-3xl font-semibold text-indigo-700 mb-4">Client Testimonial</h2>
@@ -192,10 +192,6 @@
         </div>
     </section>
 
-
-
-
-
     <!-- Explore Other Projects -->
     <div class="max-w-4xl mx-auto text-center mt-16 mb-5">
         <h2 class="text-3xl font-semibold mb-4 text-gray-800">Explore Other Projects</h2>
@@ -203,7 +199,6 @@
             View All Projects
         </a>
     </div>
-  </div>
 
   <!-- Gallery Script -->
   <script>

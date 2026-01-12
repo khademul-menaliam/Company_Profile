@@ -22,9 +22,6 @@ use App\Http\Controllers\Admin\CompanySectionController;
 
 
 
-Route::get('/how-it-works', function () {
-    return view('workflow');
-})->name('howItWorks');
 
 
 /*
@@ -53,6 +50,8 @@ Route::get('/about', [HomeController::class, 'showMessages'])->name('about');
 
 // Gallery Page
 Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
+
+Route::get('/how-it-works', function () {return view('workflow');})->name('howItWorks');
 
 Route::get('/check-role', function () {
     $user = Auth::user();

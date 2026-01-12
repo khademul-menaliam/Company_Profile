@@ -37,7 +37,7 @@
                             @endif
                         </td>
                         <td class="py-3 px-4 border-b border-gray-200">
-                            @if($partner->status)
+                            @if($partner->status === 'active')
                                 <span class="text-green-600 font-semibold">Active</span>
                             @else
                                 <span class="text-red-600 font-semibold">Inactive</span>

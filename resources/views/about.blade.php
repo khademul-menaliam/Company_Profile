@@ -12,7 +12,7 @@
 </section>
 
 <!-- Company Overview -->
-<section class="bg-gray-50 py-8">
+<section class="bg-gray-50 py-8 px-3">
     <div class="container mx-auto px-4 md:px-0 max-w-5xl">
         <h2 class="text-3xl font-bold mb-6 text-center">Who We Are</h2>
         <p class="text-gray-700 leading-relaxed mb-4">
@@ -176,7 +176,7 @@
 
 
 <!-- Business Philosophy -->
-<section class="py-8">
+<section class="py-8 px-3">
     <div class="container mx-auto px-4 md:px-0 max-w-5xl">
         <h2 class="text-3xl font-bold mb-6 text-center">Our Philosophy</h2>
         <p class="text-gray-700 text-center leading-relaxed">
@@ -186,7 +186,7 @@
 </section>
 
 <!-- Strengths / Capabilities -->
-<section class="bg-gray-50 py-8">
+<section class="bg-gray-50 py-8 px-3">
     <div class="container mx-auto px-4 md:px-0 max-w-6xl">
         <h2 class="text-3xl font-bold mb-10 text-center">Our Strengths</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -207,7 +207,7 @@
 </section>
 
 <!-- Team Members -->
-<section class="py-16">
+{{-- <section class="py-16">
     <div class="container mx-auto px-4 md:px-0 max-w-6xl">
         <h2 class="text-3xl font-bold mb-10 text-center">Meet Our Team</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -231,6 +231,59 @@
                 <h3 class="font-bold text-lg">Md. Rashaduzzaman</h3>
                 <p class="text-gray-600 text-sm">Building & Life Sefty Engineer</p>
             </div>
+        </div>
+    </div>
+</section> --}}
+
+<section class="py-16">
+    <div class="container mx-auto px-4 md:px-0 max-w-6xl">
+        <h2 class="text-3xl font-bold mb-12 text-center">Meet Our Team</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+            
+            <div class="text-center group">
+                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
+                    <img src="{{ asset('images/CEO.jpeg') }}" 
+                         alt="Engr. Ashiqur Rahman" 
+                         class="w-full h-full object-cover"
+                         style="object-position: center 15%;"> 
+                </div>
+                <h3 class="font-bold text-lg leading-tight">Engr. Ashiqur Rahman</h3>
+                <p class="text-gray-500 text-sm mt-1">CEO & Founder</p>
+            </div>
+
+            <div class="text-center group">
+                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
+                    <img src="{{ asset('images/hero1.jpg') }}" 
+                         alt="Engr. Abid" 
+                         class="w-full h-full object-cover"
+                         style="object-position: center 10%;">
+                </div>
+                <h3 class="font-bold text-lg leading-tight">Engr. Abid Md. Bakthier Nafis</h3>
+                <p class="text-gray-500 text-sm mt-1">Project Development Engineer</p>
+            </div>
+
+            <div class="text-center group">
+                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
+                    <img src="{{ asset('images/ss.jpeg') }}" 
+                         alt="Songram Sardar" 
+                         class="w-full h-full object-cover"
+                         style="object-position: center center;">
+                </div>
+                <h3 class="font-bold text-lg leading-tight">Songram Sardar</h3>
+                <p class="text-gray-500 text-sm mt-1">Commercial & Execution Manager</p>
+            </div>
+
+            <div class="text-center group">
+                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
+                    <img src="{{ asset('images/hero1.jpg') }}" 
+                         alt="Md. Rashaduzzaman" 
+                         class="w-full h-full object-cover"
+                         style="object-position: center 10%;">
+                </div>
+                <h3 class="font-bold text-lg leading-tight">Md. Rashaduzzaman</h3>
+                <p class="text-gray-500 text-sm mt-1">Building & Life Safety Engineer</p>
+            </div>
+
         </div>
     </div>
 </section>
