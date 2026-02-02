@@ -55,7 +55,7 @@ Route::get('/how-it-works', function () {return view('workflow');})->name('howIt
 
 Route::get('/check-role', function () {
     $user = Auth::user();
-    dd($user->getRoleNames());
+    // dd($user->getRoleNames());
 })->middleware('auth');
 
 

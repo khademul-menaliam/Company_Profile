@@ -143,7 +143,7 @@
     </div>
   </div>
 </section> --}}
-
+{{--
 <section class="bg-gray-50 py-8">
   <div class="container mx-auto px-4 max-w-6xl">
     <div class="flex flex-wrap justify-center gap-12">
@@ -169,6 +169,46 @@
         <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
       </div>
       @endfor
+
+    </div>
+  </div>
+</section> --}}
+
+<section class="bg-gray-50 py-8">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="flex flex-wrap justify-center gap-12">
+
+      @forelse ($messages as $message)
+        <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
+          <img
+            src="{{ $message->image ? asset('storage/'.$message->image) : asset('images/logo.png') }}"
+            alt="{{ $message->title ?? ucfirst($message->type) }}"
+            class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
+
+          <h3 class="text-xl font-bold mb-2">
+            {{ $message->title ?? ucfirst($message->type) }}
+          </h3>
+
+          <p class="text-gray-700 mb-2">
+            “{{ $message->content ?? 'Message will be updated soon.' }}”
+          </p>
+
+          <p class="font-bold">
+            {{ $message->subtitle ?? '' }}
+          </p>
+        </div>
+      @empty
+        <!-- Placeholder if no messages -->
+        <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
+          <div class="w-32 h-32 mx-auto rounded-full mb-4 bg-gray-100 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20.5A8.5 8.5 0 103.5 12 8.5 8.5 0 0012 20.5z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-gray-500">Coming Soon</h3>
+          <p class="text-gray-500 font-semibold">Messages will be updated soon</p>
+        </div>
+      @endforelse
 
     </div>
   </div>
@@ -206,85 +246,109 @@
     </div>
 </section>
 
-<!-- Team Members -->
-{{-- <section class="py-16">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl">
-        <h2 class="text-3xl font-bold mb-10 text-center">Meet Our Team</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            <div class="text-center">
-                <img src="{{ asset('images/CEO.jpeg') }}" alt="Team Member" class="w-32 h-32 mx-auto rounded-full object-cover mb-2">
-                <h3 class="font-bold text-lg">Engr. Ashiqur Rahman</h3>
-                <p class="text-gray-600 text-sm">CEO & Founder</p>
-            </div>
-            <div class="text-center">
-                <img src="{{ asset('images/hero1.jpg') }}" alt="Team Member" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-                <h3 class="font-bold text-lg">Engr. Abid Md. Bakthier Nafis</h3>
-                <p class="text-gray-600 text-sm">Project Development Engineer</p>
-            </div>
-            <div class="text-center">
-                <img src="{{ asset('images/ss.jpeg') }}" alt="Team Member" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-                <h3 class="font-bold text-lg">Songram Sardar</h3>
-                <p class="text-gray-600 text-sm">Commercial & Execution Manager</p>
-            </div>
-            <div class="text-center">
-                <img src="{{ asset('images/hero1.jpg') }}" alt="Team Member" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-                <h3 class="font-bold text-lg">Md. Rashaduzzaman</h3>
-                <p class="text-gray-600 text-sm">Building & Life Sefty Engineer</p>
-            </div>
+<section class="py-16 bg-gray-50/50">
+    <div class="container mx-auto px-4 max-w-7xl">
+
+        <!-- Section Header -->
+        <div class="text-center mb-6">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+                Meet Our Team
+            </h2>
+            <div class="mt-4 w-24 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                The talented people behind our mission and success.
+            </p>
         </div>
-    </div>
-</section> --}}
 
-<section class="py-16">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl">
-        <h2 class="text-3xl font-bold mb-12 text-center">Meet Our Team</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-            
-            <div class="text-center group">
-                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
-                    <img src="{{ asset('images/CEO.jpeg') }}" 
-                         alt="Engr. Ashiqur Rahman" 
-                         class="w-full h-full object-cover"
-                         style="object-position: center 15%;"> 
-                </div>
-                <h3 class="font-bold text-lg leading-tight">Engr. Ashiqur Rahman</h3>
-                <p class="text-gray-500 text-sm mt-1">CEO & Founder</p>
-            </div>
+        <!-- Team Grid -->
+        @if($teamMembers->count())
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
 
-            <div class="text-center group">
-                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
-                    <img src="{{ asset('images/hero1.jpg') }}" 
-                         alt="Engr. Abid" 
-                         class="w-full h-full object-cover"
-                         style="object-position: center 10%;">
-                </div>
-                <h3 class="font-bold text-lg leading-tight">Engr. Abid Md. Bakthier Nafis</h3>
-                <p class="text-gray-500 text-sm mt-1">Project Development Engineer</p>
-            </div>
+            @foreach ($teamMembers as $member)
+            <div
+                class="group bg-white p-6 rounded-3xl shadow-sm hover:shadow-2xl
+                       transition-all duration-500 transform hover:-translate-y-2
+                       border border-gray-100 flex flex-col items-center text-center">
 
-            <div class="text-center group">
-                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
-                    <img src="{{ asset('images/ss.jpeg') }}" 
-                         alt="Songram Sardar" 
-                         class="w-full h-full object-cover"
-                         style="object-position: center center;">
+                <!-- Image -->
+                <div class="relative w-36 h-36 mb-4">
+                    <div
+                        class="absolute inset-0 rounded-full border-4 border-blue-50
+                               group-hover:border-blue-500 transition-colors duration-500 z-10">
+                    </div>
+                    <div class="w-full h-full overflow-hidden rounded-full bg-gray-100 shadow-inner">
+                        <img
+                            src="{{ $member->image_url }}"
+                            alt="{{ $member->name }}"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            style="object-position: 50% 10%;">
+                    </div>
                 </div>
-                <h3 class="font-bold text-lg leading-tight">Songram Sardar</h3>
-                <p class="text-gray-500 text-sm mt-1">Commercial & Execution Manager</p>
-            </div>
 
-            <div class="text-center group">
-                <div class="relative w-40 h-40 mx-auto mb-5 overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
-                    <img src="{{ asset('images/hero1.jpg') }}" 
-                         alt="Md. Rashaduzzaman" 
-                         class="w-full h-full object-cover"
-                         style="object-position: center 10%;">
+                <!-- Name -->
+                <h3 class="font-bold text-base md:text-lg text-gray-900 truncate whitespace-nowrap"
+                    title="{{ $member->name }}">
+                    {{ $member->name }}
+                </h3>
+
+                <!-- Position -->
+                @if($member->position)
+                <div class="mt-1 flex justify-center">
+                    <span class="mx-auto text-gray-400 text-[8px] uppercase tracking-wide
+                                 bg-blue-50 px-2 py-0.5 rounded-full inline-block">
+                        {{ $member->position }}
+                    </span>
                 </div>
-                <h3 class="font-bold text-lg leading-tight">Md. Rashaduzzaman</h3>
-                <p class="text-gray-500 text-sm mt-1">Building & Life Safety Engineer</p>
+                @endif
+
+                <!-- Social Icons -->
+                <div
+                    class="mt-2 flex justify-center space-x-3 opacity-0
+                           transform translate-y-3 group-hover:opacity-100
+                           group-hover:translate-y-0 transition-all duration-500">
+
+                    @if($member->linkedin_url)
+                    <a href="{{ $member->linkedin_url }}" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761
+                                     2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14
+                                     c0-2.761-2.238-5-5-5zM8 19H5V8h3v11z
+                                     M6.5 6.732c-.966 0-1.75-.79-1.75-1.764
+                                     S5.534 3.204 6.5 3.204s1.75.79 1.75 1.764
+                                     -.783 1.764-1.75 1.764zM20 19h-3v-5.604
+                                     c0-3.368-4-3.113-4 0V19h-3V8h3v1.765
+                                     c1.396-2.586 7-2.777 7 2.476V19z"/>
+                        </svg>
+                    </a>
+                    @endif
+
+                    @if($member->twitter_url)
+                    <a href="{{ $member->twitter_url }}" class="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-50 rounded-full transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775
+                                     1.017-.609 1.798-1.574 2.165-2.724-.951.564
+                                     -2.005.974-3.127 1.195-.897-.957-2.178-1.555
+                                     -3.594-1.555-3.179 0-5.515 2.966-4.797 6.045
+                                     -4.091-.205-7.719-2.165-10.148-5.144-1.29
+                                     2.213-.669 5.108 1.523 6.574-.806-.026
+                                     -1.566-.247-2.229-.616-.054 2.281 1.581
+                                     4.415 3.949 4.89-.693.188-1.452.232-2.224
+                                     .084.626 1.956 2.444 3.379 4.6 3.419
+                                     -2.07 1.623-4.678 2.348-7.29 2.04
+                                     2.179 1.397 4.768 2.212 7.548 2.212
+                                     9.142 0 14.307-7.721 13.995-14.646
+                                     .962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                    @endif
+
+                </div>
+
             </div>
+            @endforeach
 
         </div>
+        @endif
     </div>
 </section>
 

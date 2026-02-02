@@ -1,6 +1,6 @@
 <aside
-    class="bg-gray-700 text-gray-100 w-64 space-y-2 px-3 py-4 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out z-50"
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+    class="bg-gray-700 text-gray-100 w-64 space-y-2 px-3 py-4 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out z-50
+           overflow-y-auto h-screen scrollbar-none">
 
     <!-- Logo -->
     <div class="text-2xl font-bold text-white mb-6 px-3"><span class="text-blue-500">AR </span>Engireearing</div>
@@ -152,7 +152,7 @@
                     <a href="{{ route('admin.team_members.create') }}"
                     class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.team_members.create') ? 'bg-indigo-500' : '' }}">Add Team Member</a>
                 {{-- Advisor --}}
-                    
+
                     <a href="{{ route('admin.advisors.create') }}"
                     class="block px-3 py-1 rounded hover:bg-indigo-500 {{ request()->routeIs('admin.advisors.create') ? 'bg-indigo-500' : '' }}">Add Advisors</a>
                 </div>

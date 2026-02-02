@@ -8,8 +8,7 @@ use App\Models\Client;
 use App\Models\Partner;
 use App\Models\GalleryItem;
 use App\Models\CompanySection;
-
-
+use App\Models\Person;
 
 class HomeController extends Controller
 {
@@ -22,11 +21,11 @@ class HomeController extends Controller
         {
             $services = Service::where('status', true)
                 ->whereNull('parent_id')
-                ->orderBy('sort_order', 'asc') 
+                ->orderBy('sort_order', 'asc')
                 ->with([
                     'children' => function ($q) {
                         $q->where('status', true)
-                        ->orderBy('sort_order', 'asc'); 
+                        ->orderBy('sort_order', 'asc');
                     }
                 ])
                 ->take(3)
@@ -118,11 +117,14 @@ class HomeController extends Controller
                     ->get();
 
         // Get CEO (first found) and Advisor (first found)
-        $ceo = $messages->firstWhere('type', 'ceo');
-        $advisor = $messages->firstWhere('type', 'advisor');
+        $ceo = $messages->where('type', 'ceo');
+        $advisors = $messages->where('type', 'advisor');
+        $teamMembers = Person::where('type', 'team_member')
+        ->orderBy('id')
+        ->get();
 
         // Pass to view
-        return view('about', compact('ceo', 'advisor'));
+        return view('about', compact('ceo', 'advisors','teamMembers','messages'));
     }
 
 }
