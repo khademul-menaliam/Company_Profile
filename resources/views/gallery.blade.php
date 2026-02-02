@@ -14,37 +14,79 @@
 </section>
 
 <!-- Gallery Section -->
-<section class="py-16 bg-gray-50">
+<section class="py-20 bg-gray-50" x-data="{ 
+    lightboxOpen: false, 
+    activeSrc: '', 
+    openLightbox(src) { 
+        this.activeSrc = src; 
+        this.lightboxOpen = true; 
+        document.body.classList.add('overflow-hidden');
+    },
+    closeLightbox() { 
+        this.lightboxOpen = false; 
+        this.activeSrc = ''; 
+        document.body.classList.remove('overflow-hidden');
+    }
+}">
     <div class="container mx-auto px-6">
 
-        @if($galleryItems->count() > 0)
-        <div class="relative">
-            <!-- Left Arrow -->
-            <button class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2 z-10" id="scrollLeft">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            </button>
+        @php
+            $images = $galleryItems->filter(fn($item) => !$item->isVideo());
+            $videos = $galleryItems->filter(fn($item) => $item->isVideo());
+        @endphp
 
-            <!-- Right Arrow -->
-            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-indigo-600 hover:bg-indigo-800 rounded-full p-2 z-10" id="scrollRight">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
-
-            <!-- Gallery Cards Container -->
-            <div class="flex overflow-x-hidden scroll-smooth gap-4 py-4 px-4 justify-center" id="galleryContainer">
-                @foreach($galleryItems as $item)
-                @if($item->isVideo())
-                    <video controls class="rounded">
-                        <source src="{{ asset('storage/'.$item->image) }}">
-                    </video>
-                @else
-                    <img src="{{ asset('storage/'.$item->image) }}" class="rounded">
-                @endif
-            @endforeach
-            
+        <!-- Images Section -->
+        @if($images->count() > 0)
+        <!-- Added mb-24 for more gap between sections -->
+        <div class="mb-24">
+            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Projects & Photos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                @foreach($images as $item)
+                <div class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                     @click="openLightbox('{{ asset('storage/'.$item->image) }}')">
+                    
+                    <div class="relative overflow-hidden h-64">
+                         <img src="{{ asset('storage/'.$item->image) }}" 
+                              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                         
+                         <!-- Hover Overlay with Icon -->
+                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <svg class="w-10 h-10 text-white opacity-90 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                         </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
-        @else
-        <div class="flex justify-center">
+        @endif
+
+        <!-- Videos Section -->
+        @if($videos->count() > 0)
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Video Highlights</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($videos as $item)
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300">
+                    <div class="aspect-w-16 aspect-h-9">
+                        <video controls class="w-full h-full object-cover">
+                            <source src="{{ asset('storage/'.$item->image) }}">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="p-4 bg-gray-50 flex items-center justify-center">
+                         <span class="text-sm font-semibold text-gray-600 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                            Highlight Video
+                        </span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        @if($images->isEmpty() && $videos->isEmpty())
+        <div class="flex justify-center py-10">
             <div class="bg-white border border-gray-300 rounded-lg p-12 text-center shadow flex flex-col items-center justify-center max-w-md">
                 <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,6 +100,29 @@
         @endif
 
     </div>
+
+    <!-- Lightbox Modal -->
+    <div x-show="lightboxOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+         style="display: none;">
+         
+        <!-- Close Button -->
+        <button @click="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-50">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Image Content -->
+        <div class="relative max-w-7xl w-full h-full flex items-center justify-center p-2" @click.outside="closeLightbox()">
+            <img :src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain">
+        </div>
+    </div>
+
 </section>
 
 <!-- Call to Action -->
@@ -70,30 +135,4 @@
         </a>
     </div>
 </section>
-
-<script>
-document.getElementById('scrollLeft').addEventListener('click', function() {
-    const container = document.getElementById('galleryContainer');
-    const itemWidth = container.scrollWidth / container.children.length;
-    const currentScroll = container.scrollLeft;
-
-    if(currentScroll === 0){
-        container.scrollLeft = container.scrollWidth - itemWidth;
-    } else {
-        container.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-    }
-});
-
-document.getElementById('scrollRight').addEventListener('click', function() {
-    const container = document.getElementById('galleryContainer');
-    const itemWidth = container.scrollWidth / container.children.length;
-    const currentScroll = container.scrollLeft;
-
-    if(currentScroll + container.offsetWidth >= container.scrollWidth){
-        container.scrollLeft = 0;
-    } else {
-        container.scrollBy({ left: itemWidth, behavior: 'smooth' });
-    }
-});
-</script>
 @endsection
