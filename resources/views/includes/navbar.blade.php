@@ -170,6 +170,13 @@
                     </a>
                 </div>
             </div>
+            @php
+                use App\Models\SiteSetting;
+                $profile = SiteSetting::where('setting_key', 'company_profile')->value('setting_value');
+            @endphp
+
+            <a href="{{ $profile ? asset('storage/'.$profile) : '#' }}" target="_blank" download class="block mx-4 my-4 px-4 py-3 text-center rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-800 transition duration-200 shadow-md"> Download Profile </a>
+
         </nav>
 
         <!-- Mobile Toggle -->
@@ -300,6 +307,16 @@
                 </a>
             </div>
         </div>
+
+        <!-- Download Profile (Mobile) -->
+<a href="{{ $profile ? asset('storage/'.$profile) : '#' }}"
+   download
+   class="block mx-4 my-4 px-4 py-3 text-center rounded-lg
+          bg-indigo-600 text-white font-semibold
+          hover:bg-indigo-700 transition duration-200 shadow-md">
+    Download Profile
+</a>
+
     </div>
 </header>
 

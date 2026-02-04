@@ -24,24 +24,63 @@ class SiteSettingsController extends Controller
     // Store the newly created site setting
     public function store(Request $request)
     {
-        // Validate the incoming data
-        $validated = $request->validate([
-            'setting_key' => 'required|string|max:255|unique:site_settings,setting_key',
-            'setting_type' => 'required|in:text,image,url,boolean',
-            'setting_value' => 'required',
-        ]);
+        // Validation rules based on type
+        $rules = [
+            'setting_key'  => 'required|string|max:255|unique:site_settings,setting_key',
+            'setting_type' => 'required|in:text,image,file,url,boolean',
+        ];
 
-        // Handle the image file if the setting type is 'image'
-        if ($request->setting_type == 'image' && $request->hasFile('setting_value')) {
-            // Store the image and get the file path
-            $path = $request->file('setting_value')->store('public/uploads/settings');
+        // Dynamic validation for setting_value based on type
+        switch ($request->setting_type) {
+            case 'text':
+                $rules['setting_value'] = 'required|string';
+                break;
+
+            case 'url':
+                $rules['setting_value'] = 'required|url';
+                break;
+
+            case 'image':
+                $rules['setting_value'] = 'required|image|max:2048'; // 2MB max
+                break;
+
+            case 'file':
+                $rules['setting_value'] = 'required|mimes:pdf|max:10240'; // 10MB max
+                break;
+
+            case 'boolean':
+                $rules['setting_value'] = 'required|boolean';
+                break;
+        }
+
+        $validated = $request->validate($rules);
+
+        // Handle image upload
+        if ($request->setting_type === 'image' && $request->hasFile('setting_value')) {
+            $path = $request->file('setting_value')
+                            ->store('uploads/settings/images', 'public');
             $validated['setting_value'] = $path;
         }
 
-        // Create the new site setting
+            // Handle file (PDF) upload
+        if ($request->setting_type === 'file' && $request->hasFile('setting_value')) {
+            $file = $request->file('setting_value');
+
+            // Force storage filename as company-profile.pdf
+            $filename = 'AR-Engineering-profile.' . $file->getClientOriginalExtension();
+
+            // Store in public/uploads/settings/files
+            $path = $file->storeAs('uploads/settings/files', $filename, 'public');
+
+            $validated['setting_value'] = $path;
+        }
+
+        // Save setting
         SiteSetting::create($validated);
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting created successfully.');
+        return redirect()
+            ->route('admin.settings.index')
+            ->with('success', 'Setting created successfully.');
     }
 
     public function show($id)
@@ -85,12 +124,24 @@ class SiteSettingsController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'Setting updated successfully.');
     }
 
-
     public function destroy($id)
     {
+        // Find the setting
         $setting = SiteSetting::findOrFail($id);
+
+        // Delete associated file if it exists
+        if ($setting->setting_type === 'image' || $setting->setting_type === 'file') {
+            if ($setting->setting_value && Storage::disk('public')->exists($setting->setting_value)) {
+                Storage::disk('public')->delete($setting->setting_value);
+            }
+        }
+
+        // Delete the database record
         $setting->delete();
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting deleted successfully.');
+        return redirect()
+            ->route('admin.settings.index')
+            ->with('success', 'Setting deleted successfully.');
     }
+
 }

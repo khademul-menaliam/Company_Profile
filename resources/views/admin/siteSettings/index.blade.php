@@ -49,7 +49,7 @@
                 <a href="{{ route('admin.settings.show', $setting->id) }}" class="text-indigo-600 hover:underline">
                     View Details
                 </a>
-              <a href="{{ route('admin.settings.edit', $setting->id) }}" class="text-blue-600 hover:underline mr-2">Edit</a>
+              {{-- <a href="{{ route('admin.settings.edit', $setting->id) }}" class="text-blue-600 hover:underline mr-2">Edit</a> --}}
               <form action="{{ route('admin.settings.destroy', $setting->id) }}" method="POST" class="inline">
                 @csrf
                 @method('DELETE')
