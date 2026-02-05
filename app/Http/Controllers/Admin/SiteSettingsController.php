@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SiteSettingsController extends Controller
 {
@@ -62,18 +63,31 @@ class SiteSettingsController extends Controller
             $validated['setting_value'] = $path;
         }
 
-            // Handle file (PDF) upload
+
+        // Handle file upload
         if ($request->setting_type === 'file' && $request->hasFile('setting_value')) {
             $file = $request->file('setting_value');
 
-            // Force storage filename as company-profile.pdf
-            $filename = 'AR-Engineering-profile.' . $file->getClientOriginalExtension();
+            // Sanitize setting key (e.g. company_profile)
+            $settingKey = Str::slug($request->setting_key, '_');
 
-            // Store in public/uploads/settings/files
-            $path = $file->storeAs('uploads/settings/files', $filename, 'public');
+            // Build filename: AR-Engineering-company_profile.pdf
+            $filename = 'AR-Engineering-' . $settingKey . '.' . $file->extension();
 
-            $validated['setting_value'] = $path;
+            // Ensure destination exists
+            $destination = public_path('uploads/settings/files');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Move file
+            $file->move($destination, $filename);
+
+            // Save relative public path
+            $validated['setting_value'] = 'uploads/settings/files/' . $filename;
         }
+
+
 
         // Save setting
         SiteSetting::create($validated);

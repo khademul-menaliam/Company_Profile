@@ -175,7 +175,7 @@
                 $profile = SiteSetting::where('setting_key', 'company_profile')->value('setting_value');
             @endphp
 
-            <a href="{{ $profile ? asset('storage/'.$profile) : '#' }}" target="_blank" download class="block mx-4 my-4 px-4 py-3 text-center rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-800 transition duration-200 shadow-md"> Download Profile </a>
+            <a href="{{ $profile }}" target="_blank" download class="block  px-4 py-2 text-center rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-800 transition duration-200 shadow-md"> Download Profile </a>
 
         </nav>
 
