@@ -14,51 +14,54 @@
 </section>
 
 <!-- Gallery Section -->
-<section class="py-20 bg-gray-50" x-data="{ 
-    lightboxOpen: false, 
-    activeSrc: '', 
-    openLightbox(src) { 
-        this.activeSrc = src; 
-        this.lightboxOpen = true; 
-        document.body.classList.add('overflow-hidden');
-    },
-    closeLightbox() { 
-        this.lightboxOpen = false; 
-        this.activeSrc = ''; 
-        document.body.classList.remove('overflow-hidden');
-    }
-}">
-    <div class="container mx-auto px-6">
+    <section class="py-20 bg-gray-50" x-data="{ 
+        lightboxOpen: false, 
+        activeSrc: '', 
+        isVideo: false,
+        openLightbox(src) { 
+            this.activeSrc = src; 
+            // Check if it's a video by extension
+            this.isVideo = ['mp4','webm','ogg','avi'].some(ext => src.toLowerCase().endsWith(ext));
+            this.lightboxOpen = true; 
+            document.body.classList.add('overflow-hidden');
+        },
+        closeLightbox() { 
+            this.lightboxOpen = false; 
+            this.activeSrc = ''; 
+            this.isVideo = false;
+            document.body.classList.remove('overflow-hidden');
+        }
+    }">
 
-        @php
-            $images = $galleryItems->filter(fn($item) => !$item->isVideo());
-            $videos = $galleryItems->filter(fn($item) => $item->isVideo());
-        @endphp
+        <div class="container mx-auto px-6">
 
-        <!-- Images Section -->
-        @if($images->count() > 0)
-        <!-- Added mb-24 for more gap between sections -->
-        <div class="mb-24">
-            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Projects & Photos</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                @foreach($images as $item)
-                <div class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
-                     @click="openLightbox('{{ asset('storage/'.$item->image) }}')">
-                    
-                    <div class="relative overflow-hidden h-64">
-                         <img src="{{ asset('storage/'.$item->image) }}" 
-                              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
-                         
-                         <!-- Hover Overlay with Icon -->
-                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <svg class="w-10 h-10 text-white opacity-90 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
-                         </div>
+            @php
+                $images = $galleryItems->filter(fn($item) => !$item->isVideo());
+                $videos = $galleryItems->filter(fn($item) => $item->isVideo());
+            @endphp
+
+            <!-- Images Section -->
+            @if($images->count() > 0)
+            <div class="mb-24">
+                <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Projects & Photos</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    @foreach($images as $item)
+                    <div class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                        {{-- @click="openLightbox('{{ asset($item->image) }}')"> --}}
+                        
+                        <div class="relative overflow-hidden h-64">
+                            {{-- <img src="{{ asset($item->image) }}" 
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"> --}}
+                            
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <svg class="w-10 h-10 text-white opacity-90 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                            </div>
+                        </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
-        </div>
-        @endif
+            @endif
 
         <!-- Videos Section -->
         @if($videos->count() > 0)
@@ -66,10 +69,11 @@
             <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Video Highlights</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($videos as $item)
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+                     @click="openLightbox('{{ asset($item->image) }}')">
                     <div class="aspect-w-16 aspect-h-9">
                         <video controls class="w-full h-full object-cover">
-                            <source src="{{ asset('storage/'.$item->image) }}">
+                            <source src="{{ asset($item->image) }}" type="{{ $item->getMimeType() }}">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -117,14 +121,18 @@
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
 
-        <!-- Image Content -->
+        <!-- Content -->
         <div class="relative max-w-7xl w-full h-full flex items-center justify-center p-2" @click.outside="closeLightbox()">
-            <img :src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain">
+            <template x-if="isVideo">
+                <video x-bind:src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain" controls autoplay></video>
+            </template>
+            <template x-if="!isVideo">
+                <img x-bind:src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain">
+            </template>
         </div>
     </div>
 
 </section>
-
 <!-- Call to Action -->
 <section class="bg-indigo-600 text-white py-16 text-center">
     <div class="container mx-auto px-6">

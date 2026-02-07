@@ -44,12 +44,12 @@ Route::get('/projects/{slug}', [HomeController::class, 'projectsShow'])->name('p
 Route::get('/services', [HomeController::class, 'services'])->name('sIndex');
 Route::get('/services/{slug}', [HomeController::class, 'servicesShow'])->name('services.show');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::match(['get', 'head'], '/',[HomeController::class, 'index'])->name('home');
 // Route::view('/about', 'about')->name('about');
 Route::get('/about', [HomeController::class, 'showMessages'])->name('about');
 
 // Gallery Page
-Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
+Route::get('/images', [HomeController::class, 'gallery'])->name('gallary.video');
 
 Route::get('/how-it-works', function () {return view('workflow');})->name('howItWorks');
 
@@ -131,7 +131,7 @@ Route::prefix('admin')
 
     ->group(function () {
 
-    Route::get('/', function () {
+    Route::match(['get', 'head'], '/', function () {
         return view('admin.dashboard');
     })->name('dashboard');
 

@@ -24,21 +24,22 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg|max:200480',
+            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg,avi|max:200480',
             'title'   => 'nullable|string|max:255',
             'status'  => 'required|boolean',
         ]);
 
-        foreach ($request->file('files') as $file) {
+            foreach ($request->file('files') as $file) {
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('gallery'), $filename);
 
-            $path = $file->store('gallery', 'public');
+                GalleryItem::create([
+                    'image'  => 'gallery/' . $filename,
+                    'title'  => $request->title,
+                    'status' => $request->status,
+                ]);
+            }
 
-            GalleryItem::create([
-                'image'  => $path,
-                'title'  => $request->title,
-                'status' => $request->status,
-            ]);
-        }
 
         return redirect()
             ->route('admin.gallery.index')

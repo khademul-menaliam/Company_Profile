@@ -19,10 +19,10 @@
 
         @if($gallery->isVideo())
             <video controls class="w-64 rounded border">
-                <source src="{{ asset('storage/'.$gallery->image) }}">
+                <source src="{{ asset($gallery->image) }}">
             </video>
         @else
-            <img src="{{ asset('storage/'.$gallery->image) }}"
+            <img src="{{ asset($gallery->image) }}"
                  class="w-64 h-40 object-cover rounded border">
         @endif
     </div>
