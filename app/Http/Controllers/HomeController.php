@@ -104,7 +104,7 @@ class HomeController extends Controller
     public function gallery()
     {
         $galleryItems = GalleryItem::where('status', true)->latest()->get();
-        return view('gallery', compact('galleryItems'));
+        return view('image.test', compact('galleryItems'));
     }
 
     public function showMessages()
