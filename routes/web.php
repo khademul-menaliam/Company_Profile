@@ -18,11 +18,7 @@ use App\Http\Controllers\Admin\SiteSettingsController;
 use App\Http\Controllers\Admin\PeopleController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\CompanySectionController;
-
-
-
-
-
+use App\Http\Controllers\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +30,19 @@ Route::get('/clients', [HomeController::class, 'clients'])->name('client');
 Route::get('/why-join-us', [HomeController::class, 'whyJoin'])->name('careers.why');
 Route::get('/job', [HomeController::class, 'job'])->name('careers.job');
 Route::get('/internship', [HomeController::class, 'internship'])->name('careers.internship');
+
+// --------------21-2-26
+// routes/web.php
+// Route::get('/internships/{slug}', [HomeController::class, 'showInternship'])->name('internships.show');
+// Route::get('/jobs/{slug}', [HomeController::class, 'showJob'])->name('jobs.show');
+
+// Display Details
+Route::get('/career/{type}/{slug}', [FrontendController::class, 'show'])->name('career.show');
+
+// Handle Application
+Route::post('/career/apply/{type}/{id}', [FrontendController::class, 'submitApplication'])->name('career.apply');
+
+Route::get('/applications', [CareerController::class, 'viewApplications'])->name('admin.applications.index');
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

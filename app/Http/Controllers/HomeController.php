@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CareerJob;
 use App\Models\Service;
 use App\Models\Project;
 use App\Models\Client;
@@ -83,13 +84,45 @@ class HomeController extends Controller
             return view('careers.why_join_us');
         }
 
-    public function job() {
-            return view('careers.job');
-        }
+    // public function job() {
+    //         return view('careers.job');
+    //     }
 
-    public function internship() {
-            return view('careers.internship');
-        }
+
+    public function job()
+    {
+        $jobs = CareerJob::where('status', 'open')
+                    ->latest()
+                    ->get();
+
+        return view('careers.job', compact('jobs'));
+    }
+
+
+
+    // public function showJob($slug)
+    // {
+    //     $job = \App\Models\CareerJob::where('slug', $slug)->firstOrFail();
+    //     return view('frontend.job-details', compact('job'));
+    // }
+    public function internship()
+    {
+        // Fetch only open internships
+        $internships = \App\Models\CareerInternship::where('status', 'open')
+                        ->latest()
+                        ->get();
+
+        return view('careers.internship', compact('internships'));
+    }
+    // public function showInternship($slug)
+    // {
+    //     $internship = \App\Models\CareerInternship::where('slug', $slug)->firstOrFail();
+    //     return view('frontend.internship-details', compact('internship'));
+    // }
+
+    // public function internship() {
+    //         return view('careers.internship');
+    //     }
     public function clients() {
         $clients = Client::get();
         $partners = Partner::where('status', 'active')->take(5)->get();

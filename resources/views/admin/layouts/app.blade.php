@@ -24,7 +24,8 @@
         scrollbar-width: none;
     }
     </style>
-    
+
+@stack('styles')
 
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -69,7 +70,7 @@
         </main>
     </div>
 </div>
-
+@stack('scripts')
 {{-- Auto-Generate Slug (JavaScript) --}}
 <script>
 document.querySelector('input[name="title"]').addEventListener('keyup', function () {
