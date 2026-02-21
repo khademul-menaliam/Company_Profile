@@ -1,324 +1,204 @@
+@php
+    use App\Models\Service;
+    use App\Models\SiteSetting;
+
+    $mainServices = Service::whereNull('parent_id')
+        ->where('status', true)
+        ->orderBy('sort_order', 'asc')
+        ->take(3)
+        ->get(['title', 'slug']);
+
+    $profile = SiteSetting::where('setting_key', 'company_profile')->value('setting_value');
+@endphp
+
 <header x-data="{ openMenu: false }"
-        class="bg-white/90 backdrop-blur-md shadow-md fixed top-0 left-0 w-full z-50 border-b border-gray-200">
-    <div class="container mx-auto flex justify-between items-center py-4 px-6">
-        <!-- Logo -->
-        <a href="{{ url('/') }}" class="flex text-2xl font-extrabold text-indigo-700 tracking-tight space-x-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
-            <span>AR ENGINEERING</span>
-        </a>
+        class="bg-white/90 backdrop-blur-md shadow-md fixed top-0 left-0 w-full z-50 border-b border-gray-200 px-4">
 
-        <!-- Desktop Menu -->
-        <nav class="hidden lg:flex space-x-2 items-center relative">
-            @php $current = request()->path(); @endphp
+    <div class="w-full flex items-center justify-between py-4 px-4 lg:px-8">
 
-            <!-- Home -->
+        <div class="flex items-center lg:w-1/4">
+            <a href="{{ url('/') }}" class="flex items-center shrink-0">
+                <img src="{{ asset('images/logo.png') }}"
+                     alt="AR Logo"
+                     class="h-12 w-auto object-contain block">
+
+                <span class="whitespace-nowrap text-xl xl:text-2xl font-extrabold text-indigo-700 tracking-tighter -ml-1 mb-2">
+                    ENGINEERING
+                </span>
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex items-center justify-center space-x-2 xl:space-x-6 flex-grow">
             <a href="{{ route('home') }}"
                class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
                {{ request()->routeIs('home') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
                Home
             </a>
 
-            <!-- Services Dropdown -->
             <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open"
+                <button @click="open = !open" @click.away="open = false"
                     class="px-3 py-2 rounded-lg font-semibold flex items-center transition-all duration-200
-                    {{ request()->routeIs('sIndex') || request()->is('services/*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                    {{ request()->is('services*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
                     Services
-                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200"
-                         :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 9l-7 7-7-7" />
+                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-
-                @php
-                    use App\Models\Service;
-                    $mainServices = Service::whereNull('parent_id')
-                        ->where('status', true)
-                        ->orderBy('sort_order', 'asc')
-                        ->take(3)
-                        ->get(['title', 'slug']);
-                @endphp
-
                 <div x-show="open"
-                     @click.away="open = false"
                      x-transition:enter="transition ease-out duration-200"
                      x-transition:enter-start="opacity-0 -translate-y-2"
                      x-transition:enter-end="opacity-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 -translate-y-2"
-                     class="absolute bg-white shadow-xl rounded-xl mt-2 w-72 z-50 border border-gray-100 overflow-hidden">
-                     
-                    <a href="{{ route('sIndex') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('sIndex') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        All Services
-                    </a>
-
+                     class="absolute bg-white shadow-xl rounded-xl mt-2 w-72 z-50 border border-gray-100 overflow-hidden left-1/2 -translate-x-1/2">
+                    <a href="{{ route('sIndex') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">All Services</a>
                     @foreach($mainServices as $service)
-                        <a href="{{ route('services.show', $service->slug) }}"
-                           class="block px-4 py-2 font-semibold transition
-                           {{ request()->is('services/'.$service->slug) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
+                        <a href="{{ route('services.show', $service->slug) }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">
                             {{ $service->title }}
                         </a>
                     @endforeach
                 </div>
             </div>
 
-            <!-- Projects -->
-            <a href="{{ route('pIndex') }}"
-               class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
-               {{ request()->routeIs('pIndex') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-               Our Projects
-            </a>
+            <a href="{{ route('pIndex') }}" class="px-2 xl:px-3 py-2 rounded-lg font-semibold transition-all duration-200 {{ request()->routeIs('pIndex') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">Projects</a>
+            <a href="{{ route('client') }}" class="px-2 xl:px-3 py-2 rounded-lg font-semibold transition-all duration-200 {{ request()->routeIs('client') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">Clients</a>
 
-            <!-- Clients -->
-            <a href="{{ route('client') }}"
-               class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
-               {{ request()->routeIs('client') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-               Clients
-            </a>
-
-            <!-- Careers Dropdown -->
             <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open"
-                    class="px-3 py-2 rounded-lg font-semibold flex items-center transition-all duration-200
-                    {{ request()->routeIs('careers.why') || request()->routeIs('careers.job') || request()->routeIs('careers.internship') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    Careers
-                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200"
-                         :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 9l-7 7-7-7" />
-                    </svg>
+                <button @click="open = !open" @click.away="open = false" class="px-2 xl:px-3 py-2 rounded-lg font-semibold flex items-center transition-all duration-200 {{ request()->is('careers*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                    Join Us
+                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-
-                <div x-show="open"
-                     @click.away="open = false"
-                     x-transition:enter="transition ease-out duration-200"
-                     x-transition:enter-start="opacity-0 -translate-y-2"
-                     x-transition:enter-end="opacity-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 -translate-y-2"
-                     class="absolute bg-white shadow-xl rounded-xl mt-2 w-56 z-50 border border-gray-100 overflow-hidden">
-                     
-                    <a href="{{ route('careers.why') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('careers.why') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        Why Join Us
-                    </a>
-                    <a href="{{ route('careers.job') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('careers.job') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        Job Vacancy
-                    </a>
-                    <a href="{{ route('careers.internship') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('careers.internship') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        Internship
-                    </a>
+                <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" class="absolute bg-white shadow-xl rounded-xl mt-2 w-56 z-50 border border-gray-100 overflow-hidden left-1/2 -translate-x-1/2">
+                    <a href="{{ route('careers.why') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">Why Join Us</a>
+                    <a href="{{ route('careers.job') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">Job Vacancy</a>
+                    <a href="{{ route('careers.internship') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">Internship</a>
                 </div>
             </div>
 
-            <!-- Gallery -->
-            <a href="{{ route('gallary.video') }}"
-               class="px-3 py-2 rounded-lg font-semibold transition-all duration-200
-               {{ request()->routeIs('gallary.video') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-               Gallery
-            </a>
+            <a href="{{ route('gallary.video') }}" class="px-2 xl:px-3 py-2 rounded-lg font-semibold transition-all duration-200 {{ request()->routeIs('gallary.video') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">Gallery</a>
 
-            <!-- About Us Dropdown -->
             <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open"
-                    class="px-3 py-2 rounded-lg font-semibold flex items-center transition-all duration-200
-                    {{ request()->routeIs('about') || request()->routeIs('contact.index') || request()->routeIs('howItWorks') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                <button @click="open = !open" @click.away="open = false" class="px-2 xl:px-3 py-2 rounded-lg font-semibold flex items-center transition-all duration-200 {{ request()->is('about*') || request()->routeIs('contact.index') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
                     About Us
-                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200"
-                         :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <svg class="w-4 h-4 ml-1 transform transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-
-                <div x-show="open"
-                     @click.away="open = false"
-                     x-transition:enter="transition ease-out duration-200"
-                     x-transition:enter-start="opacity-0 -translate-y-2"
-                     x-transition:enter-end="opacity-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 -translate-y-2"
-                     class="absolute bg-white shadow-xl rounded-xl mt-2 w-56 z-50 border border-gray-100 overflow-hidden">
-                     
-                    <a href="{{ route('about') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('about') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        About Us
-                    </a>
-
-                    <a href="{{ route('contact.index') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('contact.index') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        Contact
-                    </a>
-
-                    <a href="{{ route('howItWorks') }}"
-                       class="block px-4 py-2 font-semibold transition
-                       {{ request()->routeIs('howItWorks') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-600 hover:text-white' }}">
-                        How We Work
-                    </a>
+                <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" class="absolute bg-white shadow-xl rounded-xl mt-2 w-56 z-50 border border-gray-100 overflow-hidden left-1/2 -translate-x-1/2">
+                    <a href="{{ route('about') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">About Us</a>
+                    <a href="{{ route('contact.index') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">Contact</a>
+                    <a href="{{ route('howItWorks') }}" class="block px-4 py-2 font-semibold hover:bg-indigo-600 hover:text-white transition-colors">How We Work</a>
                 </div>
             </div>
-            @php
-                use App\Models\SiteSetting;
-                $profile = SiteSetting::where('setting_key', 'company_profile')->value('setting_value');
-            @endphp
-
-            <a href="{{ $profile }}" target="_blank" download class="block  px-4 py-2 text-center rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-800 transition duration-200 shadow-md"> Download Profile </a>
-
         </nav>
 
-        <!-- Mobile Toggle -->
-        <button @click="openMenu = !openMenu" class="lg:hidden text-gray-700 focus:outline-none">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-        </button>
+        <div class="hidden lg:flex items-center justify-end lg:w-1/4 pr-2">
+            <a href="{{ $profile }}" target="_blank" download
+               class="px-6 py-2.5 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-800 transition-all duration-200 shadow-md inline-block text-center whitespace-nowrap">
+                Download Profile
+            </a>
+        </div>
+
+        <div class="lg:hidden flex items-center">
+            <button @click="openMenu = !openMenu" class="text-gray-700 focus:outline-none p-2 rounded-lg hover:bg-gray-100">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div x-show="openMenu"
+         x-data="{ activeMenu: null }"
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 -translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0"
          x-transition:leave="transition ease-in duration-150"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 -translate-y-2"
-         class="lg:hidden bg-white/95 backdrop-blur-lg shadow-md border-t border-gray-100 z-40">
+         class="lg:hidden bg-white/95 backdrop-blur-lg shadow-md border-t border-gray-100 z-40 overflow-y-auto max-h-[calc(100vh-80px)]">
 
-        <!-- Home -->
-        <a href="{{ route('home') }}"
-           class="block px-4 py-3 font-semibold {{ request()->is('/') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-            Home
-        </a>
+        <div class="px-3 pt-3 pb-8 space-y-1">
 
-        <!-- Services Mobile Dropdown -->
-        <div x-data="{ open: false }">
-            <button @click="open = !open"
-                    class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center
-                        {{ request()->is('services*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                Services
-                <svg class="w-4 h-4 ml-2 transform transition-transform duration-200"
-                     :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
-
-            <div x-show="open" x-transition class="bg-gray-50">
-                <a href="{{ route('sIndex') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('sIndex') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    All Services
-                </a>
-
-                @foreach($mainServices as $service)
-                    <a href="{{ route('services.show', $service->slug) }}"
-                       class="block px-8 py-2 text-sm font-semibold {{ request()->is('services/'.$service->slug) ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                        {{ $service->title }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Projects -->
-        <a href="{{ route('pIndex') }}"
-           class="block px-4 py-3 font-semibold {{ request()->is('projects*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-           Our Projects
-        </a>
-
-        <!-- Clients -->
-        <a href="{{ route('client') }}"
-           class="block px-4 py-3 font-semibold {{ request()->is('client*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-           Clients
-        </a>
-
-        <!-- Careers Mobile Dropdown -->
-        <div x-data="{ open: false }">
-            <button @click="open = !open"
-                    class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center
-                        {{ request()->routeIs('careers.why') || request()->routeIs('careers.job') || request()->routeIs('careers.internship') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                Join Us
-                <svg class="w-4 h-4 ml-2 transform transition-transform duration-200"
-                     :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
-
-            <div x-show="open" x-transition class="bg-gray-50">
-                <a href="{{ route('careers.why') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('careers.why') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    Why Join Us
-                </a>
-                <a href="{{ route('careers.job') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('careers.job') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    Job Vacancy
-                </a>
-                <a href="{{ route('careers.internship') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('careers.internship') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    Internship
+            <div class="px-2 pt-2">
+                <div class="px-3 pt-3 pb-8 space-y-1"></div>
+                <a href="{{ route('home') }}"
+                class="block px-4 py-3 font-semibold rounded-lg {{ request()->is('/') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                    Home
                 </a>
             </div>
-        </div>
 
-        <!-- Gallery -->
-        <a href="{{ route('gallary.video') }}"
-           class="block px-4 py-3 font-semibold {{ request()->is('gallary.video') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-           Gallery
-        </a>
+            <div class="px-2">
+                <button @click="activeMenu = (activeMenu === 'services' ? null : 'services')"
+                        class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center transition-all duration-200 rounded-lg
+                            {{ request()->is('services*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                    Services
+                    <svg class="w-4 h-4 ml-2 transform transition-transform duration-200"
+                        :class="{ 'rotate-180': activeMenu === 'services' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="activeMenu === 'services'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" class="bg-gray-50/50 rounded-b-lg mx-2">
+                    <a href="{{ route('sIndex') }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">All Services</a>
+                    @foreach($mainServices as $service)
+                        <a href="{{ route('services.show', $service->slug) }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">{{ $service->title }}</a>
+                    @endforeach
+                </div>
+            </div>
 
-        <!-- About Us Mobile Dropdown -->
-        <div x-data="{ open: false }">
-            <button @click="open = !open"
-                    class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center
-                        {{ request()->routeIs('about') || request()->routeIs('contact.index') || request()->routeIs('howItWorks') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                About Us
-                <svg class="w-4 h-4 ml-2 transform transition-transform duration-200"
-                     :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
+            <div class="px-2">
+                <a href="{{ route('pIndex') }}"
+                class="block px-4 py-3 font-semibold rounded-lg {{ request()->is('projects*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                Our Projects
+                </a>
+            </div>
 
-            <div x-show="open" x-transition class="bg-gray-50">
-                <a href="{{ route('about') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('about') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+            <div class="px-2">
+                <a href="{{ route('client') }}"
+                class="block px-4 py-3 font-semibold rounded-lg {{ request()->is('client*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                Clients
+                </a>
+            </div>
+
+            <div class="px-2">
+                <button @click="activeMenu = (activeMenu === 'careers' ? null : 'careers')"
+                        class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center transition-all duration-200 rounded-lg
+                            {{ request()->is('careers*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                    Join Us
+                    <svg class="w-4 h-4 ml-2 transform transition-transform duration-200" :class="{ 'rotate-180': activeMenu === 'careers' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="activeMenu === 'careers'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" class="bg-gray-50/50 rounded-b-lg mx-2">
+                    <a href="{{ route('careers.why') }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">Why Join Us</a>
+                    <a href="{{ route('careers.job') }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">Job Vacancy</a>
+                </div>
+            </div>
+
+            <div class="px-2">
+                <a href="{{ route('gallary.video') }}"
+                class="block px-4 py-3 font-semibold rounded-lg {{ request()->is('gallary.video') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
+                Gallery
+                </a>
+            </div>
+
+            <div class="px-2">
+                <button @click="activeMenu = (activeMenu === 'about' ? null : 'about')"
+                        class="w-full text-left px-4 py-3 font-semibold flex justify-between items-center transition-all duration-200 rounded-lg
+                            {{ request()->is('about*') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
                     About Us
-                </a>
-                <a href="{{ route('contact.index') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('contact.index') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    Contact
-                </a>
-                <a href="{{ route('howItWorks') }}"
-                   class="block px-8 py-2 text-sm font-semibold {{ request()->routeIs('howItWorks') ? 'bg-indigo-600 text-white' : 'hover:bg-indigo-100 hover:text-indigo-700' }}">
-                    How We Work
+                    <svg class="w-4 h-4 ml-2 transform transition-transform duration-200" :class="{ 'rotate-180': activeMenu === 'about' }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="activeMenu === 'about'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" class="bg-gray-50/50 rounded-b-lg mx-2">
+                    <a href="{{ route('about') }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">About Us</a>
+                    <a href="{{ route('contact.index') }}" class="block px-8 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-100">Contact</a>
+                </div>
+            </div>
+
+            <div class="px-4 py-4">
+                <a href="{{ $profile }}" target="_blank" download
+                class="block w-full py-3 text-center rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">
+                    Download Profile
                 </a>
             </div>
         </div>
-
-        <!-- Download Profile (Mobile) -->
-<a href="{{ $profile ? asset('storage/'.$profile) : '#' }}"
-   download
-   class="block mx-4 my-4 px-4 py-3 text-center rounded-lg
-          bg-indigo-600 text-white font-semibold
-          hover:bg-indigo-700 transition duration-200 shadow-md">
-    Download Profile
-</a>
 
     </div>
-</header>
 
-<!-- Prevent content overlap -->
-{{-- <div class="pt-24"></div> --}}
+</header>
