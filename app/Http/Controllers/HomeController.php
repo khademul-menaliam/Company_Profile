@@ -130,6 +130,11 @@ class HomeController extends Controller
         return view('client', compact('clients', 'partners'));
         }
 
+
+    public function clientProjects($id) {
+        $projects = Project::where('client_id', $id)->get(['title', 'description', 'image', 'slug']);
+        return response()->json($projects);
+    }
     // public function show($slug) {
     //     return view('careers.show', compact('slug'));
     // }

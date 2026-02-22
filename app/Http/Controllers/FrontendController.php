@@ -55,4 +55,10 @@ class FrontendController extends Controller
         return back()->with('success', 'Your application has been submitted successfully!');
     }
 
+
+    public function site_map()
+    {
+        return view('site_map');
+    }
+
 }

@@ -42,11 +42,11 @@ class SiteSettingsController extends Controller
                 break;
 
             case 'image':
-                $rules['setting_value'] = 'required|image|max:2048'; // 2MB max
+                $rules['setting_value'] = 'required|image|max:20048'; // 2MB max
                 break;
 
             case 'file':
-                $rules['setting_value'] = 'required|mimes:pdf|max:10240'; // 10MB max
+                $rules['setting_value'] = 'required|mimes:pdf|max:40240'; // 10MB max
                 break;
 
             case 'boolean':
@@ -108,34 +108,77 @@ class SiteSettingsController extends Controller
         $setting = SiteSetting::findOrFail($id);
         return view('admin.siteSettings.edit', compact('setting'));
     }
-        public function update(Request $request, $id)
+    
+    public function update(Request $request, SiteSetting $setting)
     {
-        // Find the setting
-        $setting = SiteSetting::findOrFail($id);
+        $rules = [
+            'setting_key'  => 'required|string|max:255|unique:site_settings,setting_key,' . $setting->id,
+            'setting_type' => 'required|in:text,image,file,url,boolean',
+        ];
 
-        // Validate the incoming data
-        $validated = $request->validate([
-            'setting_key' => 'required|string|max:255|unique:site_settings,setting_key,' . $setting->id,
-            'setting_type' => 'required|in:text,image,url,boolean',
-            'setting_value' => 'required',
-        ]);
+        switch ($request->setting_type) {
+            case 'text':
+                $rules['setting_value'] = 'required|string';
+                break;
 
-        // Handle the image upload if the setting type is 'image'
-        if ($request->setting_type == 'image' && $request->hasFile('setting_value')) {
-            // Delete old image if exists
-            if ($setting->setting_value) {
-                Storage::delete($setting->setting_value);
+            case 'url':
+                $rules['setting_value'] = 'required|url';
+                break;
+
+            case 'image':
+                $rules['setting_value'] = 'nullable|image|max:2048';
+                break;
+
+            case 'file':
+                $rules['setting_value'] = 'nullable|mimes:pdf|max:10240';
+                break;
+
+            case 'boolean':
+                $rules['setting_value'] = 'required|boolean';
+                break;
+        }
+
+        $validated = $request->validate($rules);
+
+        // IMAGE UPDATE
+        if ($request->setting_type === 'image' && $request->hasFile('setting_value')) {
+
+            if ($setting->setting_value && file_exists(storage_path('app/public/'.$setting->setting_value))) {
+                unlink(storage_path('app/public/'.$setting->setting_value));
             }
 
-            // Store the new image
-            $path = $request->file('setting_value')->store('public/uploads/settings');
+            $path = $request->file('setting_value')
+                            ->store('uploads/settings/images', 'public');
+
             $validated['setting_value'] = $path;
         }
 
-        // Update the setting
+        // FILE UPDATE
+        if ($request->setting_type === 'file' && $request->hasFile('setting_value')) {
+
+            if ($setting->setting_value && file_exists(public_path($setting->setting_value))) {
+                unlink(public_path($setting->setting_value));
+            }
+
+            $file = $request->file('setting_value');
+            $settingKey = Str::slug($request->setting_key, '_');
+            $filename = 'AR-Engineering-' . $settingKey . '.' . $file->extension();
+
+            $destination = public_path('uploads/settings/files');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $file->move($destination, $filename);
+
+            $validated['setting_value'] = 'uploads/settings/files/' . $filename;
+        }
+
         $setting->update($validated);
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting updated successfully.');
+        return redirect()
+            ->route('admin.settings.index')
+            ->with('success', 'Setting updated successfully.');
     }
 
     public function destroy($id)

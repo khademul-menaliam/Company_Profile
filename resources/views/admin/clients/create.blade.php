@@ -37,6 +37,10 @@
             <label class="block font-medium">Phone</label>
             <input type="text" name="phone" value="{{ old('phone') }}" class="w-full border px-3 py-2 rounded">
         </div>
+        <div>
+            <label class="block font-medium">Website</label>
+            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://example.com" class="w-full border px-3 py-2 rounded">
+        </div>
 
         <div>
             <label class="block font-medium">Logo</label>

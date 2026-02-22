@@ -21,18 +21,19 @@
     <!-- Setting Key -->
     <div class="mb-4">
       <label class="block mb-1 font-semibold">Setting Key</label>
-      <input type="text" name="setting_key" class="w-full border rounded px-3 py-2" required placeholder="e.g., site_name">
+      <input type="text" name="setting_key" class="w-full border rounded px-3 py-2" placeholder="e.g., site_name">
     </div>
 
     <!-- Setting Type (Text, URL, Image, Boolean) -->
     <div class="mb-4">
       <label class="block mb-1 font-semibold">Setting Type</label>
-      <select name="setting_type" class="w-full border rounded px-3 py-2" required>
-<option value="text">Text</option>
-<option value="image">Image</option>
-<option value="file">File (PDF)</option>
-<option value="url">URL</option>
-<option value="boolean">Boolean</option>
+      <select name="setting_type" class="w-full border rounded px-3 py-2">
+
+        <option value="text">Text</option>
+        <option value="image">Image</option>
+        <option value="file">File (PDF)</option>
+        <option value="url">URL</option>
+        <option value="boolean">Boolean</option>
 
       </select>
     </div>
@@ -40,7 +41,7 @@
     <!-- Setting Value -->
     <div class="mb-4" id="text-value">
       <label class="block mb-1 font-semibold">Setting Value (Text)</label>
-      <input type="text" name="setting_value" class="w-full border rounded px-3 py-2" required placeholder="e.g., My Awesome Website">
+      <input type="text" name="setting_value" class="w-full border rounded px-3 py-2"  placeholder="e.g., My Awesome Website">
           @error('setting_value')
               <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
           @enderror
@@ -110,7 +111,7 @@
 </div>
 
 
-<script>
+{{-- <script>
   const typeSelect = document.querySelector('select[name="setting_type"]');
 
   function toggleFields(type) {
@@ -139,7 +140,44 @@
 
   // Trigger on page load
   toggleFields(typeSelect.value);
+</script> --}}
+
+
+<script>
+  const typeSelect = document.querySelector('select[name="setting_type"]');
+
+  const sections = {
+    text: document.querySelector('#text-value'),
+    image: document.querySelector('#image-value'),
+    file: document.querySelector('#file-value'),
+    url: document.querySelector('#url-value'),
+    boolean: document.querySelector('#boolean-value'),
+  };
+
+  function toggleFields(type) {
+
+    Object.keys(sections).forEach(key => {
+      const section = sections[key];
+      const input = section.querySelector('input, select');
+
+      section.classList.add('hidden');
+      input.disabled = true;
+    });
+
+    const activeSection = sections[type];
+    const activeInput = activeSection.querySelector('input, select');
+
+    activeSection.classList.remove('hidden');
+    activeInput.disabled = false;
+  }
+
+  typeSelect.addEventListener('change', function () {
+    toggleFields(this.value);
+  });
+
+  toggleFields(typeSelect.value);
 </script>
+
 
 @endsection
 

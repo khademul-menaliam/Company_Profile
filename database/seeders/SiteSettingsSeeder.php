@@ -3,41 +3,50 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\SiteSetting; // Import the SiteSetting model
+use App\Models\SiteSetting;
 
 class SiteSettingsSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // Using the SiteSetting model to insert data
-        SiteSetting::create([
-            'setting_key' => 'site_name',
-            'setting_value' => 'My Awesome Website',
-            'setting_type' => 'text',
-        ]);
+        $settings = [
+            [
+                'setting_key' => 'facebook',
+                'setting_type' => 'url',
+                'setting_value' => 'https://facebook.com/',
+            ],
+            [
+                'setting_key' => 'linkedin',
+                'setting_type' => 'url',
+                'setting_value' => 'https://linkedin.com/',
+            ],
+            [
+                'setting_key' => 'x',
+                'setting_type' => 'url',
+                'setting_value' => 'https://x.com/',
+            ],
+            [
+                'setting_key' => 'office_address',
+                'setting_type' => 'text',
+                'setting_value' => 'House No: 15, Road No: 01, Block: A, Dhaka 1212',
+            ],
+            [
+                'setting_key' => 'phone',
+                'setting_type' => 'text',
+                'setting_value' => '+880 1XXX-XXXXXX',
+            ],
+            [
+                'setting_key' => 'email',
+                'setting_type' => 'text',
+                'setting_value' => 'info@arengineeringbd.com',
+            ],
+        ];
 
-        SiteSetting::create([
-            'setting_key' => 'site_logo',
-            'setting_value' => 'logo.png', // You can use a default path or URL for the logo
-            'setting_type' => 'image',
-        ]);
-
-        SiteSetting::create([
-            'setting_key' => 'footer_text',
-            'setting_value' => '© 2025 My Company',
-            'setting_type' => 'text',
-        ]);
-
-        SiteSetting::create([
-            'setting_key' => 'social_facebook',
-            'setting_value' => 'https://facebook.com/mywebsite',
-            'setting_type' => 'url',
-        ]);
-
-        SiteSetting::create([
-            'setting_key' => 'social_twitter',
-            'setting_value' => 'https://twitter.com/mywebsite',
-            'setting_type' => 'url',
-        ]);
+        foreach ($settings as $setting) {
+            SiteSetting::updateOrCreate(
+                ['setting_key' => $setting['setting_key']],
+                $setting
+            );
+        }
     }
 }

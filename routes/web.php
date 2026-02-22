@@ -44,6 +44,13 @@ Route::post('/career/apply/{type}/{id}', [FrontendController::class, 'submitAppl
 
 Route::get('/applications', [CareerController::class, 'viewApplications'])->name('admin.applications.index');
 
+Route::get('/site_map', [FrontendController::class, 'site_map'])->name('site_map.index');
+
+Route::get('/clients/{id}/projects', [HomeController::class, 'clientProjects']);
+
+
+// --------------end 21-2-26
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
