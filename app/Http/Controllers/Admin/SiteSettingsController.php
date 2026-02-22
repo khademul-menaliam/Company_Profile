@@ -7,7 +7,7 @@ use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\File;
 class SiteSettingsController extends Controller
 {
     public function index()
@@ -58,9 +58,25 @@ class SiteSettingsController extends Controller
 
         // Handle image upload
         if ($request->setting_type === 'image' && $request->hasFile('setting_value')) {
-            $path = $request->file('setting_value')
-                            ->store('uploads/settings/images', 'public');
-            $validated['setting_value'] = $path;
+            $file = $request->file('setting_value');
+
+            // Sanitize setting key (e.g., site_logo)
+            $settingKey = Str::slug($request->setting_key, '_');
+
+            // Build filename: AR-Engineering-site_logo.jpg
+            $filename = 'AR-Engineering-' . $settingKey . '.' . $file->extension();
+
+            // Ensure destination exists
+            $destination = public_path('uploads/settings/images');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Move file
+            $file->move($destination, $filename);
+
+            // Save relative public path
+            $validated['setting_value'] = 'uploads/settings/images/' . $filename;
         }
 
 
@@ -108,7 +124,7 @@ class SiteSettingsController extends Controller
         $setting = SiteSetting::findOrFail($id);
         return view('admin.siteSettings.edit', compact('setting'));
     }
-    
+
     public function update(Request $request, SiteSetting $setting)
     {
         $rules = [
@@ -140,39 +156,43 @@ class SiteSettingsController extends Controller
 
         $validated = $request->validate($rules);
 
-        // IMAGE UPDATE
-        if ($request->setting_type === 'image' && $request->hasFile('setting_value')) {
 
-            if ($setting->setting_value && file_exists(storage_path('app/public/'.$setting->setting_value))) {
-                unlink(storage_path('app/public/'.$setting->setting_value));
-            }
 
-            $path = $request->file('setting_value')
-                            ->store('uploads/settings/images', 'public');
+    if ($request->hasFile('setting_value')) {
+        $file = $request->file('setting_value');
 
-            $validated['setting_value'] = $path;
+        // Sanitize setting key (e.g., site_logo or company_profile)
+        $settingKey = Str::slug($request->setting_key, '_');
+
+        // Decide folder & extension
+        if ($request->setting_type === 'image') {
+            $folder = 'uploads/settings/images';
+        } elseif ($request->setting_type === 'file') {
+            $folder = 'uploads/settings/files';
+        } else {
+            $folder = 'uploads/settings/others';
         }
 
-        // FILE UPDATE
-        if ($request->setting_type === 'file' && $request->hasFile('setting_value')) {
-
-            if ($setting->setting_value && file_exists(public_path($setting->setting_value))) {
-                unlink(public_path($setting->setting_value));
-            }
-
-            $file = $request->file('setting_value');
-            $settingKey = Str::slug($request->setting_key, '_');
-            $filename = 'AR-Engineering-' . $settingKey . '.' . $file->extension();
-
-            $destination = public_path('uploads/settings/files');
-            if (!file_exists($destination)) {
-                mkdir($destination, 0755, true);
-            }
-
-            $file->move($destination, $filename);
-
-            $validated['setting_value'] = 'uploads/settings/files/' . $filename;
+        // Ensure destination exists
+        $destination = public_path($folder);
+        if (!file_exists($destination)) {
+            mkdir($destination, 0755, true);
         }
+
+        // Build filename: AR-Engineering-site_logo.jpg
+        $filename = 'AR-Engineering-' . $settingKey . '.' . $file->extension();
+
+        // Delete old file if updating
+        if (!empty($setting->setting_value) && File::exists(public_path($setting->setting_value))) {
+            File::delete(public_path($setting->setting_value));
+        }
+
+        // Move new file
+        $file->move($destination, $filename);
+
+        // Save relative public path
+        $validated['setting_value'] = $folder . '/' . $filename;
+    }
 
         $setting->update($validated);
 

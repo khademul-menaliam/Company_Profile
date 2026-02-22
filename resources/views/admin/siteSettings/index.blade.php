@@ -38,7 +38,7 @@
               {{-- VALUE COLUMN --}}
                 <td class="py-2 px-3">
                     @if($setting->setting_type == 'image' && $setting->setting_value)
-                        <img src="{{ asset('storage/'.$setting->setting_value) }}" class="h-10 rounded">
+                        <img src="{{ asset($setting->setting_value) }}" class="h-10 rounded">
                     @elseif($setting->setting_type == 'file' && $setting->setting_value)
                         {{-- Show a PDF icon and filename --}}
                         <a href="{{ asset($setting->setting_value) }}" target="_blank" class="inline-flex items-center space-x-1 text-indigo-600 hover:underline">

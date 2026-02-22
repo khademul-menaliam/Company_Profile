@@ -40,6 +40,16 @@ class SiteSettingsSeeder extends Seeder
                 'setting_type' => 'text',
                 'setting_value' => 'info@arengineeringbd.com',
             ],
+            [
+                'setting_key' => 'workflow',
+                'setting_type' => 'image',
+                'setting_value' => 'workflow/image.png',
+            ],
+            [
+                'setting_key' => 'company_profile',
+                'setting_type' => 'file',
+                'setting_value' => 'company_profile.pdf',
+            ],
         ];
 
         foreach ($settings as $setting) {
