@@ -1,0 +1,29 @@
+**Critical Fixes (Bugs / Breaking)**
+- `ProjectController@show` doesn’t match the `Route::resource('projects')` signature: the route is `admin/projects/{project}` but the method expects a slug and does a `where('slug', ...)`. Fix by using route-model binding (`show(Project $project)`) or adding slug binding via `Project::getRouteKeyName()` and updating the route param. [ProjectController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/ProjectController.php)
+- `project_images` schema/code mismatch: migration creates `path`, but model/controllers use `image`. Either rename the DB column or update code to use `path`. [create_project_images_table.php](c:/Users/khademul/Herd/Company_Profile/database/migrations/2025_10_04_072508_create_project_images_table.php) [ProjectImage.php](c:/Users/khademul/Herd/Company_Profile/app/Models/ProjectImage.php) [ProjectController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/ProjectController.php)
+- Admin profile update has a validation typo and won’t store photo: `min-6` should be `min:6`, and `profile_photo` isn’t fillable on `User`, so `$user->update($validated)` won’t persist it. Also consider deleting the old photo on replace. [UserController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/UserController.php) [User.php](c:/Users/khademul/Herd/Company_Profile/app/Models/User.php)
+- `CompanySectionController` uses `section = 'messages'` but calculates sort order with `where('section', 'message')`. That will mis-order or reset sorting. [CompanySectionController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/CompanySectionController.php)
+
+**File Upload + Storage Consistency (Currently Inconsistent, Causes Undeleted Files)**
+- Standardize uploads on `Storage::disk('public')->putFile(...)` (or all on `public_path`, but pick one). Right now some controllers write to `public/...` but delete from `storage` disk, so old files won’t be removed:
+  - Gallery: `store()` uses `public_path('gallery')`, `update()/destroy()` use `Storage::disk('public')`. [GalleryController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/GalleryController.php)
+  - Services: `store()` saves under `public/images`, `update()` saves under `storage/uploads/services` and prefixes `storage/`, delete is commented out. [ServiceController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/ServiceController.php)
+  - Site settings: saves to `public/uploads/...` via `move()`, but `destroy()` tries `Storage::disk('public')`. [SiteSettingsController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/SiteSettingsController.php)
+
+**Security / Access Control Improvements**
+- Add throttling and spam protection to public POST endpoints (`/contact`, `/career/apply/...`) and consider storing resumes on a private disk with controlled downloads (resumes currently go to `public`). [web.php](c:/Users/khademul/Herd/Company_Profile/routes/web.php) [FrontendController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/FrontendController.php) [ContactController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin/ContactController.php)
+- Remove (or tightly restrict) GET logout; prefer POST-only logout to reduce CSRF risk. [auth.php](c:/Users/khademul/Herd/Company_Profile/routes/auth.php)
+- Your “admin advisors/team-members” route groups currently have no auth/role middleware (in your current setup they’re publicly reachable). If that’s not intentional, wrap them in the same admin middleware group. [web.php](c:/Users/khademul/Herd/Company_Profile/routes/web.php)
+
+**Data Integrity Improvements**
+- `projects.client_id` has no foreign key. Add a migration to convert it to `foreignId()->nullable()->constrained('clients')->nullOnDelete()` (or `cascadeOnDelete` if you want). [create_projects_table.php](c:/Users/khademul/Herd/Company_Profile/database/migrations/2025_10_04_072506_create_projects_table.php)
+
+**Maintainability Improvements**
+- Replace repeated inline validation with FormRequest classes for each resource (`StoreProjectRequest`, `UpdateProjectRequest`, etc.). This will shrink controllers and make rules reusable. [app/Http/Requests](c:/Users/khademul/Herd/Company_Profile/app/Http/Requests)
+- Remove “copy” files from production code (`ProjectController copy.php`, `SiteSettingsController copy.php`, `routes/web copy*.php`) to reduce confusion and drift. [routes](c:/Users/khademul/Herd/Company_Profile/routes) [Admin controllers](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/Admin)
+
+**Performance + Testing**
+- Use pagination on public listings that could grow (`projects`, `clients`, `gallery`) and avoid `Model::all()` on frontend routes. [HomeController.php](c:/Users/khademul/Herd/Company_Profile/app/Http/Controllers/HomeController.php)
+- Add feature tests for: admin route protection, project CRUD (including gallery), file upload/delete behavior, contact + career apply validation/throttling. Current tests are mostly default. [tests](c:/Users/khademul/Herd/Company_Profile/tests)
+
+If you want, I can take the top 3 “Critical Fixes” and implement them cleanly (with migrations where needed) without changing your URLs.
