@@ -45,7 +45,11 @@ class HomeController extends Controller
                 ->orderBy('sort_order')
                 ->get();
 
-            return view('home', compact('services', 'projects','clients','partners','messages'));
+            $history = CompanySection::where('section', 'history')
+                ->where('status', true)
+                ->first();
+
+            return view('home', compact('services', 'projects','clients','partners','messages', 'history'));
         }
     public function services()
         {

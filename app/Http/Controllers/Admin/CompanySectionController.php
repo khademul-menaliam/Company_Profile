@@ -9,10 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class CompanySectionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sections = CompanySection::orderBy('sort_order')->get();
-        return view('admin.companyMessage.index', compact('sections'));
+        $query = CompanySection::orderBy('sort_order');
+
+        if ($request->filled('section')) {
+            $query->where('section', $request->section);
+        }
+
+        $sections = $query->get();
+        $sectionNames = CompanySection::distinct()->pluck('section');
+
+        return view('admin.companyMessage.index', compact('sections', 'sectionNames'));
     }
 
     public function create()
@@ -31,11 +39,15 @@ public function store(Request $request)
         'status'   => 'required|boolean',
     ]);
 
-    // FORCE section = message
-    $data['section'] = 'messages';
+    // Use related section name (e.g., if type is ceo/advisor use 'messages', otherwise use type)
+    if (in_array($data['type'], ['ceo', 'advisor'])) {
+        $data['section'] = 'messages';
+    } else {
+        $data['section'] = $data['type'];
+    }
 
     // AUTO sort order (last + 1)
-    $data['sort_order'] = CompanySection::where('section', 'message')
+    $data['sort_order'] = CompanySection::where('section', $data['section'])
         ->max('sort_order') + 1;
 
     if ($request->hasFile('image')) {
@@ -66,8 +78,12 @@ public function update(Request $request, CompanySection $companySection)
         'status'   => 'required|boolean',
     ]);
 
-    // section always message
-    $data['section'] = 'messages';
+    // Use related section name
+    if (in_array($data['type'], ['ceo', 'advisor'])) {
+        $data['section'] = 'messages';
+    } else {
+        $data['section'] = $data['type'];
+    }
 
     if ($request->hasFile('image')) {
         // delete old image

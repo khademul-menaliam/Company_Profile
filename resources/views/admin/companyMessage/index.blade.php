@@ -5,10 +5,25 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Company Sections</h1>
-        <a href="{{ route('admin.company-sections.create') }}"
-           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-           Add Section
-        </a>
+
+        <div class="flex items-center gap-4">
+            <form action="{{ route('admin.company-sections.index') }}" method="GET" class="flex items-center gap-2">
+                <label class="text-sm font-medium">Filter by Section:</label>
+                <select name="section" onchange="this.form.submit()" class="border p-2 rounded text-sm capitalize">
+                    <option value="">All Sections</option>
+                    @foreach($sectionNames as $name)
+                        <option value="{{ $name }}" {{ request('section') == $name ? 'selected' : '' }}>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
+            <a href="{{ route('admin.company-sections.create') }}"
+               class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+               Add Section
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
