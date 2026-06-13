@@ -12,8 +12,6 @@
         @csrf
         @method('PUT')
 
-        {{-- SECTION (always message) --}}
-        <input type="hidden" name="section" value="message">
 
         {{-- Title --}}
         <div class="w-full">

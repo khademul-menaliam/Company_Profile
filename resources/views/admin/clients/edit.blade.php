@@ -40,6 +40,15 @@
         </div>
 
         <div>
+            <label class="block font-medium">Website</label>
+            <input type="url"
+                name="website"
+                value="{{ old('website', $client->website) }}"
+                placeholder="https://example.com"
+                class="w-full border px-3 py-2 rounded">
+        </div>
+
+        <div>
             <label class="block font-medium">Logo</label>
             <input type="file" name="logo" class="w-full border px-3 py-2 rounded">
             @if($client->logo)

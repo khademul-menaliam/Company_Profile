@@ -46,16 +46,24 @@
 <section class="py-16">
     <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
-            <img src="{{ asset('images/hero2.jpg') }}" alt="Company History" class="rounded shadow-lg">
+            <img src="{{ isset($history) && $history->image ? asset('storage/'.$history->image) : asset('images/hero2.jpg') }}" 
+                 alt="{{ $history->title ?? 'Company History' }}" 
+                 class="rounded shadow-lg w-full h-auto object-cover">
         </div>
         <div class="md:w-1/2">
-            <h2 class="text-3xl font-bold mb-4">Our History</h2>
-            <p class="text-gray-700 leading-relaxed mb-2">
-                AR Engineering was founded in [Year] with a vision to provide top-notch industrial engineering solutions. Over the years, we have successfully completed numerous projects in MEP design, fire safety, HVAC, boilers, and more.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                Our commitment to innovation and excellence has made us a trusted partner for industrial clients across Bangladesh.
-            </p>
+            <h2 class="text-3xl font-bold mb-4">{{ $history->title ?? 'Our History' }}</h2>
+            @if(isset($history) && $history->content)
+                <div class="text-gray-700 leading-relaxed">
+                    {!! $history->content !!}
+                </div>
+            @else
+                <p class="text-gray-700 leading-relaxed mb-2">
+                    AR Engineering was founded in [Year] with a vision to provide top-notch industrial engineering solutions. Over the years, we have successfully completed numerous projects in MEP design, fire safety, HVAC, boilers, and more.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    Our commitment to innovation and excellence has made us a trusted partner for industrial clients across Bangladesh.
+                </p>
+            @endif
         </div>
     </div>
 </section>

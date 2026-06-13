@@ -3,13 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CareerApplication;
+use Illuminate\Http\Request;
 use App\Models\CareerJob;
 use App\Models\CareerInternship;
 use App\Models\CareerPage;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CareerController extends Controller
 {
+    private function getModel($type)
+    {
+        return match ($type) {
+            'job'        => new CareerJob(),
+            'internship' => new CareerInternship(),
+            'page'       => new CareerPage(),
+            default      => abort(404),
+        };
+    }
+
     public function index()
     {
         $jobs = CareerJob::latest()->get();
@@ -25,49 +37,77 @@ class CareerController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'type' => 'required|in:job,internship',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'nullable|string|max:255',
-            'deadline' => 'nullable|date',
-        ]);
+        $type = $request->input('category');
+        $model = $this->getModel($type);
 
-        if ($validated['type'] === 'job') {
-            CareerJob::create($validated);
-        } else {
-            CareerInternship::create($validated);
-        }
+        $rules = [
+            'title'        => 'required|string|max:255',
+            'location'     => 'nullable|string',
+            'description'  => 'required',
+            'requirements' => 'nullable',
+            'benefits'     => 'nullable',
+            'deadline'     => 'nullable|date',
+        ];
 
-        return redirect()->route('admin.career.index')->with('success', 'Career item added successfully.');
+        if ($type === 'job') $rules['type'] = 'required|in:full-time,part-time,contract';
+        if ($type === 'internship') $rules['duration'] = 'nullable|string';
+
+        $validated = $request->validate($rules);
+        $validated['slug'] = Str::slug($request->title) . '-' . time();
+
+        $model->create($validated);
+        return redirect()->route('admin.career.index')->with('success', 'Created successfully.');
     }
 
     public function edit($type, $id)
     {
-        $model = $type === 'job' ? CareerJob::findOrFail($id) : CareerInternship::findOrFail($id);
-        return view('admin.career.edit', compact('model', 'type'));
+        $item = $this->getModel($type)->findOrFail($id);
+        return view('admin.career.edit', compact('item', 'type'));
     }
 
     public function update(Request $request, $type, $id)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'nullable|string|max:255',
-            'deadline' => 'nullable|date',
-        ]);
+        $item = $this->getModel($type)->findOrFail($id);
+        $rules = ['title' => 'required|string|max:255'];
 
-        $model = $type === 'job' ? CareerJob::findOrFail($id) : CareerInternship::findOrFail($id);
-        $model->update($validated);
+        if ($type === 'page') {
+            $rules += ['subtitle' => 'nullable|string', 'content' => 'required'];
+        } else {
+            $rules += [
+                'location'     => 'nullable|string',
+                'description'  => 'required',
+                'requirements' => 'nullable',
+                'benefits'     => 'nullable',
+                'deadline'     => 'nullable|date',
+                'status'       => 'required',
+            ];
+            if ($type === 'job') $rules['type'] = 'required|in:full-time,part-time,contract';
+            if ($type === 'internship') $rules['duration'] = 'nullable|string';
+        }
 
-        return redirect()->route('admin.career.index')->with('success', 'Career item updated successfully.');
+        $validated = $request->validate($rules);
+        if ($type !== 'page' && $item->title !== $request->title) {
+            $validated['slug'] = Str::slug($request->title) . '-' . time();
+        }
+
+        $item->update($validated);
+        return redirect()->route('admin.career.index')->with('success', 'Updated successfully.');
     }
 
     public function destroy($type, $id)
     {
-        $model = $type === 'job' ? CareerJob::findOrFail($id) : CareerInternship::findOrFail($id);
-        $model->delete();
-
-        return back()->with('success', 'Career item deleted.');
+        $this->getModel($type)->findOrFail($id)->delete();
+        return redirect()->route('admin.career.index')->with('success', 'Deleted successfully.');
     }
+
+    public function viewApplications()
+    {
+    $applications = CareerApplication::with(['job', 'internship'])
+                        ->latest()
+                        ->get();
+
+    return view('admin.career.application.index', compact('applications'));
+    }
+
+
 }

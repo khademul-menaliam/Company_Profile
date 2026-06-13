@@ -248,6 +248,23 @@
             {{ request()->routeIs('admin.messages.*') ? 'bg-indigo-600' : '' }}">
                 <i class="fas fa-envelope"></i> Messages
             </a>
+            {{-- application --}}
+<a href="{{ route('admin.applications.index') }}"
+   class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-indigo-600 transition
+   {{ request()->routeIs('admin.applications.*') ? 'bg-indigo-600' : '' }}">
+    <div class="flex items-center gap-2">
+        <i class="fas fa-file-alt"></i> Applications
+    </div>
+    @php
+        $appCount = \App\Models\CareerApplication::count();
+    @endphp
+    @if($appCount > 0)
+        <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+            {{ $appCount }}
+        </span>
+    @endif
+</a>
+
             <!-- `gallery -->
             <a href="{{ route('admin.gallery.index') }}"
             class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-600 transition

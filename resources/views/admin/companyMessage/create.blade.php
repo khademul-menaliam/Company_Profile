@@ -11,8 +11,6 @@
           class="bg-white p-6 rounded shadow space-y-6">
         @csrf
 
-        {{-- SECTION (always message) --}}
-        <input type="hidden" name="section" value="message">
 
         {{-- Title --}}
         <div class="w-full">

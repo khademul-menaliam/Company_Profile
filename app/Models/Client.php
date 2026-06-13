@@ -15,5 +15,6 @@ class Client extends Model
         'phone',
         'company',
         'logo',
+        'website',
     ];
 }

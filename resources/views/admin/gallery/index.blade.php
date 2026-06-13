@@ -45,14 +45,16 @@
 
                         <td class="py-3 px-4 border-b">
                             @if($item->isVideo())
-                                <video class="w-24 h-16 rounded border" muted>
-                                    <source src="{{ asset('storage/'.$item->image) }}">
+                                <video class="w-24 h-16 rounded border" controls muted>
+                                    <source src="{{ asset($item->image) }}" type="{{ $item->getMimeType() }}">
+                                    Your browser does not support the video tag or this video format.
                                 </video>
                             @else
-                                <img src="{{ asset('storage/'.$item->image) }}"
-                                     class="w-24 h-16 object-cover rounded border">
+                                <img src="{{ asset($item->image) }}"
+                                    class="w-24 h-16 object-cover rounded border">
                             @endif
                         </td>
+
 
                         <td class="py-3 px-4 border-b">
                             @if($item->status)
