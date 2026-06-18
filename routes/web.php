@@ -139,6 +139,10 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('profile', [UserController::class, 'profileEdit'])->name('admin.profile');
         Route::put('profile', [UserController::class, 'profileUpdate'])->name('admin.profile.update');
+
+        Route::match(['get', 'head'], '/', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
     });
 
     /*
@@ -149,10 +153,6 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth', 'role:Owner|Admin|Developer'])
         ->name('admin.')
         ->group(function () {
-
-        Route::match(['get', 'head'], '/', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
 
         // OWNER ONLY
         Route::middleware('role:Owner|Admin|Developer')->group(function () {

@@ -21,7 +21,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -30,20 +31,26 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
+            'role' => 'nullable|string|exists:roles,name',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        if ($request->role) {
+            $user->assignRole($request->role);
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $roles = Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
@@ -52,6 +59,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:6',
+            'role' => 'nullable|string|exists:roles,name',
         ]);
 
         $user->name = $request->name;
@@ -60,6 +68,12 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
+        if ($request->role) {
+            $user->syncRoles([$request->role]);
+        } else {
+            $user->syncRoles([]);
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
