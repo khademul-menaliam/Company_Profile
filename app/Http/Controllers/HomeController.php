@@ -45,12 +45,18 @@ class HomeController extends Controller
                 ->orderBy('sort_order')
                 ->get();
 
+            $hero_sliders = CompanySection::where('section', 'hero_slider')
+                ->where('status', true)
+                ->orderBy('sort_order', 'asc')
+                ->get();
+
             $history = CompanySection::where('section', 'history')
                 ->where('status', true)
                 ->first();
 
-            return view('home', compact('services', 'projects','clients','partners','messages', 'history'));
+            return view('home', compact('services', 'projects','clients','partners','messages', 'history', 'hero_sliders'));
         }
+        
     public function services()
         {
             $services = Service::where('status', true)
@@ -165,8 +171,12 @@ class HomeController extends Controller
         ->orderBy('id')
         ->get();
 
+        // Fetch About Page details
+        $aboutUs = CompanySection::where('section', 'about_page')->where('type', 'about_us')->where('status', true)->first();
+        $coreValues = CompanySection::where('section', 'about_page')->where('type', 'core_values')->where('status', true)->first();
+
         // Pass to view
-        return view('about', compact('ceo', 'advisors','teamMembers','messages'));
+        return view('about', compact('ceo', 'advisors','teamMembers','messages', 'aboutUs', 'coreValues'));
     }
 
 }

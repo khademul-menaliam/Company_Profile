@@ -210,15 +210,15 @@
                 </div>
             </div>
 
-            <!-- Company Message -->
+            <!-- Page Settings -->
             <div>
-                <button @click="openMenu = (openMenu === 'company_message' ? '' : 'company_message')"
+                <button @click="openMenu = (openMenu === 'page_settings' ? '' : 'page_settings')"
                         class="w-full flex justify-between items-center py-2 px-3 rounded-lg transition
-                        hover:bg-indigo-600 {{ $openMenu === 'company_message' ? 'bg-indigo-600' : '' }}">
+                        hover:bg-indigo-600 {{ $openMenu === 'page_settings' ? 'bg-indigo-600' : '' }}">
                     <span class="flex items-center gap-2">
-                        <i class="fas fa-building"></i> Company Message
+                        <i class="fas fa-file-alt"></i> Page Settings
                     </span>
-                    <svg :class="openMenu === 'company_message' ? 'rotate-90' : ''"
+                    <svg :class="openMenu === 'page_settings' ? 'rotate-90' : ''"
                         class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -226,17 +226,23 @@
                     </svg>
                 </button>
 
-                <div x-show="openMenu === 'company_message'" x-transition class="ml-6 mt-1 space-y-1">
-                    <a href="{{ route('admin.company-sections.index') }}"
+                <div x-show="openMenu === 'page_settings'" x-transition class="ml-6 mt-1 space-y-1">
+                    <a href="{{ route('admin.home-page-details.index') }}"
                     class="block px-3 py-1 rounded hover:bg-indigo-500
-                    {{ request()->routeIs('admin.company-sections.index') ? 'bg-indigo-500' : '' }}">
-                        All Messages
+                    {{ request()->routeIs('admin.home-page-details.index') ? 'bg-indigo-500' : '' }}">
+                        Home Page Details
                     </a>
 
-                    <a href="{{ route('admin.company-sections.create') }}"
+                    <a href="{{ route('admin.about-page-details.index') }}"
                     class="block px-3 py-1 rounded hover:bg-indigo-500
-                    {{ request()->routeIs('admin.company-sections.create') ? 'bg-indigo-500' : '' }}">
-                        Add Message
+                    {{ request()->routeIs('admin.about-page-details.index') ? 'bg-indigo-500' : '' }}">
+                        About Page Details
+                    </a>
+
+                    <a href="{{ route('admin.company-sections.index') }}"
+                    class="block px-3 py-1 rounded hover:bg-indigo-500
+                    {{ request()->routeIs('admin.company-sections.*') ? 'bg-indigo-500' : '' }}">
+                        Hero Sliders
                     </a>
                 </div>
             </div>

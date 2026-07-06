@@ -36,8 +36,7 @@
                 <option value="">Select Type</option>
                 <option value="ceo" {{ old('type', $companySection->type) == 'ceo' ? 'selected' : '' }}>CEO Message</option>
                 <option value="advisor" {{ old('type', $companySection->type) == 'advisor' ? 'selected' : '' }}>Advisor Message</option>
-                <option value="history" {{ old('type', $companySection->type) == 'history' ? 'selected' : '' }}>Company History</option>
-                <option value="about" {{ old('type', $companySection->type) == 'about' ? 'selected' : '' }}>About Us</option>
+                <option value="history" {{ old('type', $companySection->type) == 'history' ? 'selected' : '' }}>About Us</option>
                 <option value="philosophy" {{ old('type', $companySection->type) == 'philosophy' ? 'selected' : '' }}>Our Philosophy</option>
                 <option value="strengths" {{ old('type', $companySection->type) == 'strengths' ? 'selected' : '' }}>Our Strengths</option>
             </select>

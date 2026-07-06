@@ -35,8 +35,7 @@
                 <option value="">Select Type</option>
                 <option value="ceo">CEO Message</option>
                 <option value="advisor">Advisor Message</option>
-                <option value="history">Company History</option>
-                <option value="about">About Us</option>
+                <option value="history">About Us</option>
                 <option value="philosophy">Our Philosophy</option>
                 <option value="strengths">Our Strengths</option>
             </select>
