@@ -27,8 +27,13 @@
                name="files[]"
                multiple
                accept="image/*,video/*"
-               class="w-full border px-3 py-2 rounded"
-               required>
+               class="w-full border px-3 py-2 rounded">
+        <p class="text-sm text-gray-500 mt-1">Upload multiple files from your computer.</p>
+    </div>
+
+    <div>
+        <label class="block font-medium text-gray-700">Or Add Vimeo URLs</label>
+        <textarea name="vimeo_urls" rows="3" class="w-full border px-3 py-2 rounded" placeholder="https://player.vimeo.com/video/123456789&#10;Enter one URL per line for multiple videos."></textarea>
     </div>
 
     <div>

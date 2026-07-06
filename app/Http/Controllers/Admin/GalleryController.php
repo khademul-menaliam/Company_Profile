@@ -24,11 +24,14 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg,avi|max:200480',
+            'files' => 'nullable|array',
+            'files.*' => 'file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg,avi|max:200480',
+            'vimeo_urls' => 'nullable|string',
             'title'   => 'nullable|string|max:255',
             'status'  => 'required|boolean',
         ]);
 
+        if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('gallery'), $filename);
@@ -39,11 +42,27 @@ class GalleryController extends Controller
                     'status' => $request->status,
                 ]);
             }
+        }
 
+        if ($request->filled('vimeo_urls')) {
+            $urls = array_filter(array_map('trim', explode("\n", $request->vimeo_urls)));
+            foreach ($urls as $url) {
+                // Convert standard Vimeo link to player embed link if needed
+                if (preg_match('/vimeo\.com\/(?:video\/)?(\d+)/', $url, $matches)) {
+                    $url = 'https://player.vimeo.com/video/' . $matches[1];
+                }
+
+                GalleryItem::create([
+                    'image'  => $url,
+                    'title'  => $request->title,
+                    'status' => $request->status,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.gallery.index')
-            ->with('success', 'Gallery files uploaded successfully');
+            ->with('success', 'Gallery items added successfully');
     }
 
     public function edit(GalleryItem $gallery)
@@ -54,18 +73,27 @@ class GalleryController extends Controller
     public function update(Request $request, GalleryItem $gallery)
     {
         $request->validate([
-            'image'  => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg|max:20480',
+            'image'  => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm,ogg,avi|max:20480',
+            'vimeo_url' => 'nullable|url',
             'title'  => 'nullable|string|max:255',
             'status' => 'required|boolean',
         ]);
 
         if ($request->hasFile('image')) {
-
-            if (Storage::disk('public')->exists($gallery->image)) {
+            if (Storage::disk('public')->exists($gallery->image) && !str_contains($gallery->image, 'vimeo.com')) {
                 Storage::disk('public')->delete($gallery->image);
             }
-
             $gallery->image = $request->file('image')->store('gallery', 'public');
+        } elseif ($request->filled('vimeo_url')) {
+            if (Storage::disk('public')->exists($gallery->image) && !str_contains($gallery->image, 'vimeo.com')) {
+                Storage::disk('public')->delete($gallery->image);
+            }
+            
+            $url = $request->vimeo_url;
+            if (preg_match('/vimeo\.com\/(?:video\/)?(\d+)/', $url, $matches)) {
+                $url = 'https://player.vimeo.com/video/' . $matches[1];
+            }
+            $gallery->image = $url;
         }
 
         $gallery->title  = $request->title;

@@ -18,8 +18,10 @@
     lightboxOpen: false, 
     activeSrc: '', 
     isVideo: false,
+    isVimeo: false,
     openLightbox(src) { 
         this.activeSrc = src; 
+        this.isVimeo = src.includes('vimeo.com');
         // Check if it's a video by extension
         this.isVideo = ['mp4','webm','ogg','avi'].some(ext => src.toLowerCase().endsWith(ext));
         this.lightboxOpen = true; 
@@ -29,6 +31,7 @@
         this.lightboxOpen = false; 
         this.activeSrc = ''; 
         this.isVideo = false;
+        this.isVimeo = false;
         document.body.classList.remove('overflow-hidden');
     }
 }">
@@ -36,6 +39,7 @@
     <div class="container mx-auto px-6">
 
         @php
+            // Regular file videos go to $videos. Vimeo links go to $images (Projects & Photos)
             $images = $galleryItems->filter(fn($item) => !$item->isVideo());
             $videos = $galleryItems->filter(fn($item) => $item->isVideo());
         @endphp
@@ -47,13 +51,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 @foreach($images as $item)
                 <div class="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
-                     @click="openLightbox('{{ asset($item->image) }}')">
+                     @click="openLightbox('{{ str_contains($item->image, 'vimeo.com') ? $item->image : asset($item->image) }}')">
                     
                     <div class="relative overflow-hidden h-64">
-                         <img src="{{ asset($item->image) }}" 
-                              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                         @if(str_contains($item->image, 'vimeo.com'))
+                             <!-- Block iframe clicks -->
+                             <div class="absolute inset-0 z-10"></div>
+                             <iframe src="{{ $item->image }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen class="w-full h-full object-cover"></iframe>
+                         @else
+                             <img src="{{ asset($item->image) }}" 
+                                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                         @endif
                          
-                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
                             <svg class="w-10 h-10 text-white opacity-90 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                          </div>
                     </div>
@@ -70,12 +80,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($videos as $item)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
-                     @click="openLightbox('{{ asset($item->image) }}')">
-                    <div class="aspect-w-16 aspect-h-9">
-                        <video controls class="w-full h-full object-cover">
-                            <source src="{{ asset($item->image) }}" type="{{ $item->getMimeType() }}">
-                            Your browser does not support the video tag.
-                        </video>
+                     @click="openLightbox('{{ str_contains($item->image, 'vimeo.com') ? $item->image : asset($item->image) }}')">
+                    <div class="aspect-w-16 aspect-h-9 relative overflow-hidden h-64">
+                        @if(str_contains($item->image, 'vimeo.com'))
+                            <!-- Block clicks on iframe so the parent div can handle the Alpine @click -->
+                            <div class="absolute inset-0 z-10"></div>
+                            <iframe src="{{ $item->image }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen class="w-full h-full object-cover"></iframe>
+                        @else
+                            <video class="w-full h-full object-cover">
+                                <source src="{{ asset($item->image) }}" type="{{ $item->getMimeType() ?? 'video/mp4' }}">
+                                Your browser does not support the video tag.
+                            </video>
+                        @endif
                     </div>
                     <div class="p-4 bg-gray-50 flex items-center justify-center">
                          <span class="text-sm font-semibold text-gray-600 flex items-center gap-2">
@@ -123,10 +139,13 @@
 
         <!-- Content -->
         <div class="relative max-w-7xl w-full h-full flex items-center justify-center p-2" @click.outside="closeLightbox()">
-            <template x-if="isVideo">
+            <template x-if="isVimeo">
+                <iframe x-bind:src="activeSrc" class="w-full max-w-4xl aspect-video rounded-lg shadow-2xl" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </template>
+            <template x-if="isVideo && !isVimeo">
                 <video x-bind:src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain" controls autoplay></video>
             </template>
-            <template x-if="!isVideo">
+            <template x-if="!isVideo && !isVimeo">
                 <img x-bind:src="activeSrc" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain">
             </template>
         </div>
