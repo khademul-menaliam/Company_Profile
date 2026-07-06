@@ -386,24 +386,35 @@ function heroSlider() {
     return {
         current: 0,
         slides: [
-            {
-                image: '{{ asset("images/hero1.jpg") }}',
-                title: 'Your Vision, Our Engineering',
-                subtitle: 'Providing innovative industrial engineering solutions.',
-                link: '{{ url("/services") }}'
-            },
-            {
-                image: '{{ asset("images/hero2.jpg") }}',
-                title: 'Consulting & Projects',
-                subtitle: 'Expertise in MEP design, simulation, and installations.',
-                link: '{{ url("/services") }}'
-            },
-            {
-                image: '{{ asset("images/hero3.jpg") }}',
-                title: 'Maintenance & Services',
-                subtitle: 'Reliable support for all industrial systems.',
-                link: '{{ url("/services") }}'
-            }
+            @if(isset($hero_sliders) && $hero_sliders->count() > 0)
+                @foreach($hero_sliders as $slider)
+                {
+                    image: '{{ $slider->image ? asset("storage/".$slider->image) : asset("images/hero1.jpg") }}',
+                    title: '{{ addslashes($slider->title) }}',
+                    subtitle: '{{ addslashes($slider->subtitle) }}',
+                    link: '{{ $slider->content ? url($slider->content) : url("/services") }}'
+                },
+                @endforeach
+            @else
+                {
+                    image: '{{ asset("images/hero1.jpg") }}',
+                    title: 'Your Vision, Our Engineering',
+                    subtitle: 'Providing innovative industrial engineering solutions.',
+                    link: '{{ url("/services") }}'
+                },
+                {
+                    image: '{{ asset("images/hero2.jpg") }}',
+                    title: 'Consulting & Projects',
+                    subtitle: 'Expertise in MEP design, simulation, and installations.',
+                    link: '{{ url("/services") }}'
+                },
+                {
+                    image: '{{ asset("images/hero3.jpg") }}',
+                    title: 'Maintenance & Services',
+                    subtitle: 'Reliable support for all industrial systems.',
+                    link: '{{ url("/services") }}'
+                }
+            @endif
         ],
         init() {
             setInterval(() => {
