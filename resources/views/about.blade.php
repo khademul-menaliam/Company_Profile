@@ -28,20 +28,61 @@
     </div>
 </section>
 
-<!-- History Section -->
-<section class="py-8">
+<!-- About Us Section -->
+<section class="py-12 bg-white">
     <div class="container mx-auto px-4 md:px-0 max-w-5xl flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
-            <img src="{{ asset('images/hero2.jpg') }}" alt="Company History" class="rounded shadow-lg">
+            <img src="{{ isset($aboutUs) && $aboutUs->image ? asset('storage/'.$aboutUs->image) : asset('images/hero2.jpg') }}" alt="{{ $aboutUs->title ?? 'About Us' }}" class="rounded shadow-lg w-full h-auto object-cover">
         </div>
         <div class="md:w-1/2">
-            <h2 class="text-3xl font-bold mb-4">Our History</h2>
-            <p class="text-gray-700 leading-relaxed mb-2">
-                AR Engineering was founded in [Year] with a vision to provide top-notch industrial engineering solutions. Over the years, we have successfully completed numerous projects in MEP design, fire safety, HVAC, boilers, and more.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                Our commitment to innovation and excellence has made us a trusted partner for industrial clients across Bangladesh.
-            </p>
+            <h2 class="text-3xl font-bold mb-4">{{ $aboutUs->title ?? 'About Us' }}</h2>
+            @if(isset($aboutUs) && $aboutUs->content)
+                <div class="text-gray-700 leading-relaxed space-y-4">
+                    {!! $aboutUs->content !!}
+                </div>
+            @else
+                <div class="text-gray-700 leading-relaxed space-y-4">
+                    <p>Founded in <strong>[Year]</strong>, <strong>AR Engineering</strong> was established with a vision to provide reliable, innovative, and high-quality engineering solutions for industrial, commercial, and residential projects. Since our inception, we have been committed to delivering engineering services that combine technical expertise, practical solutions, and industry best practices.</p>
+                    <p>Today, AR Engineering provides comprehensive engineering services across multiple disciplines, helping clients successfully plan, design, install, and maintain critical engineering systems. Our expertise includes:</p>
+                    <ul class="list-disc pl-5">
+                        <li>Building Information Modeling (BIM)</li>
+                        <li>Mechanical, Electrical & Plumbing (MEP) Engineering</li>
+                        <li>HVAC System Design & Installation</li>
+                        <li>Fire Detection, Fire Protection & Life Safety Systems</li>
+                        <li>Industrial Pump Supply, Installation & Maintenance</li>
+                        <li>Engineering Design & Technical Consultancy</li>
+                        <li>Operation, Maintenance & Engineering Support</li>
+                    </ul>
+                    <p>Our team consists of experienced engineers, designers, and technical professionals who work collaboratively to deliver solutions that are efficient, cost-effective, and tailored to each client's unique requirements. Every project is approached with careful planning, technical precision, and a strong commitment to quality.</p>
+                </div>
+            @endif
+        </div>
+    </div>
+</section>
+
+<!-- Core Values Section -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4 md:px-0 max-w-5xl">
+        <h2 class="text-3xl font-bold mb-6 text-center">{{ $coreValues->title ?? 'Our Core Values' }}</h2>
+        <div class="bg-white p-8 rounded shadow-lg">
+            @if(isset($coreValues) && $coreValues->content)
+                <div class="text-gray-700 leading-relaxed space-y-4">
+                    {!! $coreValues->content !!}
+                </div>
+            @else
+                <div class="text-gray-700 leading-relaxed space-y-4">
+                    <ul class="list-disc pl-5 mb-6 space-y-2 text-lg">
+                        <li>Integrity and professionalism</li>
+                        <li>Engineering excellence</li>
+                        <li>Quality and reliability</li>
+                        <li>Health, Safety & Environmental responsibility</li>
+                        <li>Innovation and continuous improvement</li>
+                        <li>Customer-focused service</li>
+                        <li>Timely project delivery</li>
+                    </ul>
+                    <p>At AR Engineering, we believe that strong client relationships are built on trust, transparency, and consistent performance. Whether supporting a new construction project, upgrading existing facilities, or providing specialized engineering services, we are committed to delivering solutions that meet the highest standards of quality, safety, and performance.</p>
+                </div>
+            @endif
         </div>
     </div>
 </section>

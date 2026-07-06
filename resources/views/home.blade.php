@@ -42,27 +42,25 @@
   </div>
 </section>
 
-<!-- History Section -->
+<!-- About Us Section -->
 <section class="py-16">
     <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
             <img src="{{ isset($history) && $history->image ? asset('storage/'.$history->image) : asset('images/hero2.jpg') }}" 
-                 alt="{{ $history->title ?? 'Company History' }}" 
+                 alt="{{ $history->title ?? 'About Us' }}" 
                  class="rounded shadow-lg w-full h-auto object-cover">
         </div>
         <div class="md:w-1/2">
-            <h2 class="text-3xl font-bold mb-4">{{ $history->title ?? 'Our History' }}</h2>
+            <h2 class="text-3xl font-bold mb-4">{{ $history->title ?? 'About Us' }}</h2>
             @if(isset($history) && $history->content)
                 <div class="text-gray-700 leading-relaxed">
                     {!! $history->content !!}
                 </div>
             @else
-                <p class="text-gray-700 leading-relaxed mb-2">
-                    AR Engineering was founded in [Year] with a vision to provide top-notch industrial engineering solutions. Over the years, we have successfully completed numerous projects in MEP design, fire safety, HVAC, boilers, and more.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                    Our commitment to innovation and excellence has made us a trusted partner for industrial clients across Bangladesh.
-                </p>
+                <div class="text-gray-700 leading-relaxed space-y-4">
+                    <p><strong>AR Engineering</strong> was founded in <strong>[Year]</strong> with a commitment to delivering reliable and innovative engineering solutions across Bangladesh. We specialize in <strong>Building Information Modeling (BIM), MEP Engineering, HVAC systems, Fire & Life Safety solutions, Industrial Pump Services,</strong> and technical engineering consultancy for industrial, commercial, and residential projects.</p>
+                    <p>With a focus on quality, safety, and professional integrity, our experienced team provides practical, cost-effective solutions that help clients complete their projects with confidence.</p>
+                </div>
             @endif
         </div>
     </div>

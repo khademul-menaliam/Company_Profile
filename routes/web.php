@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\SiteSettingsController;
 use App\Http\Controllers\Admin\PeopleController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\CompanySectionController;
+use App\Http\Controllers\Admin\HomePageSettingController;
+use App\Http\Controllers\Admin\AboutPageSettingController;
 use App\Http\Controllers\FrontendController;
 
 /*
@@ -185,6 +187,12 @@ Route::prefix('admin')->group(function () {
 
         // Applications list (admin). Kept as the canonical named route.
         Route::get('applications', [CareerController::class, 'viewApplications'])->name('applications.index');
+
+        Route::get('home-page-details', [HomePageSettingController::class, 'index'])->name('home-page-details.index');
+        Route::post('home-page-details', [HomePageSettingController::class, 'update'])->name('home-page-details.update');
+
+        Route::get('about-page-details', [AboutPageSettingController::class, 'index'])->name('about-page-details.index');
+        Route::post('about-page-details', [AboutPageSettingController::class, 'update'])->name('about-page-details.update');
 
         Route::resource('company-sections', CompanySectionController::class);
     });

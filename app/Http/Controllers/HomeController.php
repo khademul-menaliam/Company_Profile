@@ -171,8 +171,12 @@ class HomeController extends Controller
         ->orderBy('id')
         ->get();
 
+        // Fetch About Page details
+        $aboutUs = CompanySection::where('section', 'about_page')->where('type', 'about_us')->where('status', true)->first();
+        $coreValues = CompanySection::where('section', 'about_page')->where('type', 'core_values')->where('status', true)->first();
+
         // Pass to view
-        return view('about', compact('ceo', 'advisors','teamMembers','messages'));
+        return view('about', compact('ceo', 'advisors','teamMembers','messages', 'aboutUs', 'coreValues'));
     }
 
 }
