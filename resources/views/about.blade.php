@@ -3,6 +3,12 @@
 
 @section('content')
 
+<style>
+    .rich-text-content ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+    .rich-text-content ol { list-style-type: decimal; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+    .rich-text-content li { margin-bottom: 0.25rem; }
+</style>
+
 <!-- Hero Section -->
 <section class="relative bg-cover bg-top h-[60vh]" style="background-image: url('{{ asset('images/hero1.jpg') }}');">
     <div class="absolute inset-0 bg-black/50"></div>
@@ -30,18 +36,18 @@
 
 <!-- About Us Section -->
 <section class="py-12 bg-white">
-    <div class="container mx-auto px-4 md:px-0 max-w-5xl flex flex-col md:flex-row items-center gap-8">
-        <div class="md:w-1/2">
-            <img src="{{ isset($aboutUs) && $aboutUs->image ? asset('storage/'.$aboutUs->image) : asset('images/hero2.jpg') }}" alt="{{ $aboutUs->title ?? 'About Us' }}" class="rounded shadow-lg w-full h-auto object-cover">
+    <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-start gap-12">
+        <div class="md:w-1/3">
+            <img src="{{ isset($aboutUs) && $aboutUs->image ? asset('storage/'.$aboutUs->image) : asset('images/hero2.jpg') }}" alt="{{ $aboutUs->title ?? 'About Us' }}" class="rounded-xl shadow-lg w-full h-auto object-cover">
         </div>
-        <div class="md:w-1/2">
+        <div class="md:w-2/3">
             <h2 class="text-3xl font-bold mb-4">{{ $aboutUs->title ?? 'About Us' }}</h2>
             @if(isset($aboutUs) && $aboutUs->content)
-                <div class="text-gray-700 leading-relaxed space-y-4">
+                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 text-justify [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
                     {!! $aboutUs->content !!}
                 </div>
             @else
-                <div class="text-gray-700 leading-relaxed space-y-4">
+                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 text-justify [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
                     <p>Founded in <strong>[Year]</strong>, <strong>AR Engineering</strong> was established with a vision to provide reliable, innovative, and high-quality engineering solutions for industrial, commercial, and residential projects. Since our inception, we have been committed to delivering engineering services that combine technical expertise, practical solutions, and industry best practices.</p>
                     <p>Today, AR Engineering provides comprehensive engineering services across multiple disciplines, helping clients successfully plan, design, install, and maintain critical engineering systems. Our expertise includes:</p>
                     <ul class="list-disc pl-5">
@@ -66,11 +72,11 @@
         <h2 class="text-3xl font-bold mb-6 text-center">{{ $coreValues->title ?? 'Our Core Values' }}</h2>
         <div class="bg-white p-8 rounded shadow-lg">
             @if(isset($coreValues) && $coreValues->content)
-                <div class="text-gray-700 leading-relaxed space-y-4">
+                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
                     {!! $coreValues->content !!}
                 </div>
             @else
-                <div class="text-gray-700 leading-relaxed space-y-4">
+                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
                     <ul class="list-disc pl-5 mb-6 space-y-2 text-lg">
                         <li>Integrity and professionalism</li>
                         <li>Engineering excellence</li>

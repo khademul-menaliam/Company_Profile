@@ -10,11 +10,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
+  
+  <!-- TinyMCE CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
+  <script>
+    tinymce.init({
+        selector: 'textarea.summernote, textarea.rich-editor, textarea#editor, textarea[name="content"], textarea[name="description"]',
+        plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
+        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor | removeformat | help',
+        menubar: false,
+        height: 400,
+        promotion: false
+    });
+  </script>
 
-  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
 <style>
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
@@ -23,7 +32,7 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    </style>
+</style>
 
 @stack('styles')
 
