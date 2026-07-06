@@ -33,6 +33,16 @@
             </div>
 
             <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Role</label>
+                <select name="role" class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                    <option value="">No Role</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Password (Leave blank to keep current)</label>
                 <input type="password" name="password"
                     class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
