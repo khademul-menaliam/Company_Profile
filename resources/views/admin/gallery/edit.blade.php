@@ -17,9 +17,7 @@
     <div>
         <label class="block font-medium mb-2">Current</label>
 
-        @if(str_contains($gallery->image, 'vimeo.com'))
-            <iframe src="{{ $gallery->image }}" class="w-64 h-40 rounded border" frameborder="0" allowfullscreen></iframe>
-        @elseif($gallery->isVideo())
+        @if($gallery->isVideo())
             <video controls class="w-64 rounded border">
                 <source src="{{ asset($gallery->image) }}">
             </video>
@@ -35,12 +33,6 @@
                name="image"
                accept="image/*,video/*"
                class="w-full border px-3 py-2 rounded">
-        <p class="text-sm text-gray-500 mt-1">Leave empty to keep current file/URL.</p>
-    </div>
-
-    <div>
-        <label class="block font-medium text-gray-700">Or Replace with Vimeo URL</label>
-        <input type="url" name="vimeo_url" class="w-full border px-3 py-2 rounded" placeholder="https://player.vimeo.com/video/123456789">
     </div>
 
     <div>

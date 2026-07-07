@@ -44,9 +44,7 @@
                         </td>
 
                         <td class="py-3 px-4 border-b">
-                            @if(str_contains($item->image, 'vimeo.com'))
-                                <iframe src="{{ $item->image }}" class="w-24 h-16 rounded border" frameborder="0" allowfullscreen></iframe>
-                            @elseif($item->isVideo())
+                            @if($item->isVideo())
                                 <video class="w-24 h-16 rounded border" controls muted>
                                     <source src="{{ asset($item->image) }}" type="{{ $item->getMimeType() }}">
                                     Your browser does not support the video tag or this video format.
