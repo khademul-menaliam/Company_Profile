@@ -25,8 +25,8 @@
                     <div class="absolute -inset-1 bg-indigo-500 rounded-full blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <img src="{{ asset('images/logo.png') }}" alt="AR Logo" class="h-10 lg:h-12 w-auto object-contain relative z-10">
                 </div>
-                <div class="flex items-center pt-1 lg:pt-1.5">
-                    <span class="whitespace-nowrap text-xl xl:text-3xl font-black text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors duration-300">
+                <div class="flex items-center pb-2 lg:pt-1.5">
+                    <span class="whitespace-nowrap text-xl xl:text-3xl font-black text-indigo-700 tracking-tight group-hover:text-slate-700 transition-colors duration-300">
                         ENGINEERING
                     </span>
                 </div>
