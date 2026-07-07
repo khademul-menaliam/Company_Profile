@@ -133,37 +133,38 @@
     <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">Our Services</h2>
 
     @if($services->count() > 0)
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="flex flex-wrap justify-center -mx-3">
 
         @foreach($services as $service)
-        <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            @if($service->image)
-            <img src="{{ asset($service->image) }}"
-                alt="{{ $service->title }}"
-                class="w-full h-40 object-cover rounded-lg mb-4">
-            @endif
+        <div class="w-full md:w-1/2 px-3 mb-6 max-w-md flex">
+            <div class="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between w-full">
+                <div>
+                    @if($service->image)
+                    <div class="relative overflow-hidden rounded-lg mb-2">
+                        <img src="{{ asset($service->image) }}"
+                            alt="{{ $service->title }}"
+                            class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-500">
+                    </div>
+                    @endif
 
-            <h3 class="font-semibold text-xl mb-2 text-gray-800">{{ $service->title }}</h3>
+                    <h3 class="font-semibold text-xl mb-2 text-gray-800">{{ $service->title }}</h3>
 
-            @if($service->children->isNotEmpty())
-            <ul class="text-gray-600 text-sm mb-4 list-disc list-inside space-y-1 text-left mx-auto w-fit pl-4">
-                @foreach($service->children as $child)
-                <li>{{ $child->title }}</li>
-                @endforeach
-            </ul>
-            @endif
-        {{-- fix with padding in left --}}
-            {{-- @if($service->children->isNotEmpty())
-            <ul class="text-gray-600 text-sm mb-4 list-disc list-inside space-y-1 pl-4 text-left">
-                @foreach($service->children as $child)
-                <li>{{ $child->title }}</li>
-                @endforeach
-            </ul>
-            @endif --}}
-            <a href="{{ url('/services/'.$service->slug) }}"
-            class="text-indigo-600 font-semibold mt-3 inline-block hover:underline">
-            Read More
-            </a>
+                    @if($service->children->isNotEmpty())
+                    <ul class="text-gray-600 text-sm mb-2 list-disc list-inside space-y-1 text-left mx-auto w-fit pl-4">
+                        @foreach($service->children as $child)
+                        <li>{{ $child->title }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+
+                <div>
+                    <a href="{{ url('/services/'.$service->slug) }}"
+                       class="text-indigo-600 font-bold mt-0 inline-block hover:underline">
+                        Read More
+                    </a>
+                </div>
+            </div>
         </div>
         @endforeach
       </div>

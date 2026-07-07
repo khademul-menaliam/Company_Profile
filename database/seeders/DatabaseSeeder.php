@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             SiteSettingsSeeder::class,
             CompanySectionSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }
