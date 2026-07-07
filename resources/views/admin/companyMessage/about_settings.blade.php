@@ -38,7 +38,6 @@
             </div>
         </div>
 
-        {{-- Core Values Section --}}
         <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
             <h2 class="text-xl font-semibold mb-4 border-b pb-2">Core Values Section</h2>
             <div class="grid grid-cols-1 gap-4">
@@ -50,7 +49,70 @@
                     <label class="block font-medium mb-1">Content (List & Details)</label>
                     <textarea name="core_values_content" class="w-full border p-2 rounded rich-editor">{{ old('core_values_content', $coreValues->content ?? '') }}</textarea>
                 </div>
-                {{-- No image needed for core values right now, but we'll add it just in case --}}
+            </div>
+        </div>
+
+        {{-- Mission Section --}}
+        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Mission Section</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block font-medium mb-1">Title</label>
+                    <input type="text" name="mission_title" value="{{ old('mission_title', $mission->title ?? '') }}" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Content</label>
+                    <textarea name="mission_content" class="w-full border p-2 rounded rich-editor">{{ old('mission_content', $mission->content ?? '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        {{-- Vision Section --}}
+        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Vision Section</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block font-medium mb-1">Title</label>
+                    <input type="text" name="vision_title" value="{{ old('vision_title', $vision->title ?? '') }}" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Content</label>
+                    <textarea name="vision_content" class="w-full border p-2 rounded rich-editor">{{ old('vision_content', $vision->content ?? '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        {{-- Quality Policy Section --}}
+        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Quality Policy Section</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block font-medium mb-1">Title</label>
+                    <input type="text" name="quality_policy_title" value="{{ old('quality_policy_title', $qualityPolicy->title ?? '') }}" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Content</label>
+                    <textarea name="quality_policy_content" class="w-full border p-2 rounded rich-editor">{{ old('quality_policy_content', $qualityPolicy->content ?? '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        {{-- Philosophy Section --}}
+        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Philosophy Section</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-medium mb-1">Title</label>
+                    <input type="text" name="philosophy_title" value="{{ old('philosophy_title', $philosophy->title ?? '') }}" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Subtitle</label>
+                    <input type="text" name="philosophy_subtitle" value="{{ old('philosophy_subtitle', $philosophy->subtitle ?? '') }}" class="w-full border p-2 rounded">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block font-medium mb-1">Content</label>
+                    <textarea name="philosophy_content" class="w-full border p-2 rounded rich-editor">{{ old('philosophy_content', $philosophy->content ?? '') }}</textarea>
+                </div>
             </div>
         </div>
 

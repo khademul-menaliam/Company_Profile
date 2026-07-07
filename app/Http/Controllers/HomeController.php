@@ -174,9 +174,13 @@ class HomeController extends Controller
         // Fetch About Page details
         $aboutUs = CompanySection::where('section', 'about_page')->where('type', 'about_us')->where('status', true)->first();
         $coreValues = CompanySection::where('section', 'about_page')->where('type', 'core_values')->where('status', true)->first();
+        $qualityPolicy = CompanySection::where('section', 'about_page')->where('type', 'quality_policy')->where('status', true)->first();
+        $vision = CompanySection::where('section', 'about_page')->where('type', 'vision')->where('status', true)->first();
+        $mission = CompanySection::where('section', 'about_page')->where('type', 'mission')->where('status', true)->first();
+        $philosophy = CompanySection::where('section', 'about_page')->where('type', 'philosophy')->where('status', true)->first();
 
         // Pass to view
-        return view('about', compact('ceo', 'advisors','teamMembers','messages', 'aboutUs', 'coreValues'));
+        return view('about', compact('ceo', 'advisors','teamMembers','messages', 'aboutUs', 'coreValues', 'qualityPolicy', 'vision', 'mission', 'philosophy'));
     }
 
 }

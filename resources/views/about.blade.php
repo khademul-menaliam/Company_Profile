@@ -7,405 +7,304 @@
     .rich-text-content ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.5rem; }
     .rich-text-content ol { list-style-type: decimal; padding-left: 1.25rem; margin-bottom: 0.5rem; }
     .rich-text-content li { margin-bottom: 0.25rem; }
+    
+    .pillar-card {
+        position: relative;
+        border: 2px solid #f3f4f6;
+        transition: background-color 0.4s ease, border-color 0.4s ease;
+        z-index: 1;
+    }
+    .pillar-card:hover {
+        background-color: #eff6ff;
+        border-color: transparent; /* Hide static border to show animated one */
+    }
+    
+    .pillar-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px; /* Perfectly covers the original border area */
+        border-radius: inherit; /* Matches card radius */
+        border: 2px solid #2563eb;
+        z-index: -1;
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .pillar-card:hover::before {
+        clip-path: inset(0 0 0 0);
+    }
+
+    /* Golden sweep effect for Leadership and Team */
+    .golden-pillar-card {
+        position: relative;
+        border: 2px solid #f3f4f6;
+        transition: background-color 0.4s ease, border-color 0.4s ease;
+        z-index: 1;
+    }
+    .golden-pillar-card:hover {
+        background-color: #fffbeb; /* Light gold background */
+        border-color: transparent;
+    }
+    
+    .golden-pillar-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: inherit;
+        border: 2px solid #f59e0b; /* Golden border */
+        z-index: -1;
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .golden-pillar-card:hover::before {
+        clip-path: inset(0 0 0 0);
+    }
 </style>
 
 <!-- Hero Section -->
-<section class="relative bg-cover bg-top h-[60vh]" style="background-image: url('{{ asset('images/hero1.jpg') }}');">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="container mx-auto relative z-10 flex items-center justify-center h-full">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-white text-center drop-shadow-lg">About AR Engineering</h1>
+<section class="relative bg-cover bg-center h-[60vh] min-h-[400px]" style="background-image: url('{{ asset('images/hero1.jpg') }}');">
+    <div class="absolute inset-0 bg-slate-900/75"></div>
+    <!-- Industrial accent lines -->
+    <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-600"></div>
+    
+    <div class="container mx-auto relative z-10 flex flex-col items-center justify-center h-full px-4">
+        <span class="text-blue-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 border border-blue-500/50 px-4 py-1 rounded">Corporate Profile</span>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white text-center drop-shadow-lg tracking-tight uppercase">About AR Engineering</h1>
+        <div class="mt-6 w-24 h-1 bg-blue-500 rounded-full"></div>
     </div>
 </section>
 
-<!-- Company Overview -->
-<section class="bg-gray-50 py-8 px-3">
-    <div class="container mx-auto px-4 md:px-0 max-w-5xl">
-        <h2 class="text-3xl font-bold mb-6 text-center">Who We Are</h2>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            <strong>AR Engineering</strong> is an Industrial Engineering Solution Provider specializing in Consultancy, Design, Supply, and Erection services.
-            We provide innovative and sustainable engineering solutions for industries across Bangladesh.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            Our mission is to help businesses achieve operational excellence through efficient design, reliable systems, and high-quality services.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            Our team combines modern engineering principles with practical field experience.
-        </p>
-    </div>
-</section>
-
-<!-- About Us Section -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-start gap-12">
-        <div class="md:w-1/3">
-            <img src="{{ isset($aboutUs) && $aboutUs->image ? asset('storage/'.$aboutUs->image) : asset('images/hero2.jpg') }}" alt="{{ $aboutUs->title ?? 'About Us' }}" class="rounded-xl shadow-lg w-full h-auto object-cover">
+<!-- About Us (Engineering Style - No Image) -->
+<section class="py-16 md:py-24 bg-white relative">
+    <div class="container mx-auto px-4 max-w-5xl relative z-10">
+        <div class="text-center mb-12">
+            <span class="text-blue-600 font-bold tracking-wider uppercase text-sm">Who We Are</span>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mt-2 tracking-tight uppercase">{{ $aboutUs->title ?? 'About Us' }}</h2>
+            <div class="mt-4 w-20 h-1.5 bg-blue-600 mx-auto"></div>
         </div>
-        <div class="md:w-2/3">
-            <h2 class="text-3xl font-bold mb-4">{{ $aboutUs->title ?? 'About Us' }}</h2>
+        
+        <div class="bg-gray-50 border-l-4 border-blue-600 p-8 md:p-12 shadow-sm rounded-r-lg relative">
+            <div class="relative z-10">
             @if(isset($aboutUs) && $aboutUs->content)
-                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 text-justify [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
+                <div class="rich-text-content text-gray-700 text-lg leading-relaxed text-justify [&_ul]:list-disc [&_ul]:list-inside [&_ul]:marker:text-blue-600 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:marker:text-blue-600 [&_ol]:mb-4 [&_li]:mb-2 [&_p]:mb-4">
                     {!! $aboutUs->content !!}
                 </div>
             @else
-                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 text-justify [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
-                    <p>Founded in <strong>[Year]</strong>, <strong>AR Engineering</strong> was established with a vision to provide reliable, innovative, and high-quality engineering solutions for industrial, commercial, and residential projects. Since our inception, we have been committed to delivering engineering services that combine technical expertise, practical solutions, and industry best practices.</p>
-                    <p>Today, AR Engineering provides comprehensive engineering services across multiple disciplines, helping clients successfully plan, design, install, and maintain critical engineering systems. Our expertise includes:</p>
-                    <ul class="list-disc pl-5">
+                <div class="rich-text-content text-gray-700 text-lg leading-relaxed text-justify [&_ul]:list-disc [&_ul]:list-inside [&_ul]:marker:text-blue-600 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:marker:text-blue-600 [&_ol]:mb-4 [&_li]:mb-2 [&_p]:mb-4">
+                    <p class="text-xl font-semibold text-gray-900 mb-6">AR Engineering is an Industrial Engineering Solution Provider specializing in Consultancy, Design, Supply, and Erection services, delivering innovative and sustainable engineering solutions.</p>
+                    <p>Founded in [Year], we have been committed to combining technical expertise, practical solutions, and industry best practices to help businesses achieve operational excellence. Every project is approached with careful planning, technical precision, and a strong commitment to quality.</p>
+                    <p class="font-bold text-gray-900 mt-8 mb-4 border-b border-gray-200 pb-2">Our Core Services Include:</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                         <li>Building Information Modeling (BIM)</li>
-                        <li>Mechanical, Electrical & Plumbing (MEP) Engineering</li>
+                        <li>Mechanical, Electrical & Plumbing (MEP)</li>
                         <li>HVAC System Design & Installation</li>
-                        <li>Fire Detection, Fire Protection & Life Safety Systems</li>
-                        <li>Industrial Pump Supply, Installation & Maintenance</li>
+                        <li>Fire Detection & Life Safety Systems</li>
+                        <li>Industrial Pump Supply & Maintenance</li>
                         <li>Engineering Design & Technical Consultancy</li>
-                        <li>Operation, Maintenance & Engineering Support</li>
+                        <li>Operation, Maintenance & Support</li>
                     </ul>
-                    <p>Our team consists of experienced engineers, designers, and technical professionals who work collaboratively to deliver solutions that are efficient, cost-effective, and tailored to each client's unique requirements. Every project is approached with careful planning, technical precision, and a strong commitment to quality.</p>
                 </div>
             @endif
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Core Values Section -->
-<section class="py-12 bg-gray-50">
-    <div class="container mx-auto px-4 md:px-0 max-w-5xl">
-        <h2 class="text-3xl font-bold mb-6 text-center">{{ $coreValues->title ?? 'Our Core Values' }}</h2>
-        <div class="bg-white p-8 rounded shadow-lg">
-            @if(isset($coreValues) && $coreValues->content)
-                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
-                    {!! $coreValues->content !!}
+<!-- Strategic Pillars: Mission, Vision, Quality, Values -->
+<section class="py-16 bg-gray-50 relative">
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Mission -->
+            <div class="pillar-card bg-white shadow-sm p-8 rounded-2xl">
+                <div class="flex items-center gap-4 mb-4 text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">{{ $mission->title ?? 'Our Mission' }}</h3>
                 </div>
-            @else
-                <div class="rich-text-content text-gray-700 leading-relaxed space-y-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-4">
-                    <ul class="list-disc pl-5 mb-6 space-y-2 text-lg">
-                        <li>Integrity and professionalism</li>
-                        <li>Engineering excellence</li>
-                        <li>Quality and reliability</li>
-                        <li>Health, Safety & Environmental responsibility</li>
-                        <li>Innovation and continuous improvement</li>
-                        <li>Customer-focused service</li>
-                        <li>Timely project delivery</li>
-                    </ul>
-                    <p>At AR Engineering, we believe that strong client relationships are built on trust, transparency, and consistent performance. Whether supporting a new construction project, upgrading existing facilities, or providing specialized engineering services, we are committed to delivering solutions that meet the highest standards of quality, safety, and performance.</p>
+                <div class="rich-text-content text-gray-600 leading-relaxed">
+                    @if(isset($mission) && $mission->content)
+                        {!! $mission->content !!}
+                    @else
+                        <p>To deliver reliable, high-quality, and cost-effective industrial engineering solutions that empower our clients to achieve maximum operational efficiency and sustainable growth.</p>
+                    @endif
                 </div>
-            @endif
+            </div>
+            
+            <!-- Vision -->
+            <div class="pillar-card bg-white shadow-sm p-8 rounded-2xl">
+                <div class="flex items-center gap-4 mb-4 text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">{{ $vision->title ?? 'Our Vision' }}</h3>
+                </div>
+                <div class="rich-text-content text-gray-600 leading-relaxed">
+                    @if(isset($vision) && $vision->content)
+                        {!! $vision->content !!}
+                    @else
+                        <p>To become the premier engineering solution provider in Bangladesh, recognized for our technical excellence, innovative approaches, and unyielding commitment to safety and quality.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-8">
+            <!-- Core Values -->
+            <div class="pillar-card bg-white p-8 rounded-2xl shadow-sm">
+                <div class="flex items-center gap-4 mb-6 text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">{{ $coreValues->title ?? 'Our Core Values' }}</h3>
+                </div>
+                <div class="relative z-10">
+                @if(isset($coreValues) && $coreValues->content)
+                    <div class="rich-text-content text-gray-600 leading-relaxed [&_ul]:list-disc [&_ul]:list-inside [&_ul]:marker:text-blue-500 [&_li]:mb-2 [&_p]:mt-4">
+                        {!! $coreValues->content !!}
+                    </div>
+                @else
+                    <div class="rich-text-content text-gray-600 leading-relaxed [&_ul]:list-disc [&_ul]:list-inside [&_ul]:marker:text-blue-500 [&_li]:mb-2 [&_p]:mt-4">
+                        <ul>
+                            <li>Integrity & Professionalism</li>
+                            <li>Engineering Excellence</li>
+                            <li>Quality & Reliability</li>
+                            <li>HSE Responsibility</li>
+                            <li>Continuous Innovation</li>
+                            <li>Customer-focused Service</li>
+                        </ul>
+                    </div>
+                @endif
+                </div>
+            </div>
+
+            <!-- Quality Policy -->
+            <div class="pillar-card bg-white shadow-sm p-8 rounded-2xl">
+                <div class="flex items-center gap-4 mb-4 text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">{{ $qualityPolicy->title ?? 'Quality Policy' }}</h3>
+                </div>
+                <div class="rich-text-content text-gray-600 leading-relaxed mb-4">
+                    @if(isset($qualityPolicy) && $qualityPolicy->content)
+                        {!! $qualityPolicy->content !!}
+                    @else
+                        <p>We strictly adhere to international engineering codes and standards. Our quality assurance framework guarantees zero compromise on material integrity and project execution safety.</p>
+                    @endif
+                </div>
+                <div class="h-1 w-16 bg-blue-600 mt-2"></div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Message from Advisor and CEO -->
-{{-- <section class="bg-gray-50 py-8">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-12 justify-center place-items-center">
-        <div class="bg-white p-6 rounded shadow text-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Advisor" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-            <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-            <p class="text-gray-700 mb-2">“Our philosophy is grounded in delivering engineering solutions that are both innovative and practical. We focus on quality, safety, and efficiency in every project.”</p>
-            <p class="font-bold"> Prof. Dr. Md. Mizanur Rahman, CEng</p>
-                <p class="text-gray-800 text-sm">Professor, Department of Mechatronics Engineering (WUB)</p>
-                <p class="text-gray-800 text-sm">Director of IQAC, Department of Mechatronics Engineering</p>
+<!-- Expertise & Philosophy -->
+<section class="py-16 bg-gray-50 border-t border-gray-200">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div>
+                <span class="text-blue-600 font-bold tracking-wider uppercase text-sm mb-2 block">{{ $philosophy->title ?? 'Our Philosophy' }}</span>
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-6 uppercase">{{ $philosophy->subtitle ?? 'Built on Excellence' }}</h2>
+                <div class="rich-text-content text-gray-700 leading-relaxed mb-6 text-lg">
+                    @if(isset($philosophy) && $philosophy->content)
+                        {!! $philosophy->content !!}
+                    @else
+                        <p>We believe in sustainable engineering, continuous improvement, and customer-centric solutions. Our philosophy emphasizes integrity, innovation, and excellence in every project we undertake.</p>
+                    @endif
+                </div>
+                <div class="w-16 h-1.5 bg-blue-600"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Expert Team -->
+                <div class="bg-white p-6 border-l-4 border-gray-900 shadow-sm hover:shadow-md transition flex flex-col justify-center">
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 uppercase tracking-wide">Expert Team</h3>
+                    <p class="text-gray-600 text-sm">Highly skilled engineers and technicians with decades of combined industrial experience.</p>
+                </div>
+                <!-- High Quality -->
+                <div class="bg-white p-6 border-l-4 border-blue-600 shadow-sm hover:shadow-md transition flex flex-col justify-center">
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 uppercase tracking-wide">High Quality</h3>
+                    <p class="text-gray-600 text-sm">Rigorous adherence to global standards ensuring safe and dependable outcomes.</p>
+                </div>
+                <!-- Innovative Solutions -->
+                <div class="bg-white p-6 border-l-4 border-gray-900 shadow-sm hover:shadow-md transition flex flex-col justify-center sm:col-span-2">
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 uppercase tracking-wide">Innovative Solutions</h3>
+                    <p class="text-gray-600 text-sm">Deploying modern engineering tools and cutting-edge designs to maximize efficiency and ROI.</p>
+                </div>
+            </div>
+            
         </div>
-        <div class="bg-white p-6 rounded shadow text-center">
-            <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-            <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-            <p class="text-gray-700 mb-2">“AR Engineering is committed to shaping the future of industrial solutions. Our team strives to exceed client expectations in every aspect of our services.”</p>
-            <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-            <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-            <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-        </div>
-        <div class="bg-white p-6 rounded shadow text-center">
-            <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-            <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-            <p class="text-gray-700 mb-2">“AR Engineering is committed to shaping the future of industrial solutions. Our team strives to exceed client expectations in every aspect of our services.”</p>
-            <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-            <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-            <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-        </div>
-                <div class="bg-white p-6 rounded shadow text-center">
-            <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-            <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-            <p class="text-gray-700 mb-2">“AR Engineering is committed to shaping the future of industrial solutions. Our team strives to exceed client expectations in every aspect of our services.”</p>
-            <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-            <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-            <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-        </div>
-
     </div>
-</section> --}}
+</section>
 
-<!-- Message from Advisor and CEO -->
-{{-- <section class="bg-gray-50 py-8">
+<!-- Advisor Messages -->
+<section class="bg-white py-16">
   <div class="container mx-auto px-4 max-w-6xl">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center">
-
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm">
-        <img src="{{ asset('images/logo.png') }}" alt="Advisor" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-        <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-        <p class="text-gray-700 mb-2">
-          “Our philosophy is grounded in delivering engineering solutions that are both innovative and practical.
-          We focus on quality, safety, and efficiency in every project.”
-        </p>
-        <p class="font-bold">Prof. Dr. Md. Mizanur Rahman, CEng</p>
-        <p class="text-gray-800 text-sm">Professor, Department of Mechatronics Engineering (WUB)</p>
-        <p class="text-gray-800 text-sm">Director of IQAC, Department of Mechatronics Engineering</p>
-      </div>
-
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm">
-        <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-        <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-        <p class="text-gray-700 mb-2">
-          “AR Engineering is committed to shaping the future of industrial solutions.
-          Our team strives to exceed client expectations in every aspect of our services.”
-        </p>
-        <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-        <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-        <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-      </div>
-
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm">
-        <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-        <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-        <p class="text-gray-700 mb-2">
-          “AR Engineering is committed to shaping the future of industrial solutions.
-          Our team strives to exceed client expectations in every aspect of our services.”
-        </p>
-        <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-        <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-        <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-      </div>
-
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm lg:col-span-3 flex justify-center">
-        <div>
-          <img src="{{ asset('images/logo.png') }}" alt="CEO" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-          <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-          <p class="text-gray-700 mb-2">
-            “AR Engineering is committed to shaping the future of industrial solutions.
-            Our team strives to exceed client expectations in every aspect of our services.”
-          </p>
-          <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-          <p class="text-gray-800 text-sm">Professor, Department of Poultry Science (BAU)</p>
-          <p class="text-gray-800 text-sm">Faculty of Animal Husbandry</p>
-        </div>
-      </div>
-
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-slate-900 uppercase tracking-tight">Leadership Messages</h2>
+        <div class="mt-3 w-16 h-1 bg-blue-600 rounded-full mx-auto"></div>
     </div>
-  </div>
-</section> --}}
-{{--
-<section class="bg-gray-50 py-8">
-  <div class="container mx-auto px-4 max-w-6xl">
-    <div class="flex flex-wrap justify-center gap-12">
-
-      <!-- Card -->
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
-        <img src="{{ asset('images/logo.png') }}" alt="Advisor" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-        <h3 class="text-xl font-bold mb-2">Message from Our Advisor</h3>
-        <p class="text-gray-700 mb-2">
-          “Our philosophy is grounded in delivering engineering solutions that are both innovative and practical.”
-        </p>
-        <p class="font-bold">Prof. Dr. Md. Mizanur Rahman, CEng</p>
-      </div>
-
-      <!-- Repeat for other cards -->
-      @for ($i = 0; $i < 4; $i++)
-      <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
-        <img src="{{ asset('images/logo.png') }}" alt="Advisor" class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-        <h3 class="text-xl font-bold mb-2">Advisor {{ $i + 2 }}</h3>
-        <p class="text-gray-700 mb-2">
-          “AR Engineering is committed to shaping the future of industrial solutions.”
-        </p>
-        <p class="font-semibold">Dr. Md. Shahidur Rahman</p>
-      </div>
-      @endfor
-
-    </div>
-  </div>
-</section> --}}
-
-<section class="bg-gray-50 py-8">
-  <div class="container mx-auto px-4 max-w-6xl">
-    <div class="flex flex-wrap justify-center gap-12">
-
+    <div class="flex flex-wrap justify-center gap-8">
       @forelse ($messages as $message)
-        <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
+        <div class="golden-pillar-card bg-slate-50 p-6 rounded-lg shadow-sm text-center max-w-sm flex-1 basis-[280px]">
           <img
             src="{{ $message->image ? asset('storage/'.$message->image) : asset('images/logo.png') }}"
             alt="{{ $message->title ?? ucfirst($message->type) }}"
-            class="w-32 h-32 mx-auto rounded-full mb-4 object-cover">
-
-          <h3 class="text-xl font-bold mb-2">
+            class="w-24 h-24 mx-auto rounded-full mb-4 object-cover border-4 border-white shadow-sm">
+          <h3 class="text-lg font-bold mb-2 text-slate-900">
             {{ $message->title ?? ucfirst($message->type) }}
           </h3>
-
-          <p class="text-gray-700 mb-2">
+          <p class="text-slate-600 text-sm italic mb-4 leading-relaxed">
             “{{ $message->content ?? 'Message will be updated soon.' }}”
           </p>
-
-          <p class="font-bold">
+          <p class="font-bold text-sm text-slate-900">
             {{ $message->subtitle ?? '' }}
           </p>
         </div>
       @empty
-        <!-- Placeholder if no messages -->
-        <div class="bg-white p-6 rounded shadow text-center max-w-sm flex-1 basis-[300px]">
-          <div class="w-32 h-32 mx-auto rounded-full mb-4 bg-gray-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20.5A8.5 8.5 0 103.5 12 8.5 8.5 0 0012 20.5z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2 text-gray-500">Coming Soon</h3>
-          <p class="text-gray-500 font-semibold">Messages will be updated soon</p>
-        </div>
+        <div class="text-slate-500 text-center w-full py-8">Messages will be updated soon</div>
       @endforelse
-
     </div>
   </div>
 </section>
 
-
-<!-- Business Philosophy -->
-<section class="py-8 px-3">
-    <div class="container mx-auto px-4 md:px-0 max-w-5xl">
-        <h2 class="text-3xl font-bold mb-6 text-center">Our Philosophy</h2>
-        <p class="text-gray-700 text-center leading-relaxed">
-            We believe in sustainable engineering, continuous improvement, and customer-centric solutions. Our philosophy emphasizes integrity, innovation, and excellence in every project we undertake.
-        </p>
-    </div>
-</section>
-
-<!-- Strengths / Capabilities -->
-<section class="bg-gray-50 py-8 px-3">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl">
-        <h2 class="text-3xl font-bold mb-10 text-center">Our Strengths</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded shadow text-center hover:shadow-lg transition">
-                <h3 class="text-xl font-bold mb-2">Expert Team</h3>
-                <p class="text-gray-700">Skilled engineers and technicians with years of experience in industrial solutions.</p>
-            </div>
-            <div class="bg-white p-6 rounded shadow text-center hover:shadow-lg transition">
-                <h3 class="text-xl font-bold mb-2">Innovative Solutions</h3>
-                <p class="text-gray-700">We use modern engineering tools and innovative designs to deliver the best outcomes.</p>
-            </div>
-            <div class="bg-white p-6 rounded shadow text-center hover:shadow-lg transition">
-                <h3 class="text-xl font-bold mb-2">Reliability & Quality</h3>
-                <p class="text-gray-700">Our solutions are dependable, safe, and meet the highest quality standards.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-16 bg-gray-50/50">
+<!-- Meet Our Team -->
+<section class="py-16 bg-gray-50 border-t border-gray-200">
     <div class="container mx-auto px-4 max-w-7xl">
-
-        <!-- Section Header -->
-        <div class="text-center mb-6">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                Meet Our Team
-            </h2>
-            <div class="mt-4 w-24 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
-            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-                The talented people behind our mission and success.
-            </p>
+        <div class="text-center mb-10">
+            <span class="text-blue-600 font-bold tracking-wider uppercase text-xs md:text-sm">Our People</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-1 tracking-tight uppercase">Meet Our Team</h2>
+            <div class="mt-3 w-16 h-1 bg-blue-600 mx-auto rounded-full"></div>
         </div>
-
-        <!-- Team Grid -->
         @if($teamMembers->count())
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
-
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
             @foreach ($teamMembers as $member)
-            <div
-                class="group bg-white p-6 rounded-3xl shadow-sm hover:shadow-2xl
-                       transition-all duration-500 transform hover:-translate-y-2
-                       border border-gray-100 flex flex-col items-center text-center">
-
-                <!-- Image -->
-                <div class="relative w-36 h-36 mb-4">
-                    <div
-                        class="absolute inset-0 rounded-full border-4 border-blue-50
-                               group-hover:border-blue-500 transition-colors duration-500 z-10">
-                    </div>
-                    <div class="w-full h-full overflow-hidden rounded-full bg-gray-100 shadow-inner">
-                        <img
-                            src="{{ $member->image_url }}"
-                            alt="{{ $member->name }}"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            style="object-position: 50% 10%;">
+            <div class="golden-pillar-card group bg-white p-5 rounded-lg shadow-sm flex flex-col items-center text-center w-full max-w-[260px]">
+                <div class="relative w-24 h-24 mb-4">
+                    <div class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-blue-500 transition-colors duration-300 z-10"></div>
+                    <div class="w-full h-full overflow-hidden rounded-full bg-gray-100">
+                        <img src="{{ $member->image_url }}" alt="{{ $member->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" style="object-position: 50% 10%;">
                     </div>
                 </div>
-
-                <!-- Name -->
-                <h3 class="font-bold text-base md:text-lg text-gray-900 truncate whitespace-nowrap"
-                    title="{{ $member->name }}">
-                    {{ $member->name }}
-                </h3>
-
-                <!-- Position -->
+                <h3 class="font-bold text-gray-900 truncate w-full" title="{{ $member->name }}">{{ $member->name }}</h3>
                 @if($member->position)
-                <div class="mt-1 flex justify-center">
-                    <span class="mx-auto text-gray-400 text-[8px] uppercase tracking-wide
-                                 bg-blue-50 px-2 py-0.5 rounded-full inline-block">
-                        {{ $member->position }}
-                    </span>
+                <div class="mt-1">
+                    <span class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">{{ $member->position }}</span>
                 </div>
                 @endif
-
-                <!-- Social Icons -->
-                <div
-                    class="mt-2 flex justify-center space-x-3 opacity-0
-                           transform translate-y-3 group-hover:opacity-100
-                           group-hover:translate-y-0 transition-all duration-500">
-
-                    @if($member->linkedin_url)
-                    <a href="{{ $member->linkedin_url }}" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761
-                                     2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14
-                                     c0-2.761-2.238-5-5-5zM8 19H5V8h3v11z
-                                     M6.5 6.732c-.966 0-1.75-.79-1.75-1.764
-                                     S5.534 3.204 6.5 3.204s1.75.79 1.75 1.764
-                                     -.783 1.764-1.75 1.764zM20 19h-3v-5.604
-                                     c0-3.368-4-3.113-4 0V19h-3V8h3v1.765
-                                     c1.396-2.586 7-2.777 7 2.476V19z"/>
-                        </svg>
-                    </a>
-                    @endif
-
-                    @if($member->twitter_url)
-                    <a href="{{ $member->twitter_url }}" class="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-50 rounded-full transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775
-                                     1.017-.609 1.798-1.574 2.165-2.724-.951.564
-                                     -2.005.974-3.127 1.195-.897-.957-2.178-1.555
-                                     -3.594-1.555-3.179 0-5.515 2.966-4.797 6.045
-                                     -4.091-.205-7.719-2.165-10.148-5.144-1.29
-                                     2.213-.669 5.108 1.523 6.574-.806-.026
-                                     -1.566-.247-2.229-.616-.054 2.281 1.581
-                                     4.415 3.949 4.89-.693.188-1.452.232-2.224
-                                     .084.626 1.956 2.444 3.379 4.6 3.419
-                                     -2.07 1.623-4.678 2.348-7.29 2.04
-                                     2.179 1.397 4.768 2.212 7.548 2.212
-                                     9.142 0 14.307-7.721 13.995-14.646
-                                     .962-.695 1.797-1.562 2.457-2.549z"/>
-                        </svg>
-                    </a>
-                    @endif
-
-                </div>
-
             </div>
             @endforeach
-
         </div>
         @endif
     </div>
 </section>
 
 <!-- Call to Action -->
-<section class="bg-indigo-600 py-16 text-white text-center">
-    <h2 class="text-3xl font-bold mb-4">Partner with AR Engineering</h2>
-    <p class="mb-6">Join hands with us to achieve innovative and sustainable engineering solutions for your projects.</p>
-    <a href="{{ url('/contact') }}" class="bg-white text-indigo-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300">
-        Contact Us
-    </a>
+<section class="bg-blue-600 py-12 text-white text-center">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-3">Ready to start your project?</h2>
+        <p class="mb-6 text-blue-100 max-w-2xl mx-auto">Join hands with AR Engineering to achieve innovative and sustainable solutions for your industrial needs.</p>
+        <a href="{{ url('/contact') }}" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg">
+            Contact Us Today
+        </a>
+    </div>
 </section>
 
 @endsection
