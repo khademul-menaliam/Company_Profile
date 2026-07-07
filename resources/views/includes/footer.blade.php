@@ -138,6 +138,7 @@
         <div class="border-t border-gray-700 pt-8 flex flex-col lg:flex-row items-center justify-between text-gray-400 text-sm gap-4">
             <div class="text-center lg:text-left">
                 © {{ date('Y') }} AR Engineering. All Rights Reserved.
+                <br>
                 <span class="block sm:inline sm:ml-2 font-semibold">
                     Developed By:
                     <a href="https://khademul.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-white hover:scale-105 transform transition-all duration-300 inline-block">Khademul Islam</a>
@@ -145,18 +146,17 @@
             </div>
             
             <div class="flex flex-wrap items-center justify-center lg:justify-end gap-x-3 gap-y-1 text-gray-400 text-xs sm:text-sm">
-                <a href="#" class="hover:text-white transition-colors">Bangladesh</a>
+                <span class="hover:text-white transition-colors cursor-default">Bangladesh</span>
                 <span class="text-gray-700">|</span>
-                <a href="#" class="hover:text-white transition-colors">United States</a>
+                <span class="hover:text-white transition-colors cursor-default">India</span>
+                {{-- <span class="text-gray-700">|</span>
+                <span class="hover:text-white transition-colors cursor-default">United Arab Emirates</span>
                 <span class="text-gray-700">|</span>
-                <a href="#" class="hover:text-white transition-colors">United Arab Emirates</a>
+                <span class="hover:text-white transition-colors cursor-default">United Kingdom</span>
                 <span class="text-gray-700">|</span>
-                <a href="#" class="hover:text-white transition-colors">United Kingdom</a>
+                <span class="hover:text-white transition-colors cursor-default">Philippines</span>
                 <span class="text-gray-700">|</span>
-                <a href="#" class="hover:text-white transition-colors">Philippines</a>
-                <span class="text-gray-700">|</span>
-                <a href="#" class="hover:text-white transition-colors">Australia</a>
+                <span class="hover:text-white transition-colors cursor-default">Australia</span> --}}
             </div>
-        </div>
     </div>
 </footer>

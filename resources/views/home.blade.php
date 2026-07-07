@@ -43,7 +43,7 @@
 </section>
 
 <!-- About Us Section -->
-<section class="py-16">
+<section class="py-10 px-2">
     <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
             <img src="{{ isset($history) && $history->image ? asset('storage/'.$history->image) : asset('images/hero2.jpg') }}" 
@@ -67,7 +67,7 @@
 </section>
 
 <!-- Message from Advisor and CEO -->
-<section class="bg-gray-50 py-16 px-5">
+<section class="bg-gray-50 py-10 px-2">
   <div class="container mx-auto px-4 md:px-0 max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
 
       @php
@@ -385,9 +385,9 @@ function heroSlider() {
         current: 0,
         slides: [
             @if(isset($hero_sliders) && $hero_sliders->count() > 0)
-                @foreach($hero_sliders as $slider)
+                @foreach($hero_sliders as $index => $slider)
                 {
-                    image: '{{ $slider->image ? asset("storage/".$slider->image) : asset("images/hero1.jpg") }}',
+                    image: '{{ $slider->image ? asset("storage/".$slider->image) : asset("images/hero" . (($index % 3) + 1) . ".jpg") }}',
                     title: '{{ addslashes($slider->title) }}',
                     subtitle: '{{ addslashes($slider->subtitle) }}',
                     link: '{{ $slider->content ? url($slider->content) : url("/services") }}'
