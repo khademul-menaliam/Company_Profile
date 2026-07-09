@@ -158,5 +158,6 @@
                 <span class="text-gray-700">|</span>
                 <span class="hover:text-white transition-colors cursor-default">Australia</span> --}}
             </div>
+        </div>
     </div>
 </footer>
