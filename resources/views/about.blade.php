@@ -69,7 +69,7 @@
     <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
     <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-600"></div>
     
-    <div class="max-w-7xl mx-auto relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8">
         <span class="text-blue-400 font-bold tracking-[0.2em] uppercase text-sm mb-4 border border-blue-500/50 px-4 py-1 rounded">Corporate Profile</span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white text-center drop-shadow-lg tracking-tight uppercase">About AR Engineering</h1>
         <div class="mt-6 w-24 h-1 bg-blue-500 rounded-full"></div>
@@ -114,7 +114,7 @@
 
 <!-- Strategic Pillars: Mission, Vision, Quality, Values -->
 <section class="py-16 bg-gray-50 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <!-- Mission -->
@@ -196,7 +196,7 @@
 
 <!-- Expertise & Philosophy -->
 <section class="py-16 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div>
@@ -236,7 +236,7 @@
 
 <!-- Advisor Messages -->
 <section class="bg-white py-16">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-10">
         <h2 class="text-3xl font-bold text-slate-900 uppercase tracking-tight">Leadership Messages</h2>
         <div class="mt-3 w-16 h-1 bg-blue-600 rounded-full mx-auto"></div>
@@ -267,7 +267,7 @@
 
 <!-- Meet Our Team -->
 <section class="py-16 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
             <span class="text-blue-600 font-bold tracking-wider uppercase text-xs md:text-sm">Our People</span>
             <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-1 tracking-tight uppercase">Meet Our Team</h2>
@@ -298,7 +298,7 @@
 
 <!-- Call to Action -->
 <section class="bg-blue-600 py-12 text-white text-center">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold mb-3">Ready to start your project?</h2>
         <p class="mb-6 text-blue-100 max-w-2xl mx-auto">Join hands with AR Engineering to achieve innovative and sustainable solutions for your industrial needs.</p>
         <a href="{{ url('/contact') }}" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg">

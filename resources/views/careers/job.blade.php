@@ -2,12 +2,12 @@
 
 @section('content')
 <section class="py-12 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-4xl font-extrabold text-indigo-900 mb-2 text-center">Current Job Openings</h2>
     <p class="text-center text-gray-600 mb-12">Join our team and build the future with us.</p>
 
     {{-- Flexbox container for perfect centering --}}
-    <div class="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
+    <div class="flex flex-wrap justify-center gap-8 max-w-[1440px] mx-auto">
       @forelse($jobs as $job)
         {{-- Card: Blue-ish background with a left border accent --}}
         <div class="bg-indigo-50 border-l-4 border-indigo-500 rounded-xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between w-full md:max-w-[420px]">

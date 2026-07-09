@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="py-10 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
     <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">
       Internship Opportunities

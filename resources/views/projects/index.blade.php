@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="py-0 bg-gray-50 ">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-2">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mb-2">
     <div class="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white mb-5 py-8 rounded-lg text-center overflow-hidden">
     <h1 class="text-4xl font-bold text-center mb-0">Our Projects</h1>
     </div>

@@ -5,14 +5,14 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-8 text-center overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Sitemap of AR Engineering</h1>
     </div>
     <div class="absolute inset-0 bg-[url('/images/clients-bg.jpg')] bg-cover bg-center opacity-10"></div>
     </section>
     
     <section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         {{-- Main Pages --}}
         <div class="bg-white shadow-lg rounded-2xl p-8 hover:shadow-2xl transition duration-300">

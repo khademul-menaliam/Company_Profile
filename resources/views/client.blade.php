@@ -4,7 +4,7 @@
 @section('content')
 <!-- Hero Section -->
 <section class="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-8 text-center overflow-hidden">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Our Valuable Clients</h1>
     <p class="text-lg md:text-xl max-w-2xl mx-auto">
       We are proud to collaborate with leading industries and organizations to deliver innovative engineering solutions.
@@ -15,7 +15,7 @@
 
 <!-- Clients & Partners Section -->
 <section class="py-10 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Our Clients -->
     <div class="mb-10">
@@ -86,7 +86,7 @@
 
 <!-- Call to Action -->
 <section class="bg-indigo-600 text-white py-8 text-center">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-3xl font-bold mb-4">Interested in Partnering with Us?</h2>
     <p class="text-lg mb-6">Join our network of successful clients and partners to create impactful engineering solutions.</p>
     <a href="{{ url('/contact') }}" class="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Contact Us</a>

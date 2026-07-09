@@ -27,7 +27,7 @@
 
 <!-- Main Content Area -->
 <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Main Service Description -->
         <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-8 mb-12">

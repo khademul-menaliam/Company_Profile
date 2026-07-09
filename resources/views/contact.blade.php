@@ -31,7 +31,7 @@
         outline: none;
     }
   </style>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
     <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12 uppercase tracking-wide">
       Get in Touch with <span class="text-indigo-600">AR Engineering</span>
     </h1>

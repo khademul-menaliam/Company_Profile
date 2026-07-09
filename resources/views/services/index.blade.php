@@ -4,7 +4,7 @@
 @section('content')
 <!-- Card/List Section: only list of services -->
 <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-700">Our Services</h1>
 
         @if($services->count() > 0)
@@ -54,7 +54,7 @@
 <!-- Main Service Sections (Excerpt only) -->
 @foreach($services as $service)
 <section class="py-16 bg-white border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-center gap-12">
             @if($service->image)
             <div class="md:w-1/2 w-full flex justify-center">
