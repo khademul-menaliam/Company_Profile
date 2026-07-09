@@ -19,13 +19,13 @@
     <div class="w-full max-w-[1400px] mx-auto flex items-center justify-between px-2 lg:px-6">
 
         <!-- LOGO -->
-        <div class="flex items-center lg:w-1/4">
+        <div class="flex items-center lg:w-auto shrink-0">
             <a href="{{ url('/') }}" class="flex items-center gap-2 sm:gap-3 shrink-0 group">
                 <div class="relative flex items-center justify-center">
                     <div class="absolute -inset-1 bg-indigo-500 rounded-full blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <img src="{{ asset('images/logo.png') }}" alt="AR Logo" class="h-10 lg:h-12 w-auto object-contain relative z-10">
                 </div>
-                <div class="flex items-center pb-2 lg:pt-1.5">
+                <div class="flex items-center pb-2">
                     <span class="whitespace-nowrap text-xl xl:text-3xl font-black text-indigo-700 tracking-tight group-hover:text-slate-700 transition-colors duration-300">
                         ENGINEERING
                     </span>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- DESKTOP MENU -->
-        <nav class="hidden lg:flex items-center justify-center space-x-1 xl:space-x-6 flex-grow">
+        <nav class="mb-2 hidden lg:flex items-center justify-center space-x-3 xl:space-x-6 flex-grow">
 
             <a href="{{ route('home') }}"
                class="relative px-2 py-2 text-sm xl:text-base font-bold transition-colors duration-200 group
@@ -99,7 +99,7 @@
 
             <!-- CAREERS -->
             <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                <button class="relative px-2 py-2 text-sm xl:text-base font-bold flex items-center gap-1 transition-colors duration-200
+                <button class="relative px-2 py-2 text-sm xl:text-base font-bold flex items-center gap-1 transition-colors duration-200 whitespace-nowrap
                                {{ request()->is('careers*') ? 'text-indigo-600' : 'text-slate-700 hover:text-indigo-600' }}">
                     Join Us
                     <svg class="w-4 h-4 transform transition-transform duration-300" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@
 
             <!-- ABOUT -->
             <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                <button class="relative px-2 py-2 text-sm xl:text-base font-bold flex items-center gap-1 transition-colors duration-200
+                <button class="relative px-2 py-2 text-sm xl:text-base font-bold flex items-center gap-1 transition-colors duration-200 whitespace-nowrap
                                {{ request()->is('about*') || request()->routeIs('contact.index') || request()->routeIs('howItWorks') ? 'text-indigo-600' : 'text-slate-700 hover:text-indigo-600' }}">
                     About Us
                     <svg class="w-4 h-4 transform transition-transform duration-300" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +176,7 @@
         </nav>
 
         <!-- DOWNLOAD BUTTON DESKTOP -->
-        <div class="hidden lg:flex items-center justify-end lg:w-1/4">
+        <div class="hidden lg:flex items-center justify-end lg:w-auto shrink-0">
             <a href="{{ $profile }}" target="_blank" download
                class="group relative px-6 py-2.5 font-bold text-white rounded-lg overflow-hidden shadow-md bg-indigo-600 hover:shadow-lg hover:shadow-indigo-500/40 transition-all duration-300 border border-indigo-500/50">
                 <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 to-indigo-500 opacity-90"></div>
