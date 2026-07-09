@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="bg-gray-50">
-  <div class="container mx-auto px-4 md:px-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Hero / Project Title -->
     <div class="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg py-12 px-6 mb-10 text-center overflow-hidden shadow-lg">
@@ -54,7 +54,7 @@
 
         {{-- Project Overview Sections --}}
     <section class="py-12 bg-white">
-        <div class="container mx-auto px-4 sm:px-8 max-w-5xl">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- Challenge / Objectives -->
             <div class="mb-12 border rounded-xl p-8 shadow-sm hover:shadow-md transition">

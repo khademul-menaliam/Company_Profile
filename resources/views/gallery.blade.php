@@ -4,7 +4,7 @@
 @section('content')
 <!-- Hero Section -->
 <section class="relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-16 text-center overflow-hidden">
-    <div class="container mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Our Gallery</h1>
         <p class="text-lg md:text-xl max-w-2xl mx-auto">
             Explore our projects, innovations, and milestones captured through our gallery.
@@ -33,7 +33,7 @@
     }
 }">
 
-    <div class="container mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         @php
             $images = $galleryItems->filter(fn($item) => !$item->isVideo());

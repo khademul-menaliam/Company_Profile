@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="py-5 bg-white">
-  <div class="container mx-auto text-center">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-4xl font-extrabold text-indigo-700 mb-6">Why Join AR Engineering</h2>
     <p class="text-gray-600 max-w-2xl mx-auto mb-12">
       We foster a culture of innovation, teamwork, and continuous learning. Your growth is our success.

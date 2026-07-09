@@ -21,9 +21,9 @@
             <!-- Logo -->
             <div class="mb-6">
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <div class="bg-white p-1.5 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
-                        <img src="{{ asset('images/logo.png') }}" alt="AR Logo" class="h-10 w-auto object-contain">
-                    </div>
+                    <span class="whitespace-nowrap text-2xl font-bold text-white tracking-tight uppercase">
+                        <span class="text-white-900">AR</span>
+                    </span>
                     <span class="whitespace-nowrap text-2xl font-bold text-white tracking-tight uppercase">
                         <span class="text-indigo-600">Engineering</span>
                     </span>

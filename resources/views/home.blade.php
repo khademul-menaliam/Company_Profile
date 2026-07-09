@@ -43,8 +43,8 @@
 </section>
 
 <!-- About Us Section -->
-<section class="py-10 px-2">
-    <div class="container mx-auto px-4 md:px-0 max-w-6xl flex flex-col md:flex-row items-center gap-8">
+<section class="py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
             <img src="{{ isset($history) && $history->image ? asset('storage/'.$history->image) : asset('images/hero2.jpg') }}" 
                  alt="{{ $history->title ?? 'About Us' }}" 
@@ -67,8 +67,8 @@
 </section>
 
 <!-- Message from Advisor and CEO -->
-<section class="bg-gray-50 py-10 px-2">
-  <div class="container mx-auto px-4 md:px-0 max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
+<section class="bg-gray-50 py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12">
 
       @php
           // Find CEO
@@ -129,7 +129,7 @@
 
 {{-- Services Section --}}
 <section class="py-8 bg-gray-50">
-  <div class="container mx-auto px-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">Our Services</h2>
 
     @if($services->count() > 0)
@@ -193,7 +193,7 @@
 
 {{-- Projects Section --}}
 <section class="py-8 bg-white">
-  <div class="container mx-auto px-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">Our Projects</h2>
 
     @if($projects->count() > 0)
@@ -240,7 +240,7 @@
 
 <!-- Clients & Partners Section -->
 <section class="py-8 bg-gray-50">
-<div class="container mx-auto px-6">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 <!-- Our Clients -->
     <div class="mb-20">

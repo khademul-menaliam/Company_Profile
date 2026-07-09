@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="py-12 bg-gray-50">
-    <div class="container mx-auto max-w-4xl px-4">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- Header Section --}}
         <div class="bg-white p-8 rounded-xl shadow-sm mb-8">

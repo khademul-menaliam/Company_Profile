@@ -14,9 +14,9 @@
 <header x-data="{ openMenu: false, scrolled: false }"
         @scroll.window="scrolled = (window.pageYOffset > 20)"
         :class="{'py-2 shadow-sm bg-white/95 backdrop-blur-lg border-b border-slate-200': scrolled, 'py-4 bg-white/80 backdrop-blur-md border-b border-slate-200/50': !scrolled}"
-        class="fixed top-0 left-0 w-full z-50 transition-all duration-300 px-4">
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
-    <div class="w-full max-w-[1400px] mx-auto flex items-center justify-between px-2 lg:px-6">
+    <div class="w-full max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
 
         <!-- LOGO -->
         <div class="flex items-center lg:w-auto shrink-0">
